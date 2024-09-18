@@ -59,7 +59,7 @@ def distance_minkowski(x: np.ndarray, y: np.ndarray, p: float = 1.5) -> float:
 	Returns:
 		float: Minkowski distance between x and y
 	"""
-	assert p > 0, "p must be greater than 0"
+	assert p != 0, "p must be different than 0"
 	power: float = 1 / p	# Power for the root
 	return np.sum(np.abs(x - y) ** p) ** power
 

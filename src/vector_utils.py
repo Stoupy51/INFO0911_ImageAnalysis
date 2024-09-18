@@ -1,7 +1,6 @@
 
 # Imports
 import numpy as np
-DIVISION_BY_ZERO: float = 1e-9
 
 # Generate a random vector
 def random_vector(size: int, random_distribution: str = "uniform") -> np.ndarray:
