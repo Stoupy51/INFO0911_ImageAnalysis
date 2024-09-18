@@ -1,5 +1,6 @@
 
 ## Configuration file for the application
+from src.requirements import *
 import time
 import os
 
