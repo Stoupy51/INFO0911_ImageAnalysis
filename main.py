@@ -2,6 +2,7 @@
 # Imports
 from config import *
 from src.print import *
+import os
 
 # Main function
 def main():
@@ -9,7 +10,9 @@ def main():
 	# Print the start time
 	info(f"Start time: {START_TIME_STR} ({START_TIME})")
 
-
+	# Start the shiny app
+	SHINY_APP_PATH: str = f"{ROOT}/src/shiny/app.py"
+	os.system(f"shiny run {SHINY_APP_PATH}")
 
 	# End of the script
 	info("End of the script")
