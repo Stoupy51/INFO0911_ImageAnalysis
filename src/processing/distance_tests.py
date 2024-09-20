@@ -44,9 +44,16 @@ def measure_all_distances(output_dir: str, flatten_original: np.ndarray, noise: 
 	
 	# Write the results in a txt file
 	for distance_name in DISTANCES_CALLS.keys():
+
+		# Get sorted images by distance
+		images = sorted(images, key=lambda x: distance_per_image_per_distance[x][distance_name])
+
+		# Get the content to write
 		to_write: str = "\n"
 		for image_path in images:
 			to_write += image_path + "\t" + str(distance_per_image_per_distance[image_path][distance_name]) + "\n"
+
+		# Write the content in a txt file
 		with open(f"{output_dir}/{noise}/distances_{distance_name}.txt", "w") as f:
 			f.write(to_write + "\n")
 
