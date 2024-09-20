@@ -38,6 +38,6 @@ def extensive_tests(noises: Iterable[str], nb_iterations: Iterable[int], kappa: 
 
 		# For each noise, launch the noise tester
 		for noise in noises:
-			noise_tester(output_dir, flatten_original, noise, nb_iterations, kappa, gamma, formulas, color_palette=color_palette)
+			noise_tester(output_dir, flatten_original, base_image.shape, noise, nb_iterations, kappa, gamma, formulas, color_palette=color_palette)
 			measure_all_distances(output_dir, flatten_original, noise, color_palette=color_palette)
 

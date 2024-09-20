@@ -1,16 +1,17 @@
 
 ## Imports
-from fastaniso import anisodiff
+from src.processing.fastaniso import anisodiff
 from typing import Iterable
 from PIL import Image
 import numpy as np
 import os
 
-def noise_tester(output_directory: str, flatten_image: np.ndarray, noise: str, nb_iterations: Iterable[int], kappa: Iterable[int], gamma: Iterable[float], formulas: Iterable[int], color_palette: str = "L") -> None:
+def noise_tester(output_directory: str, flatten_image: np.ndarray, shape: tuple, noise: str, nb_iterations: Iterable[int], kappa: Iterable[int], gamma: Iterable[float], formulas: Iterable[int], color_palette: str = "L") -> None:
 	""" Apply anisotropic diffusion to a generated noisy image and saves the results in a specific folder.\n
 	Args:
 		saving_directory		(str):				The directory where the images will be saved.
 		flatten_image			(np.ndarray):		The image to apply the anisotropic diffusion to.
+		shape					(tuple):			The shape of the image.
 		noise					(str):				The noise to apply to the image, formatted as "noisename_p1_p2_..._pN" where pX is divided by 100, e.g. "speckle_0_200" for a speckle noise with mean 0 and stddev 2.
 		nb_iterations			(Iterable[int]):	The number of iterations to apply, e.g. [15, 20, 50].
 		kappa					(Iterable[int]):	The contrast threshold, e.g. [15, 50, 100].
@@ -37,6 +38,7 @@ def noise_tester(output_directory: str, flatten_image: np.ndarray, noise: str, n
 	
 	# Save the initial noisy image with 95% quality
 	noised_image_path: str = f"{saving_directory}/_{noise}.jpg"
+	noised_image: np.ndarray = noised_image.reshape(shape)
 	noised_image_image: Image.Image = Image.fromarray(noised_image).convert(color_palette)
 	noised_image_image.save(noised_image_path, quality = 95)
 
