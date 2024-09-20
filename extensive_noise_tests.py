@@ -21,7 +21,7 @@ NOISES: list[str] = [
 def main():
 
 	# Print the start time
-	info(f"Start time: {START_TIME_STR} ({START_TIME})")
+	info(f"Start time: {START_TIME_STR}")
 
 	# Start the tests
 	extensive_tests(NOISES, NB_ITERATIONS, KAPPA, GAMMA, FORMULA)

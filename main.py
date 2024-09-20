@@ -8,7 +8,7 @@ import os
 def main():
 
 	# Print the start time
-	info(f"Start time: {START_TIME_STR} ({START_TIME})")
+	info(f"Start time: {START_TIME_STR}")
 
 	# Start the shiny app
 	SHINY_APP_PATH: str = f"{ROOT}/src/shiny/app.py"

@@ -21,7 +21,7 @@ def extensive_tests(noises: Iterable[str], nb_iterations: Iterable[int], kappa: 
 		None
 	"""
 	# Get all the images and make the output folder
-	images: list[str] = [f for f in os.listdir(IMAGE_FOLDER) if os.path.isfile(f"{IMAGE_FOLDER}/{f}")]
+	images: list[str] = [f for f in os.listdir(IMAGE_FOLDER) if f.endswith((".jpg",".png"))]
 	os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 	# For each image,

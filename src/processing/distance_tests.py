@@ -28,7 +28,7 @@ def measure_all_distances(output_dir: str, flatten_original: np.ndarray, noise: 
 		None
 	"""
 	# Get all generated images
-	images: list[str] = os.listdir(f"{output_dir}/{noise}")
+	images: list[str] = [f for f in os.listdir(f"{output_dir}/{noise}") if f.endswith((".jpg",".png"))]
 	distance_per_image_per_distance: dict[str, dict[str, float]] = {}
 
 	# For each image,
