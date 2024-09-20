@@ -1,5 +1,6 @@
 
-## Imports
+# Imports
+from config import *
 from src.processing.extensive_tests import extensive_tests
 from src.print import *
 
@@ -16,8 +17,22 @@ NOISES: list[str] = [
 	"none"				# Pas de bruit
 ]
 
-if __name__ == "__main__":
-	info("Début des tests extensifs")
+# Main function
+def main():
+
+	# Print the start time
+	info(f"Start time: {START_TIME_STR} ({START_TIME})")
+
+	# Start the tests
 	extensive_tests(NOISES, NB_ITERATIONS, KAPPA, GAMMA, FORMULA)
-	info("Fin des tests extensifs")
+
+	# End of the script
+	info("End of the script")
+	return
+
+
+
+# Entry point of the script
+if __name__ == "__main__":
+	main()
 

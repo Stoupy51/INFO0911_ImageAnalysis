@@ -1,20 +1,6 @@
 
 # Imports
 import numpy as np
-DIVISION_BY_ZERO: float = 1e-9
-
-# Util function to prevent division by zero
-def safe_division(x: float|np.ndarray) -> float|np.ndarray:
-	""" Prevent division by zero by adding a small value if equal to zero\n
-	Args:
-		x	(float|np.ndarray):	Value that will divide
-	Returns:
-		float|np.ndarray: Value divided by x
-	"""
-	if isinstance(x, np.ndarray):
-		return np.array([value if value != 0 else DIVISION_BY_ZERO for value in x])
-	else:
-		return x if x != 0 else DIVISION_BY_ZERO
 
 # Manhattan (L1)
 def distance_manhattan(x: np.ndarray, y: np.ndarray) -> float:
@@ -72,7 +58,7 @@ def distance_histogram_intersection(x: np.ndarray, y: np.ndarray) -> float:
 	Returns:
 		float: Histogram Intersection distance between x and y
 	"""
-	return np.sum(np.minimum(x, y)) / safe_division(np.sum(y))
+	return np.sum(np.minimum(x, y)) / np.sum(y)
 
 # Khi2
 def distance_khi2(x: np.ndarray, y: np.ndarray) -> float:
@@ -83,7 +69,5 @@ def distance_khi2(x: np.ndarray, y: np.ndarray) -> float:
 	Returns:
 		float: Khi2 distance between x and y
 	"""
-	return np.sum((x - y) ** 2 / safe_division((x + y) ** 2))
-
-
+	return np.sum((x - y) ** 2 / (x + y) ** 2)
 
