@@ -1,7 +1,6 @@
 
 ## Imports
 import matplotlib.pyplot as plt
-from shiny import App, ui
 from distances import DISTANCES_CALLS
 
 # Constants
@@ -12,6 +11,7 @@ CHOOSE_FILTER: dict[str, str] = {"none": "Aucun", "contrast": "Contraste", "shar
 CHOOSE_FILTERS_ON: dict[str, str] = {"input_image": "Image d'entrée", "output_images": "Images de sortie"}
 
 # UI de l'application Shiny
+from shiny import ui
 app_ui: ui.Tag = ui.page_fluid(
 
 	# Titre de l'application (et de la page)
@@ -55,7 +55,7 @@ app_ui: ui.Tag = ui.page_fluid(
 
 # Logique backend de l'application
 import numpy as np
-from shiny import reactive, render, Session
+from shiny import App, render, Session
 def server_routine(input: Session, output: Session, app_session: Session) -> None:
 	""" Logique backend de l'application Shiny\n
 	Args:
