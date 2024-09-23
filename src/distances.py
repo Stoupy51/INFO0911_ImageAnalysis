@@ -1,6 +1,7 @@
 
 # Imports
 import numpy as np
+from typing import Callable
 
 # Manhattan (L1)
 def distance_manhattan(x: np.ndarray, y: np.ndarray) -> float:
@@ -70,4 +71,14 @@ def distance_khi2(x: np.ndarray, y: np.ndarray) -> float:
 		float: Khi2 distance between x and y
 	"""
 	return np.sum((x - y) ** 2 / (x + y) ** 2)
+
+
+# Constants
+DISTANCES_CALLS: dict[str, Callable] = {
+	"manhattan":				distance_manhattan,
+	"euclidean":				distance_euclidean,
+	"tchebyshev":				distance_tchebyshev,
+	"minkowski":				distance_minkowski,
+	"histogram_intersection":	distance_histogram_intersection
+}
 

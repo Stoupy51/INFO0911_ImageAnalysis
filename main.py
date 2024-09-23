@@ -11,7 +11,7 @@ def main():
 	info(f"Start time: {START_TIME_STR}")
 
 	# Start the shiny app
-	SHINY_APP_PATH: str = f"{ROOT}/src/shiny/app.py"
+	SHINY_APP_PATH: str = f"{ROOT}/src/app.py"
 	os.system(f"shiny run --reload --launch-browser {SHINY_APP_PATH}")
 
 	# End of the script

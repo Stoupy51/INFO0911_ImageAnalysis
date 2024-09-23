@@ -1,19 +1,9 @@
 
 # Imports
 from src.distances import *
-from typing import Callable
 from PIL import Image
 import numpy as np
 import os
-
-# Constants
-DISTANCES_CALLS: dict[str, Callable] = {
-	"manhattan":				distance_manhattan,
-	"euclidean":				distance_euclidean,
-	"tchebyshev":				distance_tchebyshev,
-	"minkowski":				distance_minkowski,
-	"histogram_intersection":	distance_histogram_intersection
-}
 
 # measure_all_distances(output_dir, flatten_original, noise, color_palette=color_palette)
 def measure_all_distances(output_dir: str, flatten_original: np.ndarray, noise: str, color_palette: str = "L") -> None:
