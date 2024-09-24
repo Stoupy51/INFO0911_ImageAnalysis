@@ -1,8 +1,6 @@
 
 # Imports
-import numpy as np
-NORM709: np.ndarray = np.array([0.2125, 0.7154, 0.0721]).reshape(3, 1, 1)
-NORM601: np.ndarray = np.array([0.299, 0.587, 0.114]).reshape(3, 1, 1)
+from src.color_space.common import *
 
 ## Grayscales
 # RGB to Grayscale average
@@ -23,7 +21,10 @@ def rgb_to_grayscale_norm709(image: np.ndarray) -> np.ndarray:
 	Returns:
 		(np.ndarray): Grayscale image (2D array)
 	"""
-	return np.sum(image * NORM709, axis=0)
+	if BLAZINGLY_FAST:
+		return image[0] * NORM709[0] + image[1] * NORM709[1] + image[2] * NORM709[2]
+	else:
+		return np.sum(image * NORM709, axis=0)
 
 # RGB to Grayscale (norm 601)
 def rgb_to_grayscale_norm601(image: np.ndarray) -> np.ndarray:
@@ -33,5 +34,8 @@ def rgb_to_grayscale_norm601(image: np.ndarray) -> np.ndarray:
 	Returns:
 		(np.ndarray): Grayscale image (2D array)
 	"""
-	return np.sum(image * NORM601, axis=0)
+	if BLAZINGLY_FAST:
+		return image[0] * NORM601[0] + image[1] * NORM601[1] + image[2] * NORM601[2]
+	else:
+		return np.sum(image * NORM601, axis=0)
 
