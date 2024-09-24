@@ -11,6 +11,7 @@ import numpy as np
 # Function that will make extensive tests
 def extensive_tests(noises: Iterable[str], nb_iterations: Iterable[int], kappa: Iterable[int], gamma: Iterable[float], formulas: Iterable[int], color_palette: str = "L") -> None:
 	""" Apply anisotropic diffusion to a generated noisy image and saves the results in a specific folder.\n
+	Then, seek for the best parameters of all time\n
 	Args:
 		noises					(Iterable[str]):	The noises to apply to the image, e.g. ["speckle_0_200", "speckle_0_80", "speckle_0_50", "none"].
 		nb_iterations			(Iterable[int]):	The number of iterations to apply, e.g. [15, 20, 50].
@@ -46,4 +47,36 @@ def extensive_tests(noises: Iterable[str], nb_iterations: Iterable[int], kappa: 
 		for noise in noises:
 			noise_tester(output_dir, flatten_original, base_image.shape, noise, nb_iterations, kappa, gamma, formulas, color_palette=color_palette)
 			measure_all_distances(output_dir, flatten_original, noise, color_palette=color_palette)
+
+	## Seek through all "distance_...txt" files for the best parameters
+	# Get all files
+	all_txt_distances: list[str] = [f"{OUTPUT_FOLDER}/{image.split('.')[0]}/{noise}/distances_{distance}.txt" for image in images for noise in noises for distance in DISTANCES_CALLS.keys()]
+	all_txt_distances = [x for x in all_txt_distances if os.path.exists(x)]
+
+	# Prepare the best parameters dict where the value will be the sum of the ranks
+	# Ranks are: (1st = len(file) points, last = 1 point)
+	best_parameters: dict[str, int] = {}
+
+	# For each file, get the ranking points
+	for file in all_txt_distances:
+		with open(file, "r") as f:
+			lines: list[str] = f.read().strip().split("\n")
+			for i, line in enumerate(lines):
+
+				# Get the model name
+				model, _ = line.split("\t")
+				model = model.replace(".jpg", "")
+
+				# Add the points to the model
+				current_points: int = best_parameters.get(model, 0)
+				points_to_add: int = len(lines) - i
+				best_parameters[model] = current_points + points_to_add
+	
+	# Sort the best parameters
+	best_parameters = {k: v for k, v in sorted(best_parameters.items(), key=lambda item: item[1], reverse=True)}
+
+	# Write them in a txt file
+	with open(f"{OUTPUT_FOLDER}/best_parameters_ranking.txt", "w") as f:
+		for model, points in best_parameters.items():
+			f.write(f"{model}\t{points}\n")
 
