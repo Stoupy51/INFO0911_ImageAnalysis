@@ -3,6 +3,7 @@
 from config import *
 from src.processing.noise_tester import noise_tester
 from src.processing.distance_tests import measure_all_distances
+from src.distances import DISTANCES_CALLS
 from PIL import Image
 from typing import Iterable
 import numpy as np
@@ -26,15 +27,20 @@ def extensive_tests(noises: Iterable[str], nb_iterations: Iterable[int], kappa: 
 
 	# For each image,
 	for image in images:
+		
+		# Get the output directory for the image
+		output_dir: str = f"{OUTPUT_FOLDER}/{image.split('.')[0]}"
+
+		# If all .txt noises files are already present, ask the user if he wants to skip the image
+		if all([os.path.exists(f"{output_dir}/{noise}/distances_{distance}.txt") for noise in noises for distance in DISTANCES_CALLS.keys()]):
+			if input(f"Image {image} already processed, do you want to skip it? (Y/n): ").lower() != "n":
+				continue
 
 		# Load image and convert to grayscale if not grayscale, and flatten it
 		base_image: np.ndarray = np.array(Image.open(f"{IMAGE_FOLDER}/{image}"))
 		if base_image.ndim == 3:
 			base_image = base_image.mean(2)
 		flatten_original: np.ndarray = base_image.flatten()
-		
-		# Get the output directory for the image
-		output_dir: str = f"{OUTPUT_FOLDER}/{image.split('.')[0]}"
 
 		# For each noise, launch the noise tester
 		for noise in noises:
