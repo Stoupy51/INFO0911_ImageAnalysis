@@ -19,7 +19,7 @@ def rgb_to_yiq(image: np.ndarray) -> np.ndarray:
 	# y: np.ndarray = np.sum(image * YIQ_MATRIX[0].reshape(3, 1, 1), axis=0)
 	# i: np.ndarray = np.sum(image * YIQ_MATRIX[1].reshape(3, 1, 1), axis=0)
 	# q: np.ndarray = np.sum(image * YIQ_MATRIX[2].reshape(3, 1, 1), axis=0)
-	# return np.stack([y, i, q], axis=0)
+	# return np.stack((y, i, q), axis=0)
 	return np.stack([np.sum(image * YIQ_MATRIX[i].reshape(3, 1, 1), axis=0) for i in range(3)], axis=0)
 
 # RGB to YUV
