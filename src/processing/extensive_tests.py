@@ -49,34 +49,37 @@ def extensive_tests(noises: Iterable[str], nb_iterations: Iterable[int], kappa: 
 			measure_all_distances(output_dir, flatten_original, noise, color_palette=color_palette)
 
 	## Seek through all "distance_...txt" files for the best parameters
-	# Get all files
-	all_txt_distances: list[str] = [f"{OUTPUT_FOLDER}/{image.split('.')[0]}/{noise}/distances_{distance}.txt" for image in images for noise in noises for distance in DISTANCES_CALLS.keys()]
-	all_txt_distances = [x for x in all_txt_distances if os.path.exists(x)]
+	# For each distance, get the best models
+	for distance_name in DISTANCES_CALLS.keys():
 
-	# Prepare the best parameters dict where the value will be the sum of the ranks
-	# Ranks are: (1st = len(file) points, last = 1 point)
-	best_parameters: dict[str, int] = {}
+		# Prepare the best parameters dict where the value will be the sum of the ranks
+		# Ranks are: (1st = len(file) points, last = 1 point)
+		best_parameters: dict[str, int] = {}
 
-	# For each file, get the ranking points
-	for file in all_txt_distances:
-		with open(file, "r") as f:
-			lines: list[str] = f.read().strip().split("\n")
-			for i, line in enumerate(lines):
+		# Get all files
+		all_txt_distances: list[str] = [f"{OUTPUT_FOLDER}/{image.split('.')[0]}/{noise}/distances_{distance_name}.txt" for image in images for noise in noises]
+		all_txt_distances = [x for x in all_txt_distances if os.path.exists(x)]
 
-				# Get the model name
-				model, _ = line.split("\t")
-				model = model.replace(".jpg", "")
+		# For each file, get the ranking points
+		for file in all_txt_distances:
+			with open(file, "r") as f:
+				lines: list[str] = f.read().strip().split("\n")
+				for i, line in enumerate(lines):
 
-				# Add the points to the model
-				current_points: int = best_parameters.get(model, 0)
-				points_to_add: int = len(lines) - i
-				best_parameters[model] = current_points + points_to_add
-	
-	# Sort the best parameters
-	best_parameters = {k: v for k, v in sorted(best_parameters.items(), key=lambda item: item[1], reverse=True)}
+					# Get the model name
+					model, _ = line.split("\t")
+					model = model.replace(".jpg", "")
 
-	# Write them in a txt file
-	with open(f"{OUTPUT_FOLDER}/best_parameters_ranking.txt", "w") as f:
-		for model, points in best_parameters.items():
-			f.write(f"{model}\t{points}\n")
+					# Add the points to the model
+					current_points: int = best_parameters.get(model, 0)
+					points_to_add: int = len(lines) - i
+					best_parameters[model] = current_points + points_to_add
+		
+		# Sort the best parameters
+		best_parameters = {k: v for k, v in sorted(best_parameters.items(), key=lambda item: item[1], reverse=True)}
+
+		# Write them in a txt file
+		with open(f"{OUTPUT_FOLDER}/best_parameters_ranking_for_{distance_name}.txt", "w") as f:
+			for model, points in best_parameters.items():
+				f.write(f"{model}\t{points}\n")
 
