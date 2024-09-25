@@ -1,5 +1,6 @@
 
 ## Imports
+from config import JPG_QUALITY
 from src.processing.fastaniso import anisodiff
 from typing import Iterable
 from PIL import Image
@@ -36,11 +37,11 @@ def noise_tester(output_directory: str, flatten_image: np.ndarray, shape: tuple,
 	elif "none" == noise:
 		noised_image: np.ndarray = flatten_image
 	
-	# Save the initial noisy image with 95% quality
+	# Save the initial noisy image with x% quality
 	noised_image_path: str = f"{saving_directory}/_{noise}.jpg"
 	noised_image: np.ndarray = noised_image.reshape(shape)
 	noised_image_image: Image.Image = Image.fromarray(noised_image).convert(color_palette)
-	noised_image_image.save(noised_image_path, quality = 95)
+	noised_image_image.save(noised_image_path, quality = JPG_QUALITY)
 
 	# For each parameter,
 	for nb_iter in nb_iterations:
@@ -58,5 +59,5 @@ def noise_tester(output_directory: str, flatten_image: np.ndarray, shape: tuple,
 					# Save image
 					new_image: Image.Image = Image.fromarray(output).convert("L")
 					save_path: str = f"{saving_directory}/{formula_str}_{iter_str}_{kappa_str}_{gamma_str}.jpg"
-					new_image.save(save_path, quality = 95)
+					new_image.save(save_path, quality = JPG_QUALITY)
 

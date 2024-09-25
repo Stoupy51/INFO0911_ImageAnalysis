@@ -13,6 +13,8 @@ ROOT: str = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")	# Root
 IMAGE_FOLDER: str = f"{ROOT}/images"										# Folder where the images are stored
 OUTPUT_FOLDER: str = f"{ROOT}/output"										# Folder where the output images will be stored
 
+# Other constants
+JPG_QUALITY: int = 95
 
 
 
