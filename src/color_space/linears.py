@@ -29,6 +29,7 @@ def rgb_to_yuv(image: np.ndarray) -> np.ndarray:
 	v: np.ndarray = np.sum(image * YUV_MATRIX[2].reshape(3, 1, 1), axis=0)
 	return np.stack((y, u, v), axis=0)
 
+
 # RGB to I1I2I3
 def rgb_to_i1i2i3(image: np.ndarray) -> np.ndarray:
 	""" Convert an RGB image to I1I2I3 color space\n
