@@ -25,14 +25,14 @@ def distance_euclidean(x: np.ndarray, y: np.ndarray) -> float:
 	"""
 	return np.sqrt(np.sum((x - y) ** 2))
 
-# Tchebyshev (L3 inf)
-def distance_tchebyshev(x: np.ndarray, y: np.ndarray) -> float:
-	""" Tchebyshev distance between two points\n
+# Chebyshev (L3 inf)
+def distance_chebyshev(x: np.ndarray, y: np.ndarray) -> float:
+	""" Chebyshev distance between two points\n
 	Args:
 		x	(np.ndarray):	First vector
 		y	(np.ndarray):	Second vector
 	Returns:
-		float: Tchebyshev distance between x and y
+		float: Chebyshev distance between x and y
 	"""
 	return np.max(np.abs(x - y))
 
@@ -77,7 +77,7 @@ def distance_khi2(x: np.ndarray, y: np.ndarray) -> float:
 DISTANCES_CALLS: dict[str, Callable] = {
 	"manhattan":				distance_manhattan,
 	"euclidean":				distance_euclidean,
-	"tchebyshev":				distance_tchebyshev,
+	"chebyshev":				distance_chebyshev,
 	"minkowski":				distance_minkowski,
 	"histogram_intersection":	distance_histogram_intersection
 }
