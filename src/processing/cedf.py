@@ -122,3 +122,4 @@ def non_negativity_discretization(im: np.ndarray, Dxx: np.ndarray, Dxy: np.ndarr
 					wmB8 * (im[:, ny] - im) + wtL9 * (im[px, ny] - im))
 
 	return im
+
