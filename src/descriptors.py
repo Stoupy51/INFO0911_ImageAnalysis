@@ -1,7 +1,6 @@
 
 # Imports
 import numpy as np
-from src.print import *
 
 # Histogram on a grayscale
 def histogram_single_channel(image: np.ndarray, range: tuple[float,float] = (0,256), do_normalize: bool = False) -> np.ndarray:
@@ -32,6 +31,53 @@ def histogram_multi_channels(image: np.ndarray, range: tuple[float,float] = (0,2
 	return np.concatenate(histograms)
 
 
+# Statistics
+def mean(image: np.ndarray) -> float:
+	""" Compute the mean of the image.\n
+	Args:
+		image	(np.ndarray):	Image
+	Returns:
+		float: Mean value
+	"""
+	return np.mean(image)
+
+def median(image: np.ndarray) -> float:
+	""" Compute the median of the image.\n
+	Args:
+		image	(np.ndarray):	Image
+	Returns:
+		float: Median value
+	"""
+	return np.median(image)
+
+def std(image: np.ndarray) -> float:
+	""" Compute the standard deviation of the image.\n
+	Args:
+		image	(np.ndarray):	Image
+	Returns:
+		float: Standard deviation value
+	"""
+	return np.std(image)
+
+def Q1(image: np.ndarray) -> float:
+	""" Compute the first quartile of the image.\n
+	Args:
+		image	(np.ndarray):	Image
+	Returns:
+		float: First quartile value
+	"""
+	return np.percentile(image, 25)
+
+def Q3(image: np.ndarray) -> float:
+	""" Compute the third quartile of the image.\n
+	Args:
+		image	(np.ndarray):	Image
+	Returns:
+		float: Third quartile value
+	"""
+	return np.percentile(image, 75)
+
+
 # Name every function
 from typing import Callable
 DESCRIPTORS_CALLS: dict[str, Callable] = {
@@ -40,6 +86,10 @@ DESCRIPTORS_CALLS: dict[str, Callable] = {
 	"Histogram multi channels":	histogram_multi_channels,
 
 	# Statistics (mean, median, std, Q1, Q3)
-	# TODO
+	"Mean":					mean,
+	"Median":				median,
+	"Std (écart-type)":		std,
+	"Q1":					Q1,
+	"Q3":					Q3
 }
 

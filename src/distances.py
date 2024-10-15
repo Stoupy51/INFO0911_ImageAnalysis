@@ -1,7 +1,6 @@
 
 # Imports
 import numpy as np
-from typing import Callable
 
 # Manhattan (L1)
 def distance_manhattan(x: np.ndarray, y: np.ndarray) -> float:
@@ -74,6 +73,7 @@ def distance_khi2(x: np.ndarray, y: np.ndarray) -> float:
 
 
 # Constants
+from typing import Callable
 DISTANCES_CALLS: dict[str, Callable] = {
 	"manhattan":				distance_manhattan,
 	"euclidean":				distance_euclidean,
