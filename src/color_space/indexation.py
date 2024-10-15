@@ -4,11 +4,11 @@ import numpy as np
 
 
 # Image indexation on a grayscale
-def indexed_single_channel(image: np.ndarray, levels: int, range: tuple[float, float] = (0, 256)) -> np.ndarray:
+def indexed_single_channel(image: np.ndarray, levels: int = 8, range: tuple[float, float] = (0, 256)) -> np.ndarray:
 	""" Index an image to a specific number of levels\n
 	Args:
 		image	(np.ndarray):	Single image channel to quantify, example shape: (100, 100)
-		levels	(int):			Number of levels to quantize the image
+		levels	(int):			Number of levels to quantize the image, default is 8
 		range	(tuple):		Range of the image, default is (0, 256)
 	Returns:
 		np.ndarray: Indexed image, example shape: (100, 100) with values between 0 and levels
@@ -21,11 +21,11 @@ def indexed_single_channel(image: np.ndarray, levels: int, range: tuple[float, f
 
 
 # Image indexation on multiple channels
-def indexed_multi_channels(image: np.ndarray, levels: list[int], ranges: list[tuple] = 3*[(0, 256)]) -> np.ndarray:
+def indexed_multi_channels(image: np.ndarray, levels: list[int] = [8, 8, 8], ranges: list[tuple] = 3*[(0, 256)]) -> np.ndarray:
 	""" Index a multi channel image to a specific number of levels\n
 	Args:
 		image	(np.ndarray):	Multi channel image to quantify, example shape: (3, 100, 100)
-		levels	(list[int]):	Number of levels to quantize each channel
+		levels	(list[int]):	Number of levels to quantize each channel, default is [8, 8, 8]
 		ranges	(list[tuple]):	Range of each channel, default is [(0, 256), (0, 256), (0, 256)]
 	Returns:
 		np.ndarray: Indexed image, example shape: (3, 100, 100) with values between 0 and levels

@@ -1,6 +1,6 @@
 
 # Imports
-from src.color_space.common import *
+from .common import *
 
 # RGB to YIQ
 def rgb_to_yiq(image: np.ndarray) -> np.ndarray:

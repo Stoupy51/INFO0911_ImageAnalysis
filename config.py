@@ -15,6 +15,8 @@ OUTPUT_FOLDER: str = f"{ROOT}/output"										# Folder where the output images 
 DATABASE_FOLDER: str = f"{ROOT}/database"									# Folder where the database images are stored
 
 # Other constants
+IMAGE_EXTENSIONS: tuple[str] = (".jpg", ".jpeg", ".png")					# Image extensions to consider
+OUTPUT_EXTENSION: str = ".jpg"												# Output image extension
 JPG_QUALITY: int = 95
 
 

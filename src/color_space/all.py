@@ -5,12 +5,12 @@
 # Indexation single and multi channels
 
 # Import every function from the other files
-from src.color_space.common import *
-from src.color_space.utils import *
-from src.color_space.grayscale import *
-from src.color_space.linears import *
-from src.color_space.non_linears import *
-from src.color_space.indexation import *
+from .common import *
+from .utils import *
+from .grayscale import *
+from .linears import *
+from .non_linears import *
+from .indexation import *
 
 # Name every function
 from typing import Callable

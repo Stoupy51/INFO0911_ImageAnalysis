@@ -1,6 +1,6 @@
 
 # Imports
-from src.color_space.common import *
+from .common import *
 
 # RGB to HSL, HSV, CMYK, L*a*b, L*u*v		(combinaisons non-linéaires)
 

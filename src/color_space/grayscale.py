@@ -1,6 +1,6 @@
 
 # Imports
-from src.color_space.common import *
+from .common import *
 
 ## Grayscales
 # RGB to Grayscale average
