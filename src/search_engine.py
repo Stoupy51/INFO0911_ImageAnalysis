@@ -14,7 +14,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from config import DATABASE_FOLDER, IMAGE_EXTENSIONS
 
-DO_MULTI_PROCESSING: bool = True
+DO_MULTI_PROCESSING: bool = cpu_count() > 4	# Use multiprocessing if more than 4 cores
 
 # Function to apply the color space, descriptor, and compute the distance (optional)
 def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, distance: str, color_space_args: dict, descriptor_args: dict, to_compare: np.ndarray|None = None) -> tuple[str, np.ndarray, float]:
@@ -34,14 +34,8 @@ def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, d
 			float:			Distance between the image and the request
 	"""
 	# Apply the color space and descriptor to the image
-	original_image: np.ndarray = np.array(Image.open(image_path))
+	original_image: np.ndarray = np.array(Image.open(image_path).convert("RGB"))
 	image = img_to_sliced_rgb(original_image)
-	if image.shape[0] != 3:
-		print(f"Shape of '{image_path}': {image.shape}")	# TODO: Make sure the image is RGB
-		if len(image.shape) == 2:
-			image = np.stack([image] * 3)
-		elif len(image.shape) == 3 and image.shape[0] == 4:
-			image = image[:3]
 	image = COLOR_SPACES_CALLS[color_space](image, **color_space_args)
 	image = DESCRIPTORS_CALLS[descriptor](image, **descriptor_args)
 
@@ -54,7 +48,7 @@ def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, d
 	return image_path, original_image, distance_value
 
 # Search engine
-def search(image_request: np.ndarray, color_space: str, descriptor: str, distance: str, max_results: int = 5) -> list[tuple[str, np.ndarray, float]]:
+def search(image_request: np.ndarray, color_space: str, descriptor: str, distance: str, max_results: int = 10) -> list[tuple[str, np.ndarray, float]]:
 	""" Search for similar images in the database\n
 	Args:
 		image_request	(np.ndarray):	Image to search for, example shape: (100, 100, 3)

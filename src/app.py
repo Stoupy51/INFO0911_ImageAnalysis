@@ -31,7 +31,7 @@ app_ui: ui.Tag = ui.page_fluid(
 			ui.input_select(id="distance", label="Type de distance", choices=CHOOSE_DISTANCE),
 			
 			# Nombre de réponses souhaitées
-			ui.input_slider(id="nb_reponses", label="Nombre de réponses souhaitées", min=1, max=100, step=1, value=5),
+			ui.input_numeric(id="nb_reponses", label="Nombre de réponses souhaitées", min=1, max=100, step=1, value=10),
 		),
 		
 		# Section d'affichage
@@ -93,7 +93,7 @@ def server_routine(input: Session, output: Session, app_session: Session) -> Non
 		images: list[dict] = input.image_upload()
 		if not images:
 			return None
-		image: Image.Image = Image.open(images[0]['datapath'])
+		image: Image.Image = Image.open(images[0]['datapath']).convert("RGB")
 		image_request: np.ndarray = np.array(image)
 		color_space: str = input.color_space()
 		descriptor: str = input.descriptor()
@@ -104,7 +104,10 @@ def server_routine(input: Session, output: Session, app_session: Session) -> Non
 		results: list[tuple[str, np.ndarray, float]] = search(image_request, color_space, descriptor, distance, max_results)
 
 		# Prepare the plot
-		fig, axs = plt.subplots(nrows=1, ncols=len(results), figsize=(5 * len(results), 5))
+		MAX_PER_ROW: int = 5
+		nrows: int = (len(results) + MAX_PER_ROW - 1) // MAX_PER_ROW
+		figsize: tuple[int, int] = (5 * MAX_PER_ROW, 5 * nrows)
+		fig, axs = plt.subplots(nrows=nrows, ncols=MAX_PER_ROW, figsize=figsize)
 		fig: plt.Figure
 		axs: np.ndarray
 
@@ -114,7 +117,9 @@ def server_routine(input: Session, output: Session, app_session: Session) -> Non
 		# For each result, display it
 		for i, (path, image, distance) in enumerate(results):
 			# Display the image
-			subplot: plt.Axes = axs[i] if len(results) > 1 else axs
+			row: int = i // MAX_PER_ROW
+			col: int = i % MAX_PER_ROW
+			subplot: plt.Axes = axs[row, col] if nrows > 1 else axs[col]
 			subplot.imshow(image)
 			subplot.axis('off')
 			image_name: str = path.split('/')[-1]
