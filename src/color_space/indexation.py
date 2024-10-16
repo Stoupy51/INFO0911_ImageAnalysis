@@ -31,6 +31,10 @@ def indexed_multi_channels(image: np.ndarray, levels: list[int] = [8, 8, 8], ran
 		np.ndarray: Indexed image, example shape: (3, 100, 100) with values between 0 and levels
 		list[np.ndarray]: List of every indexed channel from the base image
 	"""
+	# Grayscale input
+	if len(image.shape) == 2:
+		return indexed_single_channel(image, levels[0], ranges[0])
+
 	# Assertions
 	assert image.shape[0] == len(levels), "Number of levels must be equal to the number of channels"
 	assert image.shape[0] == len(ranges), "Number of ranges must be equal to the number of channels"

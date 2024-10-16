@@ -75,10 +75,10 @@ def distance_khi2(x: np.ndarray, y: np.ndarray) -> float:
 # Constants
 from typing import Callable
 DISTANCES_CALLS: dict[str, Callable] = {
-	"manhattan":				distance_manhattan,
-	"euclidean":				distance_euclidean,
-	"chebyshev":				distance_chebyshev,
-	"minkowski":				distance_minkowski,
-	"histogram_intersection":	distance_histogram_intersection
+	"Manhattan (L1)":			distance_manhattan,
+	"Euclidean (L2)":			distance_euclidean,
+	"Chebyshev":				distance_chebyshev,
+	"Minkowski":				distance_minkowski,
+	"Histogram Intersection":	distance_histogram_intersection
 }
 

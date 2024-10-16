@@ -16,25 +16,26 @@ from .indexation import *
 from typing import Callable
 COLOR_SPACES_CALLS: dict[str, Callable] = {
 	# Grayscales
-	"Grayscale (average)":			rgb_to_grayscale_average,
-	"Grayscale (norm 709)":			rgb_to_grayscale_norm709,
-	"Grayscale (norm 601)":			rgb_to_grayscale_norm601,
+	"Grayscale (average)":					{"function":rgb_to_grayscale_average, "args":{}},
+	"Grayscale (norm 709)":					{"function":rgb_to_grayscale_norm709, "args":{}},
+	"Grayscale (norm 601)":					{"function":rgb_to_grayscale_norm601, "args":{}},
 
 	# Linears
-	"YIQ":							rgb_to_yiq,
-	"YUV":							rgb_to_yuv,
-	"I1I2I3":						rgb_to_i1i2i3,
-	"RGB Normalisé":				rgb_to_rgb_normalized,
+	"YIQ":									{"function":rgb_to_yiq, "args":{}},
+	"YUV":									{"function":rgb_to_yuv, "args":{}},
+	"I1I2I3":								{"function":rgb_to_i1i2i3, "args":{}},
+	"RGB Normalisé":						{"function":rgb_to_rgb_normalized, "args":{}},
 
 	# Non-linears
-	"HSL":							rgb_to_hsl,
-	"HSV":							rgb_to_hsv,
-	"CMYK":							rgb_to_cmyk,
-	"L*a*b":						rgb_to_lab,
-	"L*u*v":						rgb_to_luv,
+	"HSL":									{"function":rgb_to_hsl, "args":{}},
+	"HSV":									{"function":rgb_to_hsv, "args":{}},
+	"CMYK":									{"function":rgb_to_cmyk, "args":{}},
+	"L*a*b":								{"function":rgb_to_lab, "args":{}},
+	"L*u*v":								{"function":rgb_to_luv, "args":{}},
 
 	# Indexation
-	"Indexation single channel":	indexed_single_channel,
-	"Indexation multi channels":	indexed_multi_channels,
+	"Indexation (2,2,2)":	{"function":indexed_multi_channels, "args":{"levels":[2, 2, 2]}},
+	"Indexation (4,4,4)":	{"function":indexed_multi_channels, "args":{"levels":[4, 4, 4]}},
+	"Indexation (8,8,8)":	{"function":indexed_multi_channels, "args":{"levels":[8, 8, 8]}},
 }
 
