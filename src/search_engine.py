@@ -18,6 +18,7 @@ from config import *
 DO_MULTI_PROCESSING: bool = cpu_count() > 4	# Use multiprocessing if more than 4 cores
 
 # Utility function to get clean cache filepath
+ALPHANUM = "abcdefghijklmnopqrstuvwxyz0123456789"
 def clean_cache_path(image_path: str, **kwargs: dict) -> str:
 	""" Get the clean cache filepath\n
 	Args:
@@ -27,11 +28,11 @@ def clean_cache_path(image_path: str, **kwargs: dict) -> str:
 		str: Clean cache filepath
 	"""
 	# Get the color space and descriptor names
-	color_space: str = kwargs.get("color_space", "RGB") + "".join(c for c in str(kwargs.get("color_space_args", {})) if c.isalnum())
-	descriptor: str = kwargs.get("descriptor", "") + "".join(c for c in str(kwargs.get("descriptor_args", {})) if c.isalnum())
+	color_space: str = kwargs.get("color_space", "RGB") + "".join(c for c in str(kwargs.get("color_space_args", {})) if c in ALPHANUM)
+	descriptor: str = kwargs.get("descriptor", "") + "".join(c for c in str(kwargs.get("descriptor_args", {})) if c in ALPHANUM)
 
 	# Clean the image path and return the cache filepath
-	image_name = "".join(c for c in image_path.split("/")[-1].split(".")[0] if c.isalnum())
+	image_name = "".join(c for c in image_path.split("/")[-1].split(".")[0] if c in ALPHANUM)
 	if descriptor:
 		return f"{DATABASE_FOLDER}/cache/{image_name}_{color_space}_{descriptor}.json"
 	else:
@@ -81,9 +82,11 @@ def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, d
 				image = COLOR_SPACES_CALLS[color_space]["function"](image, **color_space_args)
 				if type(image) == tuple:
 					image = image[0]
+				os.makedirs(os.path.dirname(cache_color_space), exist_ok=True)
 				with open(cache_color_space, "w") as file:
 					json.dump(image.tolist(), file)						# Save the color space applied to the cache
 			image = DESCRIPTORS_CALLS[descriptor]["function"](image, **descriptor_args, **more_desc_args)
+			os.makedirs(os.path.dirname(cache_descriptor), exist_ok=True)
 			with open(cache_descriptor, "w") as file:
 				json.dump(image.tolist(), file)							# Save the descriptor applied to the cache
 
