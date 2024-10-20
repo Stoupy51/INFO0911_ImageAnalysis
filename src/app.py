@@ -18,9 +18,6 @@ app_ui: ui.Tag = ui.page_fluid(
 	ui.layout_sidebar(
 		ui.sidebar(
 
-			# Image upload
-			ui.input_file("image_upload", "Load image(s)", multiple=True, accept=[".png", ".jpg", ".jpeg"]),
-
 			# Color space selection
 			ui.input_select(id="color_space", label="Type d'espace de couleur", choices=CHOOSE_COLOR_SPACE),
 
@@ -32,6 +29,9 @@ app_ui: ui.Tag = ui.page_fluid(
 			
 			# Nombre de réponses souhaitées
 			ui.input_numeric(id="nb_reponses", label="Nombre de réponses souhaitées", min=1, max=100, step=1, value=10),
+
+			# Image upload
+			ui.input_file("image_upload", "Load image(s)", multiple=True, accept=[".png", ".jpg", ".jpeg"]),
 		),
 		
 		# Section d'affichage
@@ -39,6 +39,9 @@ app_ui: ui.Tag = ui.page_fluid(
 			ui.output_plot(id="input_image_plot"),
 			ui.output_plot(id="output_images_plot"),
 		),
+
+		# Sidebar always open
+		always_open=True
 	)
 )
 

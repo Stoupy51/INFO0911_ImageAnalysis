@@ -1,6 +1,13 @@
 
-# Imports
+# Import config from the parent folder
 import os
+import sys
+sys.path.append(os.path.dirname(__file__))
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from config import *
+
+# Imports
+import io
 import numpy as np
 import json
 from color_space.all import COLOR_SPACES_CALLS, img_to_sliced_rgb
@@ -10,15 +17,10 @@ from PIL import Image
 from multiprocessing import Pool, cpu_count
 from print import *
 
-# Import config from the parent folder
-import sys
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from config import *
-
 DO_MULTI_PROCESSING: bool = cpu_count() > 4	# Use multiprocessing if more than 4 cores
 
 # Utility function to get clean cache filepath
-ALPHANUM = "abcdefghijklmnopqrstuvwxyz0123456789"
+ALPHANUM = "abcdefghijklmnopqrstuvwxyz0123456789_/"
 def clean_cache_path(image_path: str, **kwargs: dict) -> str:
 	""" Get the clean cache filepath\n
 	Args:
@@ -28,15 +30,15 @@ def clean_cache_path(image_path: str, **kwargs: dict) -> str:
 		str: Clean cache filepath
 	"""
 	# Get the color space and descriptor names
-	color_space: str = kwargs.get("color_space", "RGB") + "".join(c for c in str(kwargs.get("color_space_args", {})) if c in ALPHANUM)
-	descriptor: str = kwargs.get("descriptor", "") + "".join(c for c in str(kwargs.get("descriptor_args", {})) if c in ALPHANUM)
+	color_space: str = kwargs.get("color_space", "RGB") + str(kwargs.get("color_space_args", ""))
+	descriptor: str = kwargs.get("descriptor", "") + str(kwargs.get("descriptor_args", ""))
 
 	# Clean the image path and return the cache filepath
-	image_name = "".join(c for c in image_path.split("/")[-1].split(".")[0] if c in ALPHANUM)
+	image_name = image_path.replace("\\","/").split("/")[-1].split(".")[0]
 	if descriptor:
-		return f"{DATABASE_FOLDER}/cache/{image_name}_{color_space}_{descriptor}.json"
+		return f"{DATABASE_FOLDER}/cache/" + "".join(c for c in f"{image_name}_{color_space}_{descriptor}".lower() if c in ALPHANUM) + ".json"
 	else:
-		return f"{DATABASE_FOLDER}/cache/{image_name}_{color_space}.json"
+		return f"{DATABASE_FOLDER}/cache/" + "".join(c for c in f"{image_name}_{color_space}".lower() if c in ALPHANUM) + ".npz"
 
 # Function to apply the color space, descriptor, and compute the distance (optional)
 def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, distance: str, color_space_args: dict, descriptor_args: dict, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, np.ndarray, float]:
@@ -71,24 +73,30 @@ def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, d
 		# Apply the color space and descriptor to the image
 		original_image: np.ndarray = np.array(Image.open(image_path).convert("RGB"))
 		if os.path.exists(cache_descriptor):
+
+			# Load the descriptor from the cache
 			with open(cache_descriptor, "r") as file:
-				image: np.ndarray = np.array(json.load(file))						# Load the descriptor applied from the cache if any
+				image: np.ndarray = np.array(json.load(file))
 		else:
+			# Try to load the color space applied from the cache
 			if os.path.exists(cache_color_space):
-				with open(cache_color_space, "r") as file:
-					image: np.ndarray = np.array(json.load(file))					# Load the color space applied from the cache if any
+				image: np.ndarray = np.load(cache_color_space, allow_pickle=True)["arr_0"]
 			else:
 				image: np.ndarray = img_to_sliced_rgb(original_image)
 				image = COLOR_SPACES_CALLS[color_space]["function"](image, **color_space_args)
 				if type(image) == tuple:
 					image = image[0]
+				
+				# Save the color space applied to the cache
 				os.makedirs(os.path.dirname(cache_color_space), exist_ok=True)
-				with open(cache_color_space, "w") as file:
-					json.dump(image.tolist(), file)						# Save the color space applied to the cache
+				np.savez_compressed(cache_color_space, image)
+
 			image = DESCRIPTORS_CALLS[descriptor]["function"](image, **descriptor_args, **more_desc_args)
+
+			# # Save the descriptor applied to the cache
 			os.makedirs(os.path.dirname(cache_descriptor), exist_ok=True)
 			with open(cache_descriptor, "w") as file:
-				json.dump(image.tolist(), file)							# Save the descriptor applied to the cache
+				json.dump(image.tolist(), file)
 
 		# Compute the distance between the images
 		distance_value: float = 0.0
@@ -102,7 +110,7 @@ def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, d
 	except KeyboardInterrupt:
 		raise KeyboardInterrupt
 	except Exception as e:
-		error(f"Error while processing '{image_path}' with {color_space} and {descriptor}: {e}", exit=False)
+		error(f"Error while processing '{image_path}' with {color_space} and {descriptor}:\n{e}", exit=False)
 
 # Search engine
 def search(image_request: np.ndarray, color_space: str, descriptor: str, distance: str, max_results: int = 10) -> list[tuple[str, np.ndarray, float]]:
@@ -177,4 +185,4 @@ def offline_cache_compute() -> None:
 		for args in thread_args:
 			thread_function(*args, verbose=True)
 	debug(f"Computed {len(thread_args)} images caches")
-				
+

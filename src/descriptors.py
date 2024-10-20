@@ -13,7 +13,7 @@ def histogram_single_channel(image: np.ndarray, range: tuple[float] = (0,256,1),
 		np.ndarray: 1 dimension array, example shape: (256,)
 	"""
 	nb_classes: int = int((range[1] - range[0]) // range[2])
-	histogram: np.ndarray = np.histogram(image.flatten(), bins=nb_classes, range=range)[0]
+	histogram: np.ndarray = np.histogram(image.flatten(), bins=nb_classes, range=range[:2])[0]
 	if do_normalize:
 		histogram = histogram / np.sum(histogram)
 	return histogram
@@ -83,7 +83,7 @@ def histogram_blob_2D(image: np.ndarray, blob_size: tuple[int,int] = (4,4), quan
 	# Compute the histogram using the blob
 	nb_classes: int = int((range[1] - range[0]) // range[2])	# (max-min) // step
 	histogram: np.ndarray = np.zeros((nb_classes, quantifiers))
-	for i in range(0, image.shape[0] - blob_size[0])
+	for i in range(0, image.shape[0] - blob_size[0]):
 		for j in range(0, image.shape[1] - blob_size[1]):
 			blob: np.ndarray = image[i:i+blob_size[0], j:j+blob_size[1]]
 
@@ -153,7 +153,8 @@ from typing import Callable
 DESCRIPTORS_CALLS: dict[str, Callable] = {
 	# Histograms
 	"Histogram":			{"function":histogram_multi_channels, "args":{}},
-	"Histogram HSV/HSL":	{"function":histogram_hue_per_saturation, "args":{}},	
+	"Histogram HSV/HSL":	{"function":histogram_hue_per_saturation, "args":{}},
+	"Histogram Blob":		{"function":histogram_blob_2D, "args":{}},
 
 	# Statistics (mean, median, std, Q1, Q3)
 	"Mean":					{"function":mean, "args":{}},
