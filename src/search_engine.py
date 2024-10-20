@@ -41,7 +41,7 @@ def clean_cache_path(image_path: str, **kwargs: dict) -> str:
 		return f"{DATABASE_FOLDER}/cache/" + "".join(c for c in f"{image_name}_{color_space}".lower() if c in ALPHANUM) + ".npz"
 
 # Function to apply the color space, descriptor, and compute the distance (optional)
-def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, distance: str, color_space_args: dict, descriptor_args: dict, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, np.ndarray, float]:
+def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, distance: str, color_space_args: dict, descriptor_args: dict, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, float]:
 	""" Thread function to apply the color space, descriptor, and compute the distance (optional)\n
 	Args:
 		image_path		(np.ndarray):	Image to process
@@ -55,7 +55,6 @@ def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, d
 	Returns:
 		tuple: Tuple with the following format:
 			str:			Path of the image
-			np.ndarray:		Image in the database
 			float:			Distance between the image and the request
 	"""
 	try:
@@ -67,11 +66,9 @@ def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, d
 		more_desc_args: dict = {}
 		if descriptor == "Histogram":
 			if color_space in ["YUV", "YIQ"]:
-				more_desc_args["nb_classes"] = [256, 10, 10]
-				more_desc_args["ranges"] = [(0,256), (0,1), (0,1)]
+				more_desc_args["ranges"] = [(0,256,1), (0,1,0.1), (0,1,0.1)]
 
 		# Apply the color space and descriptor to the image
-		original_image: np.ndarray = np.array(Image.open(image_path).convert("RGB"))
 		if os.path.exists(cache_descriptor):
 
 			# Load the descriptor from the cache
@@ -82,6 +79,7 @@ def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, d
 			if os.path.exists(cache_color_space):
 				image: np.ndarray = np.load(cache_color_space, allow_pickle=True)["arr_0"]
 			else:
+				original_image: np.ndarray = np.array(Image.open(image_path).convert("RGB"))
 				image: np.ndarray = img_to_sliced_rgb(original_image)
 				image = COLOR_SPACES_CALLS[color_space]["function"](image, **color_space_args)
 				if type(image) == tuple:
@@ -106,7 +104,7 @@ def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, d
 		# Return the path, image and distance
 		if verbose:
 			debug(f"Computed distance for '{image_path}' with value {distance_value}")
-		return image_path, original_image, distance_value
+		return image_path, distance_value
 	except KeyboardInterrupt:
 		raise KeyboardInterrupt
 	except Exception as e:
@@ -149,13 +147,14 @@ def search(image_request: np.ndarray, color_space: str, descriptor: str, distanc
 	if DO_MULTI_PROCESSING:
 		with Pool(cpu_count()) as pool:
 			debug(f"Using {cpu_count()} processes for the search engine")
-			results: list[tuple[str, np.ndarray, float]] = pool.starmap(thread_function, thread_args)
+			results: list[tuple[str, float]] = pool.starmap(thread_function, thread_args)
 			debug(f"Computed {len(results)} images distances")
 	else:
-		results: list[tuple[str, np.ndarray, float]] = [thread_function(*args) for args in thread_args]
+		results: list[tuple[str, float]] = [thread_function(*args) for args in thread_args]
 
 	# Sort the images by distance and return the most similar ones
-	return sorted(results, key=lambda x: x[2])[:max_results]
+	sorted_images: list[tuple[str, float]] = sorted(results, key=lambda x: x[-1])[:max_results]
+	return [(image_path, np.array(Image.open(image_path).convert("RGB")), distance) for image_path, distance in sorted_images]
 
 
 # Function to compute every single cache
