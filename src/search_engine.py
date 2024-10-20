@@ -41,10 +41,10 @@ def clean_cache_path(image_path: str, **kwargs: dict) -> str:
 		return f"{DATABASE_FOLDER}/cache/" + "".join(c for c in f"{image_name}_{color_space}".lower() if c in ALPHANUM) + ".npz"
 
 # Function to apply the color space, descriptor, and compute the distance (optional)
-def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, distance: str, color_space_args: dict, descriptor_args: dict, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, float]:
+def thread_function(image_path: str, color_space: str, descriptor: str, distance: str, color_space_args: dict, descriptor_args: dict, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, float]:
 	""" Thread function to apply the color space, descriptor, and compute the distance (optional)\n
 	Args:
-		image_path		(np.ndarray):	Image to process
+		image_path		(str):			Image to process
 		color_space		(str):			Color space to use for the descriptor
 		descriptor		(str):			Descriptor to use for the search
 		distance		(str):			Distance to use for the search
