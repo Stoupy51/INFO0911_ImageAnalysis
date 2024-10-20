@@ -57,6 +57,7 @@ def thread_function(image_path: np.ndarray, color_space: str, descriptor: str, d
 			str:			Path of the image
 			float:			Distance between the image and the request
 	"""
+	image_path = image_path.replace("\\","/")
 	try:
 		# Get cache paths
 		cache_color_space: str = clean_cache_path(image_path, color_space=color_space, color_space_args=color_space_args)
