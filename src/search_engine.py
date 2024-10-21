@@ -73,6 +73,12 @@ def thread_function(image_path: str, color_space: str, descriptor: str, distance
 				more_desc_args["ranges"] = [(0,256,1), (0,1,0.1), (0,1,0.1)]
 			elif color_space in ["HSV", "HSL"]:
 				descriptor_function = histogram_hue_per_saturation
+			elif color_space == "CMYK":
+				more_desc_args["ranges"] = [(0, 1, 0.1)] * 4
+			elif color_space == "L*a*b":
+				more_desc_args["ranges"] = [(0, 100, 1), (-128, 128, 1), (-128, 128, 1)]
+			elif color_space == "L*u*v":
+				more_desc_args["ranges"] = [(0, 100, 1), (-134, 220, 1), (-140, 122, 1)]
 
 		# Apply the color space and descriptor to the image
 		if os.path.exists(cache_descriptor):
