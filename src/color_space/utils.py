@@ -36,3 +36,7 @@ def sliced_rgb_to_img(sliced_image: np.ndarray) -> np.ndarray:
 	"""
 	return np.moveaxis(sliced_image, 0, -1)
 
+# Function to return input
+def rgb_to_rgb(image: np.ndarray) -> np.ndarray:
+	return image
+

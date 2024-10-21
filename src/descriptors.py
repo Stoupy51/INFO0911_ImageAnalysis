@@ -65,7 +65,7 @@ def histogram_hue_per_saturation(image: np.ndarray, do_normalize: bool = True) -
 # TODO: range(start, stop) => range(start,stop,step) so I can remove the nb_classes argument
 
 # Blob histogram
-def histogram_blob_2D(image: np.ndarray, blob_size: tuple[int,int] = (4,4), quantifiers: int = 4, range: tuple[float,float,float] = (0,256,1), do_normalize: bool = True) -> np.ndarray:
+def histogram_blob(image: np.ndarray, blob_size: tuple[int,int] = (4,4), quantifiers: int = 4, range: tuple[float,float,float] = (0,256,1), do_normalize: bool = True) -> np.ndarray:
 	""" Compute the histogram vector of a 2D image with blobs.\n
 	Args:
 		image			(np.ndarray):	2D image, example shape: (100, 100)
@@ -77,8 +77,12 @@ def histogram_blob_2D(image: np.ndarray, blob_size: tuple[int,int] = (4,4), quan
 		np.ndarray: 1 dimension array, example shape: (256,)
 	"""
 	# Assertions
-	assert len(image.shape) == 2, f"Image must be 2D, got {image.shape}"
 	assert blob_size[0] < image.shape[0] and blob_size[1] < image.shape[1], f"Blob size must be smaller than the image, got {blob_size} and {image.shape}"
+
+	# If not grayscale, call the function for each channel
+	if len(image.shape) > 2:
+		histograms: list[np.ndarray] = [histogram_blob(image[i], blob_size, quantifiers, range, do_normalize) for i in range(image.shape[0])]
+		return np.concatenate(histograms)
 
 	# Compute the histogram using the blob
 	nb_classes: int = int((range[1] - range[0]) // range[2])	# (max-min) // step
@@ -153,8 +157,7 @@ from typing import Callable
 DESCRIPTORS_CALLS: dict[str, Callable] = {
 	# Histograms
 	"Histogram":			{"function":histogram_multi_channels, "args":{}},
-	"Histogram HSV/HSL":	{"function":histogram_hue_per_saturation, "args":{}},
-	"Histogram Blob":		{"function":histogram_blob_2D, "args":{}},
+	"Histogram Blob":		{"function":histogram_blob, "args":{}},
 
 	# Statistics (mean, median, std, Q1, Q3)
 	"Mean":					{"function":mean, "args":{}},

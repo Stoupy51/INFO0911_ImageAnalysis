@@ -15,6 +15,9 @@ from .indexation import *
 # Name every function
 from typing import Callable
 COLOR_SPACES_CALLS: dict[str, Callable] = {
+	# Classic
+	"RGB":									{"function":rgb_to_rgb, "args":{}},
+
 	# Grayscales
 	"Grayscale (average)":					{"function":rgb_to_grayscale_average, "args":{}},
 	"Grayscale (norm 709)":					{"function":rgb_to_grayscale_norm709, "args":{}},

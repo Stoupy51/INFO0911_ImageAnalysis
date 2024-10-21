@@ -5,19 +5,20 @@ import sys
 sys.path.append(os.path.dirname(__file__))
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from config import *
+from print import *
 
 # Imports
-import io
 import numpy as np
-import json
 from color_space.all import COLOR_SPACES_CALLS, img_to_sliced_rgb
-from descriptors import DESCRIPTORS_CALLS
+from descriptors import DESCRIPTORS_CALLS, histogram_hue_per_saturation
 from distances import DISTANCES_CALLS
 from PIL import Image
 from multiprocessing import Pool, cpu_count
-from print import *
+from typing import Callable
 
+# Constants
 DO_MULTI_PROCESSING: bool = cpu_count() > 4	# Use multiprocessing if more than 4 cores
+
 
 # Utility function to get clean cache filepath
 ALPHANUM = "abcdefghijklmnopqrstuvwxyz0123456789_/"
@@ -30,15 +31,16 @@ def clean_cache_path(image_path: str, **kwargs: dict) -> str:
 		str: Clean cache filepath
 	"""
 	# Get the color space and descriptor names
-	color_space: str = kwargs.get("color_space", "RGB") + str(kwargs.get("color_space_args", ""))
-	descriptor: str = kwargs.get("descriptor", "") + str(kwargs.get("descriptor_args", ""))
+	color_space: str = (kwargs.get("color_space", "RGB") + str(kwargs.get("color_space_args", ""))).replace('/', '_')
+	descriptor: str = (kwargs.get("descriptor", "") + str(kwargs.get("descriptor_args", ""))).replace('/', '_')
 
 	# Clean the image path and return the cache filepath
 	image_name = image_path.replace("\\","/").split("/")[-1].split(".")[0]
 	if descriptor:
-		return f"{DATABASE_FOLDER}/cache/" + "".join(c for c in f"{image_name}_{color_space}_{descriptor}".lower() if c in ALPHANUM) + ".json"
+		return f"{DATABASE_FOLDER}/cache/" + "".join(c for c in f"{image_name}_{color_space}_{descriptor}".lower() if c in ALPHANUM) + ".npz"
 	else:
 		return f"{DATABASE_FOLDER}/cache/" + "".join(c for c in f"{image_name}_{color_space}".lower() if c in ALPHANUM) + ".npz"
+
 
 # Function to apply the color space, descriptor, and compute the distance (optional)
 def thread_function(image_path: str, color_space: str, descriptor: str, distance: str, color_space_args: dict, descriptor_args: dict, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, float]:
@@ -58,6 +60,7 @@ def thread_function(image_path: str, color_space: str, descriptor: str, distance
 			float:			Distance between the image and the request
 	"""
 	image_path = image_path.replace("\\","/")
+	descriptor_function: Callable = DESCRIPTORS_CALLS[descriptor]["function"]
 	try:
 		# Get cache paths
 		cache_color_space: str = clean_cache_path(image_path, color_space=color_space, color_space_args=color_space_args)
@@ -68,13 +71,14 @@ def thread_function(image_path: str, color_space: str, descriptor: str, distance
 		if descriptor == "Histogram":
 			if color_space in ["YUV", "YIQ"]:
 				more_desc_args["ranges"] = [(0,256,1), (0,1,0.1), (0,1,0.1)]
+			elif color_space in ["HSV", "HSL"]:
+				descriptor_function = histogram_hue_per_saturation
 
 		# Apply the color space and descriptor to the image
 		if os.path.exists(cache_descriptor):
 
 			# Load the descriptor from the cache
-			with open(cache_descriptor, "r") as file:
-				image: np.ndarray = np.array(json.load(file))
+			image: np.ndarray = np.load(cache_descriptor, allow_pickle=True)["arr_0"]
 		else:
 			# Try to load the color space applied from the cache
 			if os.path.exists(cache_color_space):
@@ -87,15 +91,15 @@ def thread_function(image_path: str, color_space: str, descriptor: str, distance
 					image = image[0]
 				
 				# Save the color space applied to the cache
-				os.makedirs(os.path.dirname(cache_color_space), exist_ok=True)
-				np.savez_compressed(cache_color_space, image)
+				if color_space != "RGB":
+					os.makedirs(os.path.dirname(cache_color_space), exist_ok=True)
+					np.savez_compressed(cache_color_space, image)
 
-			image = DESCRIPTORS_CALLS[descriptor]["function"](image, **descriptor_args, **more_desc_args)
+			image = descriptor_function(image, **descriptor_args, **more_desc_args)
 
-			# # Save the descriptor applied to the cache
+			# Save the descriptor applied to the cache
 			os.makedirs(os.path.dirname(cache_descriptor), exist_ok=True)
-			with open(cache_descriptor, "w") as file:
-				json.dump(image.tolist(), file)
+			np.savez_compressed(cache_descriptor, image)
 
 		# Compute the distance between the images
 		distance_value: float = 0.0
