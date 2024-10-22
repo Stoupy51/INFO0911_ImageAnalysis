@@ -18,7 +18,7 @@ from typing import Callable
 
 # Constants
 DO_MULTI_PROCESSING: bool = cpu_count() > 4	# Use multiprocessing if more than 4 cores
-
+#DO_MULTI_PROCESSING = False
 
 # Utility function to get clean cache filepath
 ALPHANUM = "abcdefghijklmnopqrstuvwxyz0123456789_/"
@@ -84,11 +84,11 @@ def thread_function(image_path: str, color_space: str, descriptor: str, distance
 		if os.path.exists(cache_descriptor):
 
 			# Load the descriptor from the cache
-			image: np.ndarray = np.load(cache_descriptor, allow_pickle=True)["arr_0"]
+			image: np.ndarray = np.load(cache_descriptor, allow_pickle=False)["arr_0"]
 		else:
 			# Try to load the color space applied from the cache
 			if os.path.exists(cache_color_space):
-				image: np.ndarray = np.load(cache_color_space, allow_pickle=True)["arr_0"]
+				image: np.ndarray = np.load(cache_color_space, allow_pickle=False)["arr_0"]
 			else:
 				original_image: np.ndarray = np.array(Image.open(image_path).convert("RGB"))
 				image: np.ndarray = img_to_sliced_rgb(original_image)
@@ -99,13 +99,15 @@ def thread_function(image_path: str, color_space: str, descriptor: str, distance
 				# Save the color space applied to the cache
 				if color_space != "RGB":
 					os.makedirs(os.path.dirname(cache_color_space), exist_ok=True)
-					np.savez_compressed(cache_color_space, image)
+					if not os.path.exists(cache_color_space):
+						np.savez_compressed(cache_color_space, image)
 
 			image = descriptor_function(image, **descriptor_args, **more_desc_args)
 
 			# Save the descriptor applied to the cache
 			os.makedirs(os.path.dirname(cache_descriptor), exist_ok=True)
-			np.savez_compressed(cache_descriptor, image)
+			if not os.path.exists(cache_descriptor):
+				np.savez_compressed(cache_descriptor, image)
 
 		# Compute the distance between the images
 		distance_value: float = 0.0
