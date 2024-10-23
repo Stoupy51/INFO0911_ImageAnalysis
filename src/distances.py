@@ -79,6 +79,7 @@ DISTANCES_CALLS: dict[str, Callable] = {
 	"Euclidean (L2)":			distance_euclidean,
 	"Chebyshev":				distance_chebyshev,
 	"Minkowski":				distance_minkowski,
+	"Khi2":						distance_khi2,
 	"Histogram Intersection":	distance_histogram_intersection
 }
 

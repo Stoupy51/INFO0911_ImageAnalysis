@@ -70,9 +70,9 @@ def thread_function(image_path: str, color_space: str, descriptor: str, distance
 		more_desc_args: dict = {}
 		if descriptor == "Histogram":
 			if color_space in ["YUV", "YIQ"]:
-				more_desc_args["ranges"] = [(0,256,1), (0,1,0.1), (0,1,0.1)]
+				more_desc_args["ranges"] = [(0, 256, 1), (0, 1, 0.1), (0, 1, 0.1)]
 			elif color_space in ["HSV", "HSL"]:
-				descriptor_function = histogram_hue_per_saturation
+				more_desc_args["ranges"] = [(0, 360, 1), (0, 1, 0.1), (0, 1, 0.1)]
 			elif color_space == "CMYK":
 				more_desc_args["ranges"] = [(0, 1, 0.1)] * 4
 			elif color_space == "L*a*b":
