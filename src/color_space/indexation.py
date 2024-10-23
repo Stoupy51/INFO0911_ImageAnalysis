@@ -1,47 +1,44 @@
 
 # Imports
 import numpy as np
-
+from src.image import ImageData
 
 # Image indexation on a grayscale
-def indexed_single_channel(image: np.ndarray, levels: int = 8, range: tuple[float, float] = (0, 256)) -> np.ndarray:
+def indexed_single_channel(image: ImageData, levels: int = 8) -> ImageData:
 	""" Index an image to a specific number of levels\n
 	Args:
 		image	(np.ndarray):	Single image channel to quantify, example shape: (100, 100)
 		levels	(int):			Number of levels to quantize the image, default is 8
-		range	(tuple):		Range of the image, default is (0, 256)
 	Returns:
 		np.ndarray: Indexed image, example shape: (100, 100) with values between 0 and levels
 	"""
 	# Basic formula: floor(image / (256 / levels))
 	# Ex: 256 / 8 = 32 and 127 / 32 = 3.96875 -> 3
-	mini, maxi = range
+	mini, maxi = image.values_ranges[0][:2]	# Minimum and maximum values of the image
 	step = (maxi - mini) / levels	# Step size, ex: 256 / 8 = 32
-	return ((image - mini) // step).astype(int)
+	new_image: np.ndarray = ((image - mini) // step).astype(int)
+	return ImageData(new_image, f"Indexation ({levels})")
 
 
 # Image indexation on multiple channels
-def indexed_multi_channels(image: np.ndarray, levels: list[int] = [8, 8, 8], ranges: list[tuple] = 3*[(0, 256)]) -> np.ndarray:
+def indexed_multi_channels(img: ImageData, levels: list[int] = [8, 8, 8]) -> ImageData:
 	""" Index a multi channel image to a specific number of levels\n
 	Args:
-		image	(np.ndarray):	Multi channel image to quantify, example shape: (3, 100, 100)
+		img		(ImageData):	Multi channel image to quantify, example shape: (3, 100, 100)
 		levels	(list[int]):	Number of levels to quantize each channel, default is [8, 8, 8]
-		ranges	(list[tuple]):	Range of each channel, default is [(0, 256), (0, 256), (0, 256)]
 	Returns:
-		np.ndarray: Indexed image, example shape: (3, 100, 100) with values between 0 and levels
-		list[np.ndarray]: List of every indexed channel from the base image
+		ImageData: Indexed image, example shape: (3, 100, 100) with values between 0 and levels
 	"""
 	# Grayscale input
-	if len(image.shape) == 2:
-		return indexed_single_channel(image, levels[0], ranges[0])
+	if len(img.data.shape) == 2:
+		return indexed_single_channel(img, levels[0])
 
 	# Assertions
-	assert image.shape[0] == len(levels), "Number of levels must be equal to the number of channels"
-	assert image.shape[0] == len(ranges), "Number of ranges must be equal to the number of channels"
+	assert img.data.shape[0] == len(levels), "Number of levels must be equal to the number of channels"
 
 	# Index each channel
 	indexed_channels: list[np.ndarray] = [
-		indexed_single_channel(image[i], levels[i], ranges[i]) for i in range(image.shape[0])
+		indexed_single_channel(img[i], levels[i], ranges[i]) for i in range(image.shape[0])
 	]
 
 	# Combine the indexed channels (ex: 3D -> 2D for RGB)
