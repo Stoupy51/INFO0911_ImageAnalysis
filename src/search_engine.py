@@ -9,9 +9,10 @@ from print import *
 
 # Imports
 import numpy as np
-from color_space.all import COLOR_SPACES_CALLS, img_to_sliced_rgb
-from descriptors import DESCRIPTORS_CALLS, histogram_hue_per_saturation
-from distances import DISTANCES_CALLS
+from src.color_space.all import COLOR_SPACES_CALLS, img_to_sliced_rgb
+from src.descriptors import DESCRIPTORS_CALLS
+from src.distances import DISTANCES_CALLS
+from src.image import ImageData
 from PIL import Image
 from multiprocessing import Pool, cpu_count
 from typing import Callable
@@ -25,7 +26,7 @@ ALPHANUM = "abcdefghijklmnopqrstuvwxyz0123456789_/"
 def clean_cache_path(image_path: str, **kwargs: dict) -> str:
 	""" Get the clean cache filepath\n
 	Args:
-		image_path	(str):	Image path
+		image_path	(str):		Image path
 		kwargs		(dict):		Arguments for the color space and descriptor
 	Returns:
 		str: Clean cache filepath
@@ -60,59 +61,45 @@ def thread_function(image_path: str, color_space: str, descriptor: str, distance
 			float:			Distance between the image and the request
 	"""
 	image_path = image_path.replace("\\","/")
-	descriptor_function: Callable = DESCRIPTORS_CALLS[descriptor]["function"]
 	try:
 		# Get cache paths
 		cache_color_space: str = clean_cache_path(image_path, color_space=color_space, color_space_args=color_space_args)
 		cache_descriptor: str = clean_cache_path(image_path, color_space=color_space, color_space_args=color_space_args, descriptor=descriptor, descriptor_args=descriptor_args)
 
-		# Additional descriptor args (if any)
-		more_desc_args: dict = {}
-		if descriptor == "Histogram":
-			if color_space in ["YUV", "YIQ"]:
-				more_desc_args["ranges"] = [(0, 256, 1), (0, 1, 0.1), (0, 1, 0.1)]
-			elif color_space in ["HSV", "HSL"]:
-				more_desc_args["ranges"] = [(0, 360, 1), (0, 1, 0.1), (0, 1, 0.1)]
-			elif color_space == "CMYK":
-				more_desc_args["ranges"] = [(0, 1, 0.1)] * 4
-			elif color_space == "L*a*b":
-				more_desc_args["ranges"] = [(0, 100, 1), (-128, 128, 1), (-128, 128, 1)]
-			elif color_space == "L*u*v":
-				more_desc_args["ranges"] = [(0, 100, 1), (-134, 220, 1), (-140, 122, 1)]
-
 		# Apply the color space and descriptor to the image
 		if os.path.exists(cache_descriptor):
 
 			# Load the descriptor from the cache
-			image: np.ndarray = np.load(cache_descriptor, allow_pickle=False)["arr_0"]
+			data: np.ndarray = np.load(cache_descriptor, allow_pickle=False)["arr_0"]
+			img: ImageData = ImageData(data, "Descriptor")
 		else:
 			# Try to load the color space applied from the cache
 			if os.path.exists(cache_color_space):
-				image: np.ndarray = np.load(cache_color_space, allow_pickle=False)["arr_0"]
+				data: np.ndarray = np.load(cache_color_space, allow_pickle=False)["arr_0"]
+				img: ImageData = ImageData(data, color_space)
 			else:
 				original_image: np.ndarray = np.array(Image.open(image_path).convert("RGB"))
-				image: np.ndarray = img_to_sliced_rgb(original_image)
-				image = COLOR_SPACES_CALLS[color_space]["function"](image, **color_space_args)
-				if type(image) == tuple:
-					image = image[0]
+				data: np.ndarray = img_to_sliced_rgb(original_image)
+				img: ImageData = ImageData(data, "RGB")
+				img = COLOR_SPACES_CALLS[color_space]["function"](img, **color_space_args)
 				
 				# Save the color space applied to the cache
 				if color_space != "RGB":
 					os.makedirs(os.path.dirname(cache_color_space), exist_ok=True)
 					if not os.path.exists(cache_color_space):
-						np.savez_compressed(cache_color_space, image)
+						np.savez_compressed(cache_color_space, img.data)
 
-			image = descriptor_function(image, **descriptor_args, **more_desc_args)
+			img = DESCRIPTORS_CALLS[descriptor]["function"](img, **descriptor_args)
 
 			# Save the descriptor applied to the cache
 			os.makedirs(os.path.dirname(cache_descriptor), exist_ok=True)
 			if not os.path.exists(cache_descriptor):
-				np.savez_compressed(cache_descriptor, image)
+				np.savez_compressed(cache_descriptor, img.data)
 
 		# Compute the distance between the images
 		distance_value: float = 0.0
-		if to_compare is not None:
-			distance_value = DISTANCES_CALLS[distance](image, to_compare)
+		if distance is not None and to_compare is not None:
+			distance_value = DISTANCES_CALLS[distance](img.data, to_compare)
 
 		# Return the path, image and distance
 		if verbose:
@@ -149,14 +136,13 @@ def search(image_request: np.ndarray, color_space: str, descriptor: str, distanc
 	ds: dict = DESCRIPTORS_CALLS[descriptor]
 	ds_args: dict = ds.get("args", {})
 	image_request = img_to_sliced_rgb(image_request)
-	image_request = cs["function"](image_request, **cs_args)
-	if type(image_request) == tuple:
-		image_request = image_request[0]
-	image_request = ds["function"](image_request, **ds_args)
+	img: ImageData = ImageData(image_request, "RGB")
+	img = cs["function"](img, **cs_args)
+	img = ds["function"](img, **ds_args)
 
 	# Apply the color space and descriptor to the images, then compute the distance
 	images_paths: list[str] = [f"{root}/{file}" for root, _, files in os.walk(DATABASE_FOLDER) for file in files if file.endswith(IMAGE_EXTENSIONS)]
-	thread_args: list[tuple] = [(image_path, color_space, descriptor, distance, cs_args, ds_args, image_request) for image_path in images_paths]
+	thread_args: list[tuple] = [(image_path, color_space, descriptor, distance, cs_args, ds_args, img.data) for image_path in images_paths]
 	if DO_MULTI_PROCESSING:
 		with Pool(cpu_count()) as pool:
 			debug(f"Using {cpu_count()} processes for the search engine")
@@ -185,7 +171,7 @@ def offline_cache_compute() -> None:
 				cs_args: dict = cs.get("args", {})
 				ds: dict = DESCRIPTORS_CALLS[descriptor]
 				ds_args: dict = ds.get("args", {})
-				thread_args.append((image_path, color_space, descriptor, "", cs_args, ds_args))
+				thread_args.append((image_path, color_space, descriptor, None, cs_args, ds_args))
 	
 	# Compute the cache (using multiprocessing if available)
 	if DO_MULTI_PROCESSING:

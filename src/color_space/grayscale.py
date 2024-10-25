@@ -21,7 +21,7 @@ def rgb_to_grayscale_norm709(img: ImageData) -> ImageData:
 	Returns:
 		(ImageData): Grayscale image (2D array)
 	"""
-	return ImageData(np.sum(img * NORM709, axis=0), "Grayscale (norm 709)")
+	return ImageData(np.sum(img.data * NORM709, axis=0), "Grayscale (norm 709)")
 
 # RGB to Grayscale (norm 601)
 def rgb_to_grayscale_norm601(img: ImageData) -> ImageData:
@@ -31,5 +31,5 @@ def rgb_to_grayscale_norm601(img: ImageData) -> ImageData:
 	Returns:
 		(ImageData): Grayscale image (2D array)
 	"""
-	return ImageData(np.sum(img * NORM601, axis=0), "Grayscale (norm 601)")
+	return ImageData(np.sum(img.data * NORM601, axis=0), "Grayscale (norm 601)")
 

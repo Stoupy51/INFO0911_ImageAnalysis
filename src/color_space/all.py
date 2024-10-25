@@ -16,7 +16,7 @@ from .indexation import *
 from typing import Callable
 COLOR_SPACES_CALLS: dict[str, Callable] = {
 	# Classic
-	"RGB":									{"function":rgb_to_rgb, "args":{}},
+	"RGB":									{"function":same_color_space, "args":{}},
 
 	# Grayscales
 	"Grayscale (average)":					{"function":rgb_to_grayscale_average, "args":{}},

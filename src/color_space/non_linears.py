@@ -5,17 +5,17 @@ from .common import *
 # RGB to HSL, HSV, CMYK, L*a*b, L*u*v		(combinaisons non-linéaires)
 
 # RGB to HSL
-def rgb_to_hsl(image: np.ndarray) -> np.ndarray:
+def rgb_to_hsl(img: ImageData) -> ImageData:
 	""" Convert an RGB image to HSL color space\n
 	Args:
-		image	(np.ndarray):	RGB image (3D array)
+		img		(ImageData):	RGB image (3D array)
 	Returns:
-		(np.ndarray): HSL image (3D array)
+		(ImageData): HSL image (3D array)
 	Source:
 		https://www.rapidtables.com/convert/color/rgb-to-hsl.html
 	"""
 	# Normalize the image
-	normalized: np.ndarray = image / 255
+	normalized: np.ndarray = img.data / 255
 
 	# Get the maximum and minimum values
 	Cmax: np.ndarray = np.max(normalized, axis=0)
@@ -37,20 +37,20 @@ def rgb_to_hsl(image: np.ndarray) -> np.ndarray:
 	h = (h * 60) % 360	# Convert to degrees
 
 	# Return the HSL image
-	return np.stack((h, s, l), axis=0)
+	return ImageData(np.stack((h, s, l), axis=0), "HSL")
 
 # HSL to RGB
-def hsl_to_rgb(image: np.ndarray) -> np.ndarray:
+def hsl_to_rgb(img: ImageData) -> ImageData:
 	""" Convert an HSL image to RGB color space\n
 	Args:
-		image	(np.ndarray):	HSL image (3D array)
+		img		(ImageData):	HSL image (3D array)
 	Returns:
-		(np.ndarray): RGB image (3D array)
+		(ImageData): RGB image (3D array)
 	Source:
 		https://www.rapidtables.com/convert/color/hsl-to-rgb.html
 	"""
 	# Unpack the image
-	h, s, l = image
+	h, s, l = img.data
 
 	# Pre-calculations
 	C: np.ndarray = (1 - np.abs(2 * l - 1)) * s
@@ -86,21 +86,21 @@ def hsl_to_rgb(image: np.ndarray) -> np.ndarray:
 	b += m
 
 	# Return the RGB image
-	return np.stack((r, g, b), axis=0) * 255
+	return ImageData(np.stack((r, g, b), axis=0) * 255, "RGB")
 
 
 # RGB to HSV
-def rgb_to_hsv(image: np.ndarray) -> np.ndarray:
+def rgb_to_hsv(img: ImageData) -> ImageData:
 	""" Convert an RGB image to HSV color space\n
 	Args:
-		image	(np.ndarray):	RGB image (3D array)
+		image	(ImageData):	RGB image (3D array)
 	Returns:
-		(np.ndarray): HSV image (3D array)
+		(ImageData): HSV image (3D array)
 	Source:
 		https://www.rapidtables.com/convert/color/rgb-to-hsv.html
 	"""
 	# Normalize the image
-	normalized: np.ndarray = image / 255
+	normalized: np.ndarray = img.data / 255
 
 	# Get the maximum and minimum values
 	Cmax: np.ndarray = np.max(normalized, axis=0)
@@ -123,20 +123,20 @@ def rgb_to_hsv(image: np.ndarray) -> np.ndarray:
 	v: np.ndarray = Cmax
 
 	# Return the HSV image
-	return np.stack((h, s, v), axis=0)
+	return ImageData(np.stack((h, s, v), axis=0), "HSV")
 
 # HSV to RGB
-def hsv_to_rgb(image: np.ndarray) -> np.ndarray:
+def hsv_to_rgb(img: ImageData) -> ImageData:
 	""" Convert an HSV image to RGB color space\n
 	Args:
-		image	(np.ndarray):	HSV image (3D array)
+		img		(ImageData):	HSV image (3D array)
 	Returns:
-		(np.ndarray): RGB image (3D array)
+		(ImageData): RGB image (3D array)
 	Source:
 		https://www.rapidtables.com/convert/color/hsv-to-rgb.html
 	"""
 	# Unpack the image
-	h, s, v = image
+	h, s, v = img.data
 
 	# Pre-calculations
 	C: np.ndarray = v * s
@@ -172,21 +172,21 @@ def hsv_to_rgb(image: np.ndarray) -> np.ndarray:
 	b += m
 
 	# Return the RGB image
-	return np.stack((r, g, b), axis=0) * 255
+	return ImageData(np.stack((r, g, b), axis=0) * 255, "RGB")
 
 
 # RGB to CMYK
-def rgb_to_cmyk(image: np.ndarray) -> np.ndarray:
+def rgb_to_cmyk(img: ImageData) -> ImageData:
 	""" Convert an RGB image to CMYK color space\n
 	Args:
-		image	(np.ndarray):	RGB image (3D array)
+		img		(ImageData):	RGB image (3D array)
 	Returns:
-		(np.ndarray): CMYK image (3D array with 4 channels, shape=(4, height, width))
+		(ImageData): CMYK image (3D array with 4 channels, shape=(4, height, width))
 	Source:
 		https://www.rapidtables.com/convert/color/rgb-to-cmyk.html
 	"""
 	# Normalize the image
-	normalized: np.ndarray = image / 255
+	normalized: np.ndarray = img.data / 255
 
 	# Black key calculation
 	k: np.ndarray = 1 - np.max(normalized, axis=0)
@@ -197,20 +197,20 @@ def rgb_to_cmyk(image: np.ndarray) -> np.ndarray:
 	y: np.ndarray = (1 - normalized[2] - k) / (1 - k)	# Based on blue
 
 	# Return the CMYK image
-	return np.stack((c, m, y, k), axis=0)
+	return ImageData(np.stack((c, m, y, k), axis=0), "CMYK")
 
 # CMYK to RGB
-def cmyk_to_rgb(image: np.ndarray) -> np.ndarray:
+def cmyk_to_rgb(img: ImageData) -> ImageData:
 	""" Convert an CMYK image to RGB color space\n
 	Args:
-		image	(np.ndarray):	CMYK image (3D array with 4 channels, shape=(4, height, width))
+		img		(ImageData):	CMYK image (3D array with 4 channels, shape=(4, height, width))
 	Returns:
-		(np.ndarray): RGB image (3D array)
+		(ImageData): RGB image (3D array)
 	Source:
 		https://www.rapidtables.com/convert/color/cmyk-to-rgb.html
 	"""
 	# Unpack the image
-	c, m, y, k = image
+	c, m, y, k = img.data
 
 	# RGB calculation
 	r: np.ndarray = 255 * (1 - c) * (1 - k)
@@ -218,23 +218,23 @@ def cmyk_to_rgb(image: np.ndarray) -> np.ndarray:
 	b: np.ndarray = 255 * (1 - y) * (1 - k)
 
 	# Return the RGB image
-	return np.stack((r, g, b), axis=0)
+	return ImageData(np.stack((r, g, b), axis=0), "RGB")
 
 
 # RGB to CIELAB
-def rgb_to_lab(image: np.ndarray, illuminant: str = 'D65') -> np.ndarray:
+def rgb_to_lab(img: ImageData, illuminant: str = 'D65') -> ImageData:
 	""" Convert an RGB image to CIELAB color space\n
 	Args:
-		image		(np.ndarray):	RGB image (3D array)
+		img			(ImageData):	RGB image (3D array)
 		illuminant	(str):			White point illuminant, either 'D65' or 'D50' (default: 'D65')
 	Returns:
-		(np.ndarray): CIELAB image (3D array)
+		(ImageData): CIELAB image (3D array)
 	Sources:
 		https://en.wikipedia.org/wiki/SRGB#From_sRGB_to_CIE_XYZ					(RGB to CIEXYZ)
 		https://en.wikipedia.org/wiki/CIELAB_color_space#From_CIEXYZ_to_CIELAB	(CIEXYZ to CIELAB)
 	"""
 	# Normalize the image
-	normalized: np.ndarray = image / 255
+	normalized: np.ndarray = img.data / 255
 
 	# RGB to CIEXYZ
 	xyz: np.ndarray = np.dot(normalized.T, RGB_TO_XYZ_MATRIX.T).T
@@ -262,22 +262,22 @@ def rgb_to_lab(image: np.ndarray, illuminant: str = 'D65') -> np.ndarray:
 	)	
 
 	# Return the CIELAB image
-	return np.stack((l, a, b), axis=0)
+	return ImageData(np.stack((l, a, b), axis=0), "L*a*b")
 
 # CIELAB to RGB
-def lab_to_rgb(image: np.ndarray, illuminant: str = 'D65') -> np.ndarray:
+def lab_to_rgb(img: ImageData, illuminant: str = 'D65') -> ImageData:
 	""" Convert an CIELAB image to RGB color space\n
 	Args:
-		image		(np.ndarray):	CIELAB image (3D array)
+		img			(ImageData):	CIELAB image (3D array)
 		illuminant	(str):			White point illuminant, either 'D65' or 'D50' (default: 'D65')
 	Returns:
-		(np.ndarray): RGB image (3D array)
+		(ImageData): RGB image (3D array)
 	Sources:
 		https://en.wikipedia.org/wiki/CIELAB_color_space#From_CIELAB_to_CIEXYZ	(CIELAB to CIEXYZ)
 		https://en.wikipedia.org/wiki/SRGB#From_CIE_XYZ_to_sRGB					(CIEXYZ to RGB)
 	"""
 	# Unpack the image
-	l, a, b = image
+	l, a, b = img.data
 
 	## CIELAB to CIEXYZ
 	# Y calculation
@@ -302,22 +302,22 @@ def lab_to_rgb(image: np.ndarray, illuminant: str = 'D65') -> np.ndarray:
 	rgb: np.ndarray = np.dot(xyz.T, XYZ_TO_RGB_MATRIX.T).T
 
 	# Return the RGB image
-	return rgb * 255
+	return ImageData(rgb * 255, "RGB")
 
 
 # RGB to CIELUV
-def rgb_to_luv(image: np.ndarray, illuminant: str = 'D65') -> np.ndarray:
+def rgb_to_luv(img: ImageData, illuminant: str = 'D65') -> ImageData:
 	""" Convert an RGB image to CIELUV color space\n
 	Args:
-		image		(np.ndarray):	RGB image (3D array)
+		img			(ImageData):	RGB image (3D array)
 		illuminant	(str):			White point illuminant, either 'D65' or 'D50' (default: 'D65')
 	Returns:
-		(np.ndarray): CIELUV image (3D array)
+		(ImageData): CIELUV image (3D array)
 	Sources:
 		https://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
 	"""
 	# Normalize the image
-	normalized: np.ndarray = image / 255
+	normalized: np.ndarray = img.data / 255
 
 	# RGB to CIEXYZ
 	xyz: np.ndarray = np.dot(normalized.T, RGB_TO_XYZ_MATRIX.T).T
@@ -347,21 +347,21 @@ def rgb_to_luv(image: np.ndarray, illuminant: str = 'D65') -> np.ndarray:
 	v: np.ndarray = 13 * l * (v_prime - v_prime_n)
 
 	# Return the CIELUV image
-	return np.stack((l, u, v), axis=0)
+	return ImageData(np.stack((l, u, v), axis=0), "L*u*v")
 
 # CIELUV to RGB
-def luv_to_rgb(image: np.ndarray, illuminant: str = 'D65') -> np.ndarray:
+def luv_to_rgb(img: ImageData, illuminant: str = 'D65') -> ImageData:
 	""" Convert an CIELUV image to RGB color space\n
 	Args:
-		image		(np.ndarray):	CIELUV image (3D array)
+		img			(ImageData):	CIELUV image (3D array)
 		illuminant	(str):			White point illuminant, either 'D65' or 'D50' (default: 'D65')
 	Returns:
-		(np.ndarray): RGB image (3D array)
+		(ImageData): RGB image (3D array)
 	Sources:
 		https://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
 	"""
 	# Unpack the image
-	l, u, v = image
+	l, u, v = img.data
 
 	## CIELUV to CIEXYZ
 	# u'n and v'n calculation
@@ -387,5 +387,5 @@ def luv_to_rgb(image: np.ndarray, illuminant: str = 'D65') -> np.ndarray:
 	rgb: np.ndarray = np.dot(xyz.T, XYZ_TO_RGB_MATRIX.T).T
 
 	# Return the RGB image
-	return rgb * 255
+	return ImageData(rgb * 255, "RGB")
 

@@ -1,14 +1,25 @@
 
 # Imports
+from __future__ import annotations
 import numpy as np
-
 
 # TODO <--- USE THIS SHIT
 class ImageData(object):
 	
-	def __init__(self, img: np.ndarray, color_space: str):
+	def __init__(self, img: np.ndarray, color_space: str, channel: int|None = None):
+		""" ImageData constructor\n
+		Args:
+			img			(np.ndarray):	Numpy 2D or 3D array containing the image
+			color_space	(str):			Used color space, ex: "RGB", "HSV", "Indexation (8,8,8)"
+			channel		(int|None):		Used for 2D image to precise why values_range to pick.
+		"""
 		self.data: np.ndarray = img
 		self.color_space: str = color_space
+		self.channel = channel
+
+		# If not 3D and no channel provided, default to 0
+		if channel is None and len(self.data.shape) < 3:
+			self.channel = 0
 
 	@property
 	def values_ranges(self) -> list[tuple[float, float, float]]:
@@ -19,31 +30,51 @@ class ImageData(object):
 				maximum	(float):	Maximum value in the image + 1 (for the range)
 				step	(float):	Step size for the values
 		"""
-		values_ranges: list[tuple[float,float,float]] = [(0, 256, 1)] * 3
 		if self.color_space in ["YUV", "YIQ"]:
-			values_ranges = [(0, 256, 1), (0, 1, 0.1), (0, 1, 0.1)]
+			return [(0, 256, 1), (0, 1, 0.1), (0, 1, 0.1)]
+		elif "RGB" in self.color_space and "ormaliz" in self.color_space:
+			return [(0, 1, 1/256)] * 3
 		elif self.color_space in ["HSV", "HSL"]:
-			values_ranges = [(0, 360, 1), (0, 1, 0.1), (0, 1, 0.1)]
+			return [(0, 360, 1), (0, 1, 0.1), (0, 1, 0.1)]
 		elif self.color_space == "CMYK":
-			values_ranges = [(0, 1, 0.1)] * 4
+			return [(0, 1, 0.1)] * 4
 		elif self.color_space == "L*a*b":
-			values_ranges = [(0, 100, 1), (-128, 128, 1), (-128, 128, 1)]
+			return [(0, 100, 1), (-128, 128, 1), (-128, 128, 1)]
 		elif self.color_space == "L*u*v":
-			values_ranges = [(0, 100, 1), (-134, 220, 1), (-140, 122, 1)]
+			return [(0, 100, 1), (-134, 220, 1), (-140, 122, 1)]
 		elif "Indexation" in self.color_space:
-			# Get the maximum values from the color space string 'Indexation (8,8,8)'
+			# Extract '8,8,8' from 'Indexation (8,8,8)'
 			maxi: list[str] = self.color_space.split('(')[1].split(')')[0].split(',')
-			values_ranges = []
+			ranges = []
 			for i in range(len(maxi)):
-				values_ranges.append((0, int(maxi[i]), 1))
+				ranges.append( (0, int(maxi[i]), 1) )
+			return ranges
 
-		# If 2D, return only the first range
-		if len(self.data.shape) == 2:
-			values_ranges = [values_ranges[0]]
+		# RGB like
+		return [(0, 256, 1)] * self.data.shape[0]
 
-		return values_ranges
+	@property
+	def range(self) -> tuple[float, float, float]:
+		""" Get the range of the values in the image depending on the color space\n
+		Returns:
+			tuple: a tuple with the following format:
+				minimum	(float):	Minimum value in the image
+				maximum	(float):	Maximum value in the image + 1 (for the range)
+				step	(float):	Step size for the values
+		"""
+		if self.channel is None:
+			raise ValueError("ImageData.range: 3D image, please provide a channel or use ImageData.values_ranges")
+		return self.values_ranges[self.channel]
 
-	# TODO: color_space[i]
-	def __getitem__(self, i: int) -> "ImageData":
-		return ImageData(self.data[i], self.color_space)
+	@property
+	def shape(self) -> tuple[int, ...]:
+		""" Get the shape of the image\n
+		Returns:
+			tuple: Shape of the image
+		"""
+		return self.data.shape
+
+	# Get a specific channel from the image
+	def __getitem__(self, i: int) -> ImageData:
+		return ImageData(self.data[i], self.color_space, channel=i)
 

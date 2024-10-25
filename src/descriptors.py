@@ -1,96 +1,99 @@
 
 # Imports
 import numpy as np
+from src.image import ImageData
 from scipy.ndimage import convolve, prewitt, sobel
 
 # Histogram on a grayscale
-def histogram_single_channel(image: np.ndarray, value_range: tuple[float] = (0,256,1), do_normalize: bool = True) -> np.ndarray:
+def histogram_single_channel(img: ImageData, do_normalize: bool = True) -> ImageData:
 	""" Compute the histogram vector of a single channel image.\n
 	Args:
-		image			(np.ndarray):	Single channel image, example shape: (100, 100)
-		value_range		(tuple):		Range of the histogram, default is (0, 256, 1)
+		img				(ImageData):	Single channel image, example shape: (100, 100)
 		do_normalize	(bool):			Normalize the histogram vector (sum to 1), default is True
 	Returns:
-		np.ndarray: 1 dimension array, example shape: (256,)
+		ImageData: 1 dimension array, example shape: (256,)
 	"""
+	value_range: tuple[float,float,float] = img.range
 	nb_classes: int = int((value_range[1] - value_range[0]) // value_range[2])
-	histogram: np.ndarray = np.histogram(image.flatten(), bins=nb_classes, range=value_range[:2])[0]
+	histogram: np.ndarray = np.histogram(img.data.flatten(), bins=nb_classes, range=value_range[:2])[0]
 	if do_normalize:
 		histogram = histogram / np.sum(histogram)
-	return histogram
+	return ImageData(histogram, img.color_space, img.channel)
 
 # Histogram on multiple channels
-def histogram_multi_channels(image: np.ndarray, ranges: list[tuple[float]] = 3*[(0,256,1)], do_normalize: bool = True) -> np.ndarray:
+def histogram_multi_channels(img: ImageData, do_normalize: bool = True) -> ImageData:
 	""" Compute the histogram vector of a multi channel image.\n
 	Args:
-		image			(np.ndarray):	Multi channel image, example shape: (3, 100, 100)
+		img				(ImageData):	Multi channel image, example shape: (3, 100, 100)
 		ranges			(list[tuple]):	Range of the histogram for each channel, default is [(0,256,1), (0,256,1), (0,256,1)]
 		do_normalize	(bool):			Normalize the histogram vector (sum to 1), default is True
 	Returns:
 		np.ndarray: 1 dimension array, example shape: (256*3,)
 	"""
 	# Grayscale input
-	if len(image.shape) == 2:
-		return histogram_single_channel(image, ranges[0], do_normalize)
-	histograms: list[np.ndarray] = [histogram_single_channel(image[i], ranges[i], do_normalize) for i in range(image.shape[0])]
-	return np.concatenate(histograms)
+	if len(img.shape) == 2:
+		return histogram_single_channel(img, do_normalize)
+	histograms: list[np.ndarray] = [histogram_single_channel(img[i], do_normalize).data for i in range(img.shape[0])]
+	return ImageData(np.concatenate(histograms), img.color_space, img.channel)
 
 # Histogram on HSV or HSL
-def histogram_hue_per_saturation(image: np.ndarray, do_normalize: bool = True) -> np.ndarray:
+def histogram_hue_per_saturation(img: ImageData, do_normalize: bool = True) -> ImageData:
 	""" Compute the histogram vector of a multi channel image.\n
 	Args:
-		image			(np.ndarray):	HSV or HSL image, example shape: (3, 100, 100)
+		img				(ImageData):	HSV or HSL image, example shape: (3, 100, 100)
 		do_normalize	(bool):			Normalize the histogram vector (sum to 1), default is True
 	Returns:
 		np.ndarray: 1 dimension array, example shape: (360)
 	"""
 	# Assertions
-	assert image.shape[0] == 3, "Image must be in HSV or HSL format"
-	assert len(image.shape) == 3, "Image must be 3D"
+	assert img.shape[0] == 3, "Image must be in HSV or HSL format"
+	assert len(img.shape) == 3, "Image must be 3D"
 	
 	# Get the hue and saturation channels
-	hue: np.ndarray = image[0]
-	saturation: np.ndarray = image[1]
+	hue: ImageData = img[0]
+	saturation: ImageData = img[1]
 	
 	# Compute the histogram
 	histogram: np.ndarray = np.zeros((360,))
-	for i in range(image.shape[1]):
-		for j in range(image.shape[2]):
-			histogram[int(hue[i,j])] += saturation[i,j]
+	for i in range(img.shape[1]):
+		for j in range(img.shape[2]):
+			histogram[int(hue.data[i,j])] += saturation.data[i,j]
 	
 	# Normalize the histogram
 	if do_normalize:
 		histogram = histogram / np.sum(histogram)
-	return histogram
+	return ImageData(histogram, img.color_space, img.channel)
 
-# Blob histogram #TODO: MODIFIER LA VALUE_RANGE POUR LA VRAIE RANGE VENANT DU PREVIOUS COLOR_SPACE
-def histogram_blob(image: np.ndarray, blob_size: tuple[int,int] = (4,4), quantifiers: int = 4, value_range: tuple[float,float,float] = (0,256,1), do_normalize: bool = True) -> np.ndarray:
+# Blob histogram
+def histogram_blob(img: ImageData, blob_size: tuple[int,int] = (4,4), quantifiers: int = 4, do_normalize: bool = True) -> np.ndarray:
 	""" Compute the histogram vector of a 2D image with blobs.\n
 	Warning: This is a very slow function!\n
 	Args:
-		image			(np.ndarray):	2D image, example shape: (100, 100)
+		img				(ImageData):	2D image, example shape: (100, 100)
 		blob_size		(tuple):		Size of the blob, default is (4, 4)
 		quantifiers		(int):			Number of classes for the histogram, default is 4 (ex: 0-25%, 2-50%, ...)
-		value_range		(tuple):		Range of the small histogram, default is (0, 256, 1)
 		do_normalize	(bool):			Normalize the histogram vector (sum to 1), default is True
 	Returns:
 		np.ndarray: 1 dimension array, example shape: (256,)
 	"""
 	# If not grayscale, call the function for each channel
-	if len(image.shape) > 2:
-		histograms: list[np.ndarray] = [histogram_blob(image[i], blob_size, quantifiers, value_range, do_normalize) for i in range(image.shape[0])]
-		return np.concatenate(histograms)
+	if len(img.shape) > 2:
+		histograms: list[np.ndarray] = [histogram_blob(img[i], blob_size, quantifiers, do_normalize).data for i in range(img.shape[0])]
+		return ImageData(np.concatenate(histograms), img.color_space, img.channel)
 
 	# Assertions
-	assert blob_size[0] < image.shape[0] and blob_size[1] < image.shape[1], f"Blob size must be smaller than the image, got {blob_size} and {image.shape}"
+	assert blob_size[0] < img.shape[0] and blob_size[1] < img.shape[1], f"Blob size must be smaller than the image, got {blob_size} and {img.shape}"
+
+	# Get value_range
+	value_range: tuple[int, ...] = img.range
 
 	# Compute the histogram using the blob
 	nb_classes: int = int((value_range[1] - value_range[0]) // value_range[2])	# (max-min) // step
-	value_range_2: tuple[float] = (value_range[0], value_range[1])
+	value_range_2: tuple[float, float] = (value_range[0], value_range[1])
 	histogram: np.ndarray = np.zeros((nb_classes, quantifiers))
-	for i in range(0, image.shape[0] - blob_size[0]):
-		for j in range(0, image.shape[1] - blob_size[1]):
-			blob: np.ndarray = image[i:i+blob_size[0], j:j+blob_size[1]]
+	for i in range(0, img.shape[0] - blob_size[0]):
+		for j in range(0, img.shape[1] - blob_size[1]):
+			blob: np.ndarray = img.data[i:i+blob_size[0], j:j+blob_size[1]]
 
 			# Compute the histogram of the blob
 			#blob_h: np.ndarray = histogram_single_channel(blob, value_range, do_normalize=True)
@@ -107,7 +110,7 @@ def histogram_blob(image: np.ndarray, blob_size: tuple[int,int] = (4,4), quantif
 	# Normalize the histogram and return it
 	if do_normalize:
 		histogram = histogram / np.sum(histogram)
-	return histogram.flatten()
+	return ImageData(histogram.flatten(), img.color_space, img.channel)
 
 
 ## Formes
@@ -177,22 +180,22 @@ def compute_dx_dy(image: np.ndarray, filter_name: str, crop: bool = True) -> tup
 
 
 ## Textures
-def statistics(image: np.ndarray) -> np.ndarray:
+def statistics(img: ImageData) -> ImageData:
 	""" Compute the statistics of the image.\n
 	Args:
-		image	(np.ndarray):	Image
+		img		(ImageData):	Image
 	Returns:
-		np.ndarray: Array of statistics (mean, median, std, min, max, Q1, Q3)
+		ImageData: Array of statistics (mean, median, std, min, max, Q1, Q3)
 	"""
-	return np.array([
-		np.mean(image),
-		np.median(image),
-		np.std(image),
-		np.min(image),
-		np.max(image),
-		np.percentile(image, 25),
-		np.percentile(image, 75),
-	])
+	return ImageData(np.array([
+		np.mean(img.data),
+		np.median(img.data),
+		np.std(img.data),
+		np.min(img.data),
+		np.max(img.data),
+		np.percentile(img.data, 25),
+		np.percentile(img.data, 75),
+	]), "Statistics")
 
 
 
