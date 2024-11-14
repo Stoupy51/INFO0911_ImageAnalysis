@@ -1,7 +1,6 @@
-
 ## Imports
 from search_engine import search, COLOR_SPACES_CALLS, DESCRIPTORS_CALLS, DISTANCES_CALLS
-from shiny import ui
+from shiny import ui, reactive
 
 # Constants
 CHOOSE_COLOR_SPACE: dict[str, str] = {k: k.replace('_',' ').title() for k in COLOR_SPACES_CALLS.keys()}
@@ -37,6 +36,9 @@ app_ui: ui.Tag = ui.page_fluid(
 
 			# Image upload
 			ui.input_file("image_upload", "Load image(s)", multiple=True, accept=[".png", ".jpg", ".jpeg"]),
+
+			# Search button
+			ui.input_action_button("search_button", "Rechercher", class_="btn-primary"),
 		),
 		
 		# Section d'affichage
@@ -96,6 +98,7 @@ def server_routine(input: Session, output: Session, app_session: Session) -> Non
 	# Affiche les images de sortie
 	@output
 	@render.plot
+	@reactive.event(input.search_button)  # Only trigger when search button is clicked
 	def output_images_plot():
 		# Get the inputs for the search engine
 		images: list[dict] = input.image_upload()
