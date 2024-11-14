@@ -21,8 +21,13 @@ app_ui: ui.Tag = ui.page_fluid(
 			# Color space selection
 			ui.input_select(id="color_space", label="Type d'espace de couleur", choices=CHOOSE_COLOR_SPACE),
 
-			# Descriptors selection
-			ui.input_select(id="descriptor", label="Type de descripteur", choices=CHOOSE_DESCRIPTORS),
+			# Multiple descriptors selection
+			ui.input_selectize(
+				id="descriptors",
+				label="Types de descripteurs (dans l'ordre)",
+				choices=CHOOSE_DESCRIPTORS,
+				multiple=True
+			),
 			
 			# Distance selection
 			ui.input_select(id="distance", label="Type de distance", choices=CHOOSE_DISTANCE),
@@ -99,12 +104,22 @@ def server_routine(input: Session, output: Session, app_session: Session) -> Non
 		image: Image.Image = Image.open(images[0]['datapath']).convert("RGB")
 		image_request: np.ndarray = np.array(image)
 		color_space: str = input.color_space()
-		descriptor: str = input.descriptor()
+		descriptors: list[str] = input.descriptors()
 		distance: str = input.distance()
 		max_results: int = input.nb_reponses()
+		
+		# If not enough parameters, return None
+		if not color_space or not descriptors or not distance:
+			return None
 
 		# Search for similar images
-		results: list[tuple[str, np.ndarray, float]] = search(image_request, color_space, descriptor, distance, max_results)
+		results: list[tuple[str, np.ndarray, float]] = search(
+			image_request, 
+			color_space, 
+			descriptors,
+			distance, 
+			max_results
+		)
 
 		# Prepare the plot
 		MAX_PER_ROW: int = 5
