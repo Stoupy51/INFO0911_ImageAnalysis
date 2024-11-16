@@ -46,7 +46,7 @@ def histogram_hue_per_saturation(img: ImageData, do_normalize: bool = True) -> I
 		np.ndarray: 1 dimension array, example shape: (360)
 	"""
 	# Assertions
-	assert img.shape[0] == 3, "Image must be in HSV or HSL format"
+	assert img.color_space in ["HSV", "HSL"], "Image must be in HSV or HSL format"
 	assert len(img.shape) == 3, "Image must be 3D"
 	
 	# Get the hue and saturation channels
@@ -98,10 +98,15 @@ def histogram_blob(img: ImageData, blob_size: tuple[int,int] = (4,4), quantifier
 			# Compute the histogram of the blob
 			#blob_h: np.ndarray = histogram_single_channel(blob, value_range, do_normalize=True)
 			blob_h: np.ndarray = np.histogram(blob.flatten(), bins=nb_classes, range=value_range_2)[0]
-			blob_h = blob_h / np.sum(blob_h)
+			sum_blob_h: float = np.sum(blob_h)
+			if sum_blob_h == 0:
+				continue
+			blob_h = blob_h / sum_blob_h
 
 			# Add the histogram of the blob to the global histogram
 			for k in range(len(blob_h)):
+				if np.isnan(blob_h[k]):
+					continue
 				column: int = int(blob_h[k] * quantifiers)
 				if column == quantifiers:	# If the value is 1.0, we need to decrement the column
 					column -= 1

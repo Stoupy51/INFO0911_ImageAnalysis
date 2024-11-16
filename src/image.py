@@ -3,7 +3,7 @@
 from __future__ import annotations
 import numpy as np
 
-# TODO <--- USE THIS SHIT
+# Image data class that contains the image data and other stuff
 class ImageData(object):
 	
 	def __init__(self, img: np.ndarray, color_space: str, channel: int|None = None):

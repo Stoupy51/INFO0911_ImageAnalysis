@@ -46,9 +46,9 @@ def indexed_multi_channels(img: ImageData, levels: list[int] = [8, 8, 8]) -> Ima
 	indexed: np.ndarray = np.zeros(img.data.shape[1:], dtype=int)
 	multiplier: int = 1
 	for i in range(img.data.data.shape[0]):
-		indexed += indexed_channels[i] * multiplier
+		indexed += indexed_channels[i].data * multiplier
 		multiplier *= levels[i]		# Example: i=0 -> 1*2=2,	i=1 -> 2*3=6	(if levels=[2, 3, 4])
 	
 	# Return the indexed image
-	return ImageData(indexed, "Indexation (" + ",".join(levels) + ')')
+	return ImageData(indexed, "Indexation (" + ",".join(str(l) for l in levels) + ')')
 

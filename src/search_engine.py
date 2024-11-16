@@ -42,6 +42,28 @@ def clean_cache_path(image_path: str, **kwargs: dict) -> str:
 	else:
 		return f"{DATABASE_FOLDER}/cache/" + "".join(c for c in f"{image_name}_{color_space}".lower() if c in ALPHANUM) + ".npz"
 
+# Function to resize the image down to the maximum size
+def resize_down(image: Image.Image, max_size: tuple[int, int] = SEARCH_MAX_IMAGE_SIZE, min_or_max: Callable = max) -> Image.Image:
+	""" Resize the image down to the maximum size while preserving aspect ratio\n
+	Args:
+		image			(Image.Image):		Image to resize
+		max_size		(tuple[int, int]):	Maximum size to resize to
+		min_or_max		(Callable):			Function to use to get the minimum or maximum of the two ratios
+	Returns:
+		Image.Image: Resized image
+	"""
+	width, height = image.size
+	if width > max_size[0] or height > max_size[1]:
+		# Calculate scaling factor to fit within max dimensions while preserving ratio
+		scale_w = max_size[0] / width
+		scale_h = max_size[1] / height
+		scale = min_or_max(scale_w, scale_h)
+		
+		# Calculate new dimensions
+		new_width = int(width * scale)
+		new_height = int(height * scale)
+		image = image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+	return image
 
 # Function to apply the color space, descriptor, and compute the distance (optional)
 def thread_function(image_path: str, color_space: str, descriptors: list[str], distance: str, color_space_args: dict, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, float]:
@@ -59,7 +81,7 @@ def thread_function(image_path: str, color_space: str, descriptors: list[str], d
 			str:			Path of the image
 			float:			Distance between the image and the request
 	"""
-	@handle_error(message=f"Error while processing '{image_path}' with {color_space} and {descriptors}", error_log=1)
+	@handle_error(message=f"Error while processing '{image_path}' with {color_space} and {descriptors}", error_log=2)
 	def intern():
 		# Get cache paths
 		cleaned_path = image_path.replace("\\","/")
@@ -78,8 +100,9 @@ def thread_function(image_path: str, color_space: str, descriptors: list[str], d
 				data: np.ndarray = np.load(cache_color_space, allow_pickle=False)["arr_0"]
 				img: ImageData = ImageData(data, color_space)
 			else:
-				original_image: np.ndarray = np.array(Image.open(cleaned_path).convert("RGB"))
-				data: np.ndarray = img_to_sliced_rgb(original_image)
+				original_image: Image.Image = Image.open(cleaned_path).convert("RGB")
+				original_image = resize_down(original_image)
+				data: np.ndarray = img_to_sliced_rgb(np.array(original_image))
 				img: ImageData = ImageData(data, "RGB")
 				img = COLOR_SPACES_CALLS[color_space]["function"](img, **color_space_args)
 				
@@ -89,8 +112,10 @@ def thread_function(image_path: str, color_space: str, descriptors: list[str], d
 					if not os.path.exists(cache_color_space):
 						np.savez_compressed(cache_color_space, img.data)
 
-			# Apply each descriptor in sequence
+			# Apply each descriptor in sequence (if the descriptor is not compatible with the color space, return None)
 			for descriptor in descriptors:
+				if "HSV/HSL" in descriptor and img.color_space not in ["HSV", "HSL"]:
+					return None
 				ds: dict = DESCRIPTORS_CALLS[descriptor]
 				ds_args: dict = ds.get("args", {})
 				img = ds["function"](img, **ds_args)
@@ -180,9 +205,7 @@ def offline_cache_compute() -> None:
 			for descriptor in DESCRIPTORS_CALLS:
 				cs: dict = COLOR_SPACES_CALLS[color_space]
 				cs_args: dict = cs.get("args", {})
-				ds: dict = DESCRIPTORS_CALLS[descriptor]
-				ds_args: dict = ds.get("args", {})
-				thread_args.append((image_path, color_space, descriptor, cs_args, ds_args))
+				thread_args.append((image_path, color_space, [descriptor], None, cs_args))
 	
 	# Compute the cache (using multiprocessing if available)
 	if DO_MULTI_PROCESSING:

@@ -132,12 +132,12 @@ IGNORE_EXCEPTIONS: tuple[Exception] = (OSError, KeyboardInterrupt)
 ALL_EXCEPTIONS: tuple[Exception] = tuple(e for e in Exception.__subclasses__() if e not in IGNORE_EXCEPTIONS)
 
 # Decorator that handle an error with different log levels
-def handle_error(exceptions: tuple[Exception] = ALL_EXCEPTIONS, message: str = "", error_log: int = 2) -> Callable:
+def handle_error(exceptions: tuple[Exception] = ALL_EXCEPTIONS, message: str = "", error_log: int = 3) -> Callable:
 	""" Decorator that handle an error with different log levels.\n
 	Args:
 		exceptions		(tuple[Exception]):	Exceptions to handle, defaults to all exceptions except OSError and KeyboardInterrupt
 		message			(str):				Message to display with the error. (e.g. "Error during something")
-		error_log		(int):				Log level for the errors (0: None, 1: Show as warning, 2: Show as error, 3: Raise exception)
+		error_log		(int):				Log level for the errors (0: None, 1: Show as warning, 2: Show as warning with traceback, 3: Show as error with traceback, 4: Raise exception)
 	"""
 	def decorator(func: Callable) -> Callable:
 		if message != "":
@@ -152,6 +152,8 @@ def handle_error(exceptions: tuple[Exception] = ALL_EXCEPTIONS, message: str = "
 				if error_log == 1:
 					warning(f"{msg}Error during {func.__name__}:\n {e}")
 				elif error_log == 2:
+					warning(f"{msg}Error during {func.__name__}:\n{traceback.format_exc()}")
+				elif error_log == 3:
 					error(f"{msg}Error during {func.__name__}:\n{traceback.format_exc()}", exit=True)
 				else:
 					raise e
