@@ -191,6 +191,8 @@ def search(image_request: np.ndarray, color_space: str, descriptors: list[str], 
 	sorted_images: list[tuple[str, float]] = sorted(results, key=lambda x: x[-1])[:max_results]
 	return [(image_path, np.array(Image.open(image_path).convert("RGB")), distance) for image_path, distance in sorted_images]
 
+def lqdm_call(args: tuple) -> tuple:
+	return thread_function(*args)
 
 # Function to compute every single cache
 def offline_cache_compute() -> None:
@@ -211,7 +213,8 @@ def offline_cache_compute() -> None:
 	if DO_MULTI_PROCESSING:
 		with Pool(cpu_count()) as pool:
 			debug(f"Using {cpu_count()} processes to compute {len(thread_args)} images caches")
-			pool.starmap(thread_function, thread_args)
+			from tqdm import tqdm
+			list(tqdm(pool.imap(lqdm_call, thread_args), total=len(thread_args)))
 	else:
 		debug(f"Computing {len(thread_args)} images caches")
 		for args in thread_args:
