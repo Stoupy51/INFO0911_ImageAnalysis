@@ -156,7 +156,7 @@ FILTERS: dict[str, np.ndarray] = {
 }
 
 # Calculate dx and dy
-def compute_dx_dy(image: np.ndarray, filter_name: str, crop: bool = True) -> tuple[np.ndarray, np.ndarray]:
+def compute_dx_dy(image: np.ndarray, filter_name: str = "sobel", crop: bool = True) -> tuple[np.ndarray, np.ndarray]:
 	""" Compute the dx and dy images using a filter.\n
 	Args:
 		image		(np.ndarray):	Image
@@ -182,6 +182,28 @@ def compute_dx_dy(image: np.ndarray, filter_name: str, crop: bool = True) -> tup
 		dy: np.ndarray = convolve(image, f[1]) / f_shape
 	return dx, dy
 
+# Horizontal gradient
+def horizontal_gradient(img: ImageData, filter_name: str = "sobel") -> ImageData:
+	dx, _ = compute_dx_dy(img, filter_name)
+	return ImageData(dx, img.color_space, img.channel)
+
+# Vertical gradient
+def vertical_gradient(img: ImageData, filter_name: str = "sobel") -> ImageData:
+	_, dy = compute_dx_dy(img, filter_name)
+	return ImageData(dy, img.color_space, img.channel)
+
+# Gradient norm
+def gradient_norm(img: ImageData, filter_name: str = "sobel") -> ImageData:
+	dx, dy = compute_dx_dy(img, filter_name)
+	return ImageData(np.sqrt(dx**2 + dy**2), img.color_space, img.channel)
+
+# Gradient orientation
+def gradient_orientation(img: ImageData, filter_name: str = "sobel") -> ImageData:
+	dx, dy = compute_dx_dy(img, filter_name)
+	orientation: np.ndarray = (np.arctan2(dy, dx) * 180 / np.pi) % 360
+	orientation = np.where(dx == 0, 0, orientation)
+	orientation = np.where(dy == 0, 0, orientation)
+	return ImageData(orientation, img.color_space, img.channel)
 
 
 ## Textures
@@ -213,6 +235,12 @@ DESCRIPTORS_CALLS: dict[str, Callable] = {
 	"Histogram Blob":		{"function":histogram_blob, "args":{}},
 
 	# Formes
+	"Horizontal Gradient":	{"function":horizontal_gradient, "args":{}},
+	"Vertical Gradient":	{"function":vertical_gradient, "args":{}},
+	"Gradient Norm":		{"function":gradient_norm, "args":{}},
+	"Gradient Orientation":	{"function":gradient_orientation, "args":{}},
+
+	# Textures
 	"Statistics":			{"function":statistics, "args":{}},
 }
 
