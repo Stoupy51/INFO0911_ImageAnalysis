@@ -17,8 +17,14 @@ app_ui: ui.Tag = ui.page_fluid(
 	ui.layout_sidebar(
 		ui.sidebar(
 
-			# Color space selection
-			ui.input_select(id="color_space", label="Type d'espace de couleur", choices=CHOOSE_COLOR_SPACE),
+			# Multiple color spaces selection
+			ui.input_selectize(
+				id="color_spaces",
+				label="Types d'espaces de couleur (dans l'ordre)",
+				choices=CHOOSE_COLOR_SPACE,
+				multiple=True,
+				selected=[list(CHOOSE_COLOR_SPACE.keys())[0]]
+			),
 
 			# Multiple descriptors selection
 			ui.input_selectize(
@@ -106,19 +112,19 @@ def server_routine(input: Session, output: Session, app_session: Session) -> Non
 			return None
 		image: Image.Image = Image.open(images[0]['datapath']).convert("RGB")
 		image_request: np.ndarray = np.array(image)
-		color_space: str = input.color_space()
+		color_spaces: list[str] = input.color_spaces()
 		descriptors: list[str] = input.descriptors()
 		distance: str = input.distance()
 		max_results: int = input.nb_reponses()
 		
 		# If not enough parameters, return None
-		if not color_space or not descriptors or not distance:
+		if not color_spaces or not descriptors or not distance:
 			return None
 
 		# Search for similar images
 		results: list[tuple[str, np.ndarray, float]] = search(
 			image_request, 
-			color_space, 
+			color_spaces,
 			descriptors,
 			distance, 
 			max_results
