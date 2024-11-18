@@ -252,14 +252,15 @@ def statistics(img: ImageData) -> ImageData:
 	]), "Statistics")
 
 # Local Binary Pattern
-def local_binary_pattern(img: ImageData, filter_size: int = 3, optimized: bool = True) -> ImageData:
+def local_binary_pattern(img: ImageData, filter_size: int = 3, optimized: bool = True, return_histogram: bool = True) -> ImageData:
 	""" Compute the Local Binary Pattern of an image.\n
 	Args:
-		img				(ImageData):	Image to process
-		filter_size		(int):			Size of the filter (must be odd), default is 3
-		optimized		(bool):			Whether to use optimized implementation, default is True
+		img					(ImageData):	Image to process
+		filter_size			(int):			Size of the filter (must be odd), default is 3
+		optimized			(bool):			Whether to use optimized implementation, default is True
+		return_histogram	(bool):			Whether to return the histogram of the LBP image, default is True
 	Returns:
-		ImageData: LBP image
+		ImageData: LBP image or histogram
 	"""
 	# If not grayscale, recursively call the function for each channel
 	if len(img.shape) > 2:
@@ -288,9 +289,8 @@ def local_binary_pattern(img: ImageData, filter_size: int = 3, optimized: bool =
 		
 		# Convert binary patterns to decimal
 		powers: np.ndarray = 2**np.arange(filter_size * filter_size - 1)
-		output: np.ndarray = binary.dot(powers).reshape(out_height, out_width)
-		
-		return ImageData(output.astype(np.uint8), "LBP")
+		dot_product: np.ndarray = binary.dot(powers)
+		output: np.ndarray = dot_product.reshape(out_height, out_width)
 	else:
 		output: np.ndarray = np.zeros((out_height, out_width), dtype=np.uint8)
 		
@@ -310,8 +310,14 @@ def local_binary_pattern(img: ImageData, filter_size: int = 3, optimized: bool =
 				decimal: int = int(binary.dot(2**np.arange(len(binary))))
 				output[i,j] = decimal
 				
-		# Return the LBP image
-		return ImageData(output, "LBP")
+	# Convert to histogram if requested
+	if return_histogram:
+		nb_possible_patterns: int = 2**(filter_size * filter_size - 1)
+		histogram: np.ndarray = np.histogram(output.flatten(), bins=nb_possible_patterns, range=(0, nb_possible_patterns))[0]
+		return ImageData(histogram, "LBP Histogram")
+	
+	# Return the LBP image if histogram not requested
+	return ImageData(output.astype(np.uint8), "LBP")
 
 # Haralick
 def haralick(img: ImageData) -> ImageData:
