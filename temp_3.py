@@ -35,7 +35,7 @@ for f in filters:
 
 	# Apply filter
 	# applied: np.ndarray = convolve(array, f)[1:-1, 1:-1] / (f.shape[0] * f.shape[1])
-	applied: np.ndarray = convolve(array, f, mode="full") / (f.shape[0] * f.shape[1])
+	applied: np.ndarray = convolve(array, f) / (f.shape[0] * f.shape[1])
 	#applied = cv2.filter2D(array, -1, f)
 	results.append(applied)
 	print(np.round(applied, ROUND_PRINT))

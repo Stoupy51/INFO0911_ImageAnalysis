@@ -1,6 +1,9 @@
 
 # Imports
 import numpy as np
+import sys
+import os
+sys.path.insert(0, f"{os.path.dirname(os.path.abspath(__file__))}/..")
 from src.image import ImageData
 from scipy.ndimage import convolve, prewitt, sobel
 
@@ -182,18 +185,8 @@ def compute_dx_dy(image: np.ndarray, filter_name: str = "sobel", crop: bool = Tr
 		dy: np.ndarray = convolve(image, f[1]) / f_shape
 	return dx, dy
 
-# Horizontal gradient
-def horizontal_gradient(img: ImageData, filter_name: str = "sobel") -> ImageData:
-	dx, _ = compute_dx_dy(img, filter_name)
-	return ImageData(dx, img.color_space, img.channel)
-
-# Vertical gradient
-def vertical_gradient(img: ImageData, filter_name: str = "sobel") -> ImageData:
-	_, dy = compute_dx_dy(img, filter_name)
-	return ImageData(dy, img.color_space, img.channel)
-
-# Gradient norm
-def gradient_norm(img: ImageData, filter_name: str = "sobel") -> ImageData:
+# Gradient magnitude (norm)
+def gradient_magnitude(img: ImageData, filter_name: str = "sobel") -> ImageData:
 	dx, dy = compute_dx_dy(img, filter_name)
 	return ImageData(np.sqrt(dx**2 + dy**2), img.color_space, img.channel)
 
@@ -205,6 +198,11 @@ def gradient_orientation(img: ImageData, filter_name: str = "sobel") -> ImageDat
 	orientation = np.where(dy == 0, 0, orientation)
 	return ImageData(orientation, img.color_space, img.channel)
 
+# Weighted gradient orientation by magnitude
+def weighted_gradient_histogram(img: ImageData, filter_name: str = "sobel") -> ImageData:
+	magnitude: ImageData = gradient_magnitude(img, filter_name)
+	orientation: ImageData = gradient_orientation(img, filter_name)
+	return ImageData(magnitude.data * orientation.data, img.color_space, img.channel)
 
 ## Textures
 def statistics(img: ImageData) -> ImageData:
@@ -224,23 +222,62 @@ def statistics(img: ImageData) -> ImageData:
 		np.percentile(img.data, 75),
 	]), "Statistics")
 
+# Local Binary Pattern
+def local_binary_pattern(img: ImageData, radius: int = 3, n_points: int = 8) -> ImageData:
+	pass
+
+# Haralick
+def haralick(img: ImageData) -> ImageData:
+	pass
+
+
+## Others
+# CNN (VGG-16)
+def cnn_vgg16(img: ImageData) -> ImageData:
+	""" Compute the features of an image using a pre-trained CNN (VGG-16).\n
+	Args:
+		img		(ImageData):	Image
+	Returns:
+		ImageData: Array of features
+	"""
+	from keras.applications.vgg16 import VGG16
+	import tensorflow as tf
+	model: tf.keras.Model = VGG16(include_top=False, weights="imagenet")
+
+	# Preprocess image for VGG16 (3 channels of size 224x224)
+	if len(img.shape) == 2:
+		# For grayscale, replicate to 3 channels
+		img_data = np.stack((img.data,) * 3, axis=-1)
+	else:
+		# For RGB, transpose from (3, H, W) to (H, W, 3)
+		img_data = np.transpose(img.data, (1, 2, 0))
+	img_data = tf.image.resize(img_data, (224, 224))
+	img_data = np.expand_dims(img_data, axis=0)
+	
+	# Get features from last convolutional layer (flattened) and return them
+	features: np.ndarray = model.predict(img_data, verbose=0)
+	return ImageData(features.flatten(), "CNN Features")
 
 
 # Name every function
 from typing import Callable
 DESCRIPTORS_CALLS: dict[str, Callable] = {
 	# Histograms
-	"Histogram":			{"function":histogram_multi_channels, "args":{}},
-	"Histogram (HSV/HSL)":	{"function":histogram_hue_per_saturation, "args":{}},
-	"Histogram Blob":		{"function":histogram_blob, "args":{}},
+	"Histogram":					{"function":histogram_multi_channels, "args":{}},
+	"Histogram (HSV/HSL)":			{"function":histogram_hue_per_saturation, "args":{}},
+	"Histogram Blob":				{"function":histogram_blob, "args":{}},
 
 	# Formes
-	"Horizontal Gradient":	{"function":horizontal_gradient, "args":{}},
-	"Vertical Gradient":	{"function":vertical_gradient, "args":{}},
-	"Gradient Norm":		{"function":gradient_norm, "args":{}},
-	"Gradient Orientation":	{"function":gradient_orientation, "args":{}},
+	"Gradient Magnitude":			{"function":gradient_magnitude, "args":{}},
+	"Gradient Orientation":			{"function":gradient_orientation, "args":{}},
+	"Weighted Gradient Histogram":	{"function":weighted_gradient_histogram, "args":{}},
 
 	# Textures
-	"Statistics":			{"function":statistics, "args":{}},
+	"Statistics":					{"function":statistics, "args":{}},
+	"Local Binary Pattern":			{"function":local_binary_pattern, "args":{}},
+	"Haralick":						{"function":haralick, "args":{}},
+
+	# Others
+	"CNN (VGG-16)":					{"function":cnn_vgg16, "args":{}},
 }
 
