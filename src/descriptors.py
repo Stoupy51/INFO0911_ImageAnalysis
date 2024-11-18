@@ -1,14 +1,15 @@
 
 # Imports
 import numpy as np
-import sys
-import os
-sys.path.insert(0, f"{os.path.dirname(os.path.abspath(__file__))}/..")
 from src.image import ImageData
-from scipy.ndimage import convolve, prewitt, sobel
+from scipy.ndimage import convolve
+import logging
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'					# Suppress TF logging
+logging.getLogger('tensorflow').setLevel(logging.ERROR)		# Suppress TF warnings
 
 # Histogram on a grayscale
-def histogram_single_channel(img: ImageData, do_normalize: bool = True) -> ImageData:
+def histogram_single_channel(img: ImageData, do_normalize: bool = False) -> ImageData:
 	""" Compute the histogram vector of a single channel image.\n
 	Args:
 		img				(ImageData):	Single channel image, example shape: (100, 100)
@@ -24,7 +25,7 @@ def histogram_single_channel(img: ImageData, do_normalize: bool = True) -> Image
 	return ImageData(histogram, img.color_space, img.channel)
 
 # Histogram on multiple channels
-def histogram_multi_channels(img: ImageData, do_normalize: bool = True) -> ImageData:
+def histogram_multi_channels(img: ImageData, do_normalize: bool = False) -> ImageData:
 	""" Compute the histogram vector of a multi channel image.\n
 	Args:
 		img				(ImageData):	Multi channel image, example shape: (3, 100, 100)
@@ -40,7 +41,7 @@ def histogram_multi_channels(img: ImageData, do_normalize: bool = True) -> Image
 	return ImageData(np.concatenate(histograms), img.color_space, img.channel)
 
 # Histogram on HSV or HSL
-def histogram_hue_per_saturation(img: ImageData, do_normalize: bool = True) -> ImageData:
+def histogram_hue_per_saturation(img: ImageData, do_normalize: bool = False) -> ImageData:
 	""" Compute the histogram vector of a multi channel image.\n
 	Args:
 		img				(ImageData):	HSV or HSL image, example shape: (3, 100, 100)
@@ -68,20 +69,20 @@ def histogram_hue_per_saturation(img: ImageData, do_normalize: bool = True) -> I
 	return ImageData(histogram, img.color_space, img.channel)
 
 # Blob histogram
-def histogram_blob(img: ImageData, blob_size: tuple[int,int] = (4,4), quantifiers: int = 4, do_normalize: bool = True) -> np.ndarray:
+def histogram_blob(img: ImageData, blob_size: tuple[int,int] = (4,4), quantifiers: int = 4, optimized: bool = True) -> np.ndarray:
 	""" Compute the histogram vector of a 2D image with blobs.\n
-	Warning: This is a very slow function!\n
+	Warning: This is a very slow function if not optimized!\n
 	Args:
 		img				(ImageData):	2D image, example shape: (100, 100)
 		blob_size		(tuple):		Size of the blob, default is (4, 4)
 		quantifiers		(int):			Number of classes for the histogram, default is 4 (ex: 0-25%, 2-50%, ...)
-		do_normalize	(bool):			Normalize the histogram vector (sum to 1), default is True
+		optimized		(bool):			Use optimized version with numpy operations, default is True
 	Returns:
 		np.ndarray: 1 dimension array, example shape: (256,)
 	"""
 	# If not grayscale, call the function for each channel
 	if len(img.shape) > 2:
-		histograms: list[np.ndarray] = [histogram_blob(img[i], blob_size, quantifiers, do_normalize).data for i in range(img.shape[0])]
+		histograms: list[np.ndarray] = [histogram_blob(img[i], blob_size, quantifiers, optimized).data for i in range(img.shape[0])]
 		return ImageData(np.concatenate(histograms), img.color_space, img.channel)
 
 	# Assertions
@@ -94,30 +95,58 @@ def histogram_blob(img: ImageData, blob_size: tuple[int,int] = (4,4), quantifier
 	nb_classes: int = int((value_range[1] - value_range[0]) // value_range[2])	# (max-min) // step
 	value_range_2: tuple[float, float] = (value_range[0], value_range[1])
 	histogram: np.ndarray = np.zeros((nb_classes, quantifiers))
-	for i in range(0, img.shape[0] - blob_size[0]):
-		for j in range(0, img.shape[1] - blob_size[1]):
-			blob: np.ndarray = img.data[i:i+blob_size[0], j:j+blob_size[1]]
 
-			# Compute the histogram of the blob
-			#blob_h: np.ndarray = histogram_single_channel(blob, value_range, do_normalize=True)
-			blob_h: np.ndarray = np.histogram(blob.flatten(), bins=nb_classes, range=value_range_2)[0]
-			sum_blob_h: float = np.sum(blob_h)
-			if sum_blob_h == 0:
-				continue
-			blob_h = blob_h / sum_blob_h
+	if optimized:
+		# Create all possible blobs using stride tricks
+		shape: tuple[int, int, int, int] = ((img.shape[0] - blob_size[0]), (img.shape[1] - blob_size[1]), blob_size[0], blob_size[1])
+		strides: tuple[int, int, int, int] = (img.data.strides[0], img.data.strides[1], img.data.strides[0], img.data.strides[1])
+		blocks: np.ndarray = np.lib.stride_tricks.as_strided(img.data, shape=shape, strides=strides)
+		
+		# Reshape blocks to 2D array where each row is a flattened blob
+		blocks = blocks.reshape(-1, blob_size[0] * blob_size[1])
+		
+		# Compute histograms for all blocks at once
+		blob_histograms: np.ndarray = np.apply_along_axis(
+			lambda x: np.histogram(x, bins=nb_classes, range=value_range_2)[0], 
+			1, blocks
+		)
+		
+		# Normalize histograms
+		sums: np.ndarray = np.sum(blob_histograms, axis=1)
+		valid_mask: np.ndarray = sums != 0
+		blob_histograms = blob_histograms.astype(np.float64)  # Convert to float64 before division
+		blob_histograms[valid_mask] = blob_histograms[valid_mask] / sums[valid_mask, np.newaxis]
+		
+		# Calculate quantifier columns for each histogram
+		columns: np.ndarray = np.clip((blob_histograms * quantifiers).astype(int), 0, quantifiers-1)
+		
+		# Add to histogram using numpy operations
+		for k in range(nb_classes):
+			for q in range(quantifiers):
+				histogram[k,q] = np.sum((columns[:,k] == q) & valid_mask.flatten())
+	else:
+		# Use the original loop-based implementation
+		for i in range(0, img.shape[0] - blob_size[0]):
+			for j in range(0, img.shape[1] - blob_size[1]):
+				blob: np.ndarray = img.data[i:i+blob_size[0], j:j+blob_size[1]]
 
-			# Add the histogram of the blob to the global histogram
-			for k in range(len(blob_h)):
-				if np.isnan(blob_h[k]):
+				# Compute the histogram of the blob
+				blob_h: np.ndarray = np.histogram(blob.flatten(), bins=nb_classes, range=value_range_2)[0]
+				sum_blob_h: float = np.sum(blob_h)
+				if sum_blob_h == 0:
 					continue
-				column: int = int(blob_h[k] * quantifiers)
-				if column == quantifiers:	# If the value is 1.0, we need to decrement the column
-					column -= 1
-				histogram[k, column] += 1
+				blob_h = blob_h / sum_blob_h
+
+				# Add the histogram of the blob to the global histogram
+				for k in range(len(blob_h)):
+					if np.isnan(blob_h[k]):
+						continue
+					column: int = int(blob_h[k] * quantifiers)
+					if column == quantifiers:	# If the value is 1.0, we need to decrement the column
+						column -= 1
+					histogram[k, column] += 1
 	
-	# Normalize the histogram and return it
-	if do_normalize:
-		histogram = histogram / np.sum(histogram)
+	# Return the histogram
 	return ImageData(histogram.flatten(), img.color_space, img.channel)
 
 
@@ -223,8 +252,66 @@ def statistics(img: ImageData) -> ImageData:
 	]), "Statistics")
 
 # Local Binary Pattern
-def local_binary_pattern(img: ImageData, radius: int = 3, n_points: int = 8) -> ImageData:
-	pass
+def local_binary_pattern(img: ImageData, filter_size: int = 3, optimized: bool = True) -> ImageData:
+	""" Compute the Local Binary Pattern of an image.\n
+	Args:
+		img				(ImageData):	Image to process
+		filter_size		(int):			Size of the filter (must be odd), default is 3
+		optimized		(bool):			Whether to use optimized implementation, default is True
+	Returns:
+		ImageData: LBP image
+	"""
+	# If not grayscale, recursively call the function for each channel
+	if len(img.shape) > 2:
+		images: list[np.ndarray] = [local_binary_pattern(img[i], filter_size, optimized).data for i in range(img.shape[0])]
+		return ImageData(np.concatenate(images), "LBP")
+
+	# Get image data and dimensions
+	image: np.ndarray = img.data
+	height, width = image.shape
+	
+	# Output dimensions after filter
+	out_height: int = height - filter_size + 1
+	out_width: int = width - filter_size + 1
+	
+	if optimized:
+		# Create views into the image for each pixel's neighborhood
+		windows: np.ndarray = np.lib.stride_tricks.sliding_window_view(image, (filter_size, filter_size))
+		windows: np.ndarray = windows.reshape(-1, filter_size * filter_size)
+		
+		# Get center values
+		centers: np.ndarray = windows[:, filter_size * filter_size // 2]
+		
+		# Compare with centers and convert to binary, then remove center values
+		binary: np.ndarray = (windows >= centers[:, np.newaxis]).astype(np.uint8)
+		binary = np.delete(binary, filter_size * filter_size // 2, axis=1)
+		
+		# Convert binary patterns to decimal
+		powers: np.ndarray = 2**np.arange(filter_size * filter_size - 1)
+		output: np.ndarray = binary.dot(powers).reshape(out_height, out_width)
+		
+		return ImageData(output.astype(np.uint8), "LBP")
+	else:
+		output: np.ndarray = np.zeros((out_height, out_width), dtype=np.uint8)
+		
+		# Apply LBP filter
+		FILTER_SIZE_SQUARED: int = filter_size**2
+		for i in range(out_height):
+			for j in range(out_width):
+				# Get patch and center value
+				patch: np.ndarray = image[i:i+filter_size, j:j+filter_size].flatten()
+				center: int = patch[FILTER_SIZE_SQUARED//2]
+				
+				# Compare with center and convert to binary, then remove center value
+				binary: np.ndarray = (patch >= center).astype(np.uint8)
+				binary = np.delete(binary, FILTER_SIZE_SQUARED//2)
+				
+				# Convert binary pattern to decimal
+				decimal: int = int(binary.dot(2**np.arange(len(binary))))
+				output[i,j] = decimal
+				
+		# Return the LBP image
+		return ImageData(output, "LBP")
 
 # Haralick
 def haralick(img: ImageData) -> ImageData:
