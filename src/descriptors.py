@@ -342,8 +342,8 @@ def cnn_vgg16(img: ImageData) -> ImageData:
 		# For grayscale, replicate to 3 channels
 		img_data = np.stack((img.data,) * 3, axis=-1)
 	else:
-		# For RGB, transpose from (3, H, W) to (H, W, 3)
-		img_data = np.transpose(img.data, (1, 2, 0))
+		# For RGB, transpose from (3, H, W) to (H, W, 3) and make sure it's 3 channels
+		img_data = np.transpose(img.data, (1, 2, 0))[:, :, :3]
 	img_data = tf.image.resize(img_data, (224, 224))
 	img_data = np.expand_dims(img_data, axis=0)
 	
@@ -361,14 +361,14 @@ DESCRIPTORS_CALLS: dict[str, Callable] = {
 	"Histogram Blob":				{"function":histogram_blob, "args":{}},
 
 	# Formes
-	"Gradient Magnitude":			{"function":gradient_magnitude, "args":{}},
-	"Gradient Orientation":			{"function":gradient_orientation, "args":{}},
-	"Weighted Gradient Histogram":	{"function":weighted_gradient_histogram, "args":{}},
+	# "Gradient Magnitude":			{"function":gradient_magnitude, "args":{}},
+	# "Gradient Orientation":			{"function":gradient_orientation, "args":{}},
+	# "Weighted Gradient Histogram":	{"function":weighted_gradient_histogram, "args":{}},
 
 	# Textures
 	"Statistics":					{"function":statistics, "args":{}},
 	"Local Binary Pattern":			{"function":local_binary_pattern, "args":{}},
-	"Haralick":						{"function":haralick, "args":{}},
+	# "Haralick":						{"function":haralick, "args":{}},
 
 	# Others
 	"CNN (VGG-16)":					{"function":cnn_vgg16, "args":{}},
