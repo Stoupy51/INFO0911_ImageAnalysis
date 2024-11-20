@@ -1,11 +1,15 @@
+
 ## Imports
-from search_engine import search, COLOR_SPACES_CALLS, DESCRIPTORS_CALLS, DISTANCES_CALLS
+from search_engine import search, COLOR_SPACES_CALLS, DESCRIPTORS_CALLS, DISTANCES_CALLS, NORMALIZATION_CALLS
 from shiny import ui, reactive
 
 # Constants
-CHOOSE_COLOR_SPACE: dict[str, str] = {k: k.replace('_',' ').title() for k in COLOR_SPACES_CALLS.keys()}
-CHOOSE_DISTANCE: dict[str, str] = {k: k.replace('_',' ').title() for k in DISTANCES_CALLS.keys()}
-CHOOSE_DESCRIPTORS: dict[str, str] = {k: k.replace('_',' ').title() for k in DESCRIPTORS_CALLS.keys()}
+def title_case(s: str) -> str:
+	return s.replace('_',' ').title()
+CHOOSE_COLOR_SPACE: dict[str, str] = {k: title_case(k) for k in COLOR_SPACES_CALLS.keys()}
+CHOOSE_DISTANCE: dict[str, str] = {k: title_case(k) for k in DISTANCES_CALLS.keys()}
+CHOOSE_DESCRIPTORS: dict[str, str] = {k: title_case(k) for k in DESCRIPTORS_CALLS.keys()}
+CHOOSE_NORMALIZATION: dict[str, str] = {k: title_case(k) for k in NORMALIZATION_CALLS.keys()}
 
 # UI de l'application Shiny
 app_ui: ui.Tag = ui.page_fluid(
@@ -33,6 +37,9 @@ app_ui: ui.Tag = ui.page_fluid(
 				choices=CHOOSE_DESCRIPTORS,
 				multiple=True
 			),
+
+			# Normalization selection
+			ui.input_select(id="normalization", label="Type de normalisation", choices=CHOOSE_NORMALIZATION),
 			
 			# Distance selection
 			ui.input_select(id="distance", label="Type de distance", choices=CHOOSE_DISTANCE),
@@ -116,6 +123,7 @@ def server_routine(input: Session, output: Session, app_session: Session) -> Non
 		descriptors: list[str] = input.descriptors()
 		distance: str = input.distance()
 		max_results: int = input.nb_reponses()
+		normalization: str = input.normalization()
 		
 		# If not enough parameters, return None
 		if not color_spaces or not descriptors or not distance:
@@ -123,11 +131,12 @@ def server_routine(input: Session, output: Session, app_session: Session) -> Non
 
 		# Search for similar images
 		results: list[tuple[str, np.ndarray, float]] = search(
-			image_request, 
+			image_request,
 			color_spaces,
 			descriptors,
-			distance, 
-			max_results
+			normalization,
+			distance,
+			max_results,
 		)
 
 		# Prepare the plot

@@ -12,6 +12,7 @@ import numpy as np
 from src.color_space.all import COLOR_SPACES_CALLS, img_to_sliced_rgb
 from src.descriptors import DESCRIPTORS_CALLS
 from src.distances import DISTANCES_CALLS
+from src.normalization import NORMALIZATION_CALLS
 from src.image import ImageData
 from PIL import Image
 from multiprocessing import Pool, cpu_count
@@ -66,19 +67,19 @@ def resize_down(image: Image.Image, max_size: tuple[int, int] = SEARCH_MAX_IMAGE
 	return image
 
 # Function to apply the color spaces, descriptor, and compute the distance (optional)
-def thread_function(image_path: str, color_spaces: list[str], descriptors: list[str], distance: str, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, float]:
+def thread_function(image_path: str, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, float]:
 	""" Thread function to apply the color spaces, descriptor, and compute the distance (optional)\n
 	Args:
 		image_path		(str):			Image to process
 		color_spaces	(list[str]):	List of color spaces to use in order
 		descriptors		(list[str]):	List of descriptors to use in order
+		normalization	(str):			Normalization method to use
 		distance		(str):			Distance to use for the search
 		to_compare		(np.ndarray):	Image to compare with (optional, must be pre-processed)
 		verbose			(bool):			Verbose mode, default is False
 	Returns:
-		tuple: Tuple with the following format:
-			str:			Path of the image
-			float:			Distance between the image and the request
+		str:	Path of the image
+		float:	Distance between the image and the request
 	"""
 	@handle_error(message=f"Error while processing '{image_path}' with {color_spaces} and {descriptors}", error_log=2)
 	def intern():
@@ -129,6 +130,11 @@ def thread_function(image_path: str, color_spaces: list[str], descriptors: list[
 			if not os.path.exists(cache_descriptor):
 				np.savez_compressed(cache_descriptor, img.data)
 
+		# Apply normalization
+		if normalization and distance is not None:
+			norm: dict = NORMALIZATION_CALLS[normalization]
+			img.data = norm["function"](img.data, **norm.get("args", {}))
+
 		# Compute the distance between the images
 		distance_value: float = 0.0
 		if distance is not None and to_compare is not None:
@@ -142,12 +148,14 @@ def thread_function(image_path: str, color_spaces: list[str], descriptors: list[
 
 # Search engine
 @handle_error(message="Error during the search engine")
-def search(image_request: np.ndarray, color_spaces: list[str], descriptors: list[str], distance: str, max_results: int = 10) -> list[tuple[str, np.ndarray, float]]:
+@measure_time(progress, message="Searching for similar images")
+def search(image_request: np.ndarray, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, max_results: int = 10) -> list[tuple[str, np.ndarray, float]]:
 	""" Search for similar images in the database\n
 	Args:
 		image_request	(np.ndarray):	Image to search for, example shape: (100, 100, 3)
-		color_spaces		(list[str]):	List of color spaces to use in order
+		color_spaces	(list[str]):	List of color spaces to use in order
 		descriptors		(list[str]):	List of descriptors to use in order
+		normalization	(str):			Normalization method to use
 		distance		(str):			Distance to use for the search
 		max_results		(int):			Maximum number of results to return, default is 5
 	Returns:
@@ -161,6 +169,7 @@ def search(image_request: np.ndarray, color_spaces: list[str], descriptors: list
 		assert color_space in COLOR_SPACES_CALLS, f"Color space '{color_space}' not found in {list(COLOR_SPACES_CALLS.keys())}"
 	for descriptor in descriptors:
 		assert descriptor in DESCRIPTORS_CALLS, f"Descriptor '{descriptor}' not found in {list(DESCRIPTORS_CALLS.keys())}"
+	assert normalization in NORMALIZATION_CALLS, f"Normalization '{normalization}' not found in {list(NORMALIZATION_CALLS.keys())}"
 	assert distance in DISTANCES_CALLS, f"Distance '{distance}' not found in {list(DISTANCES_CALLS.keys())}"
 
 	# Start with color space conversion
@@ -178,10 +187,14 @@ def search(image_request: np.ndarray, color_spaces: list[str], descriptors: list
 		ds: dict = DESCRIPTORS_CALLS[descriptor]
 		ds_args: dict = ds.get("args", {})
 		img = ds["function"](img, **ds_args)
+	
+	# Apply normalization
+	norm: dict = NORMALIZATION_CALLS[normalization]
+	img.data = norm["function"](img.data, **norm.get("args", {}))
 
 	# Apply the color spaces and descriptors to the images, then compute the distance
 	images_paths: list[str] = [f"{root}/{file}" for root, _, files in os.walk(DATABASE_FOLDER) for file in files if file.endswith(IMAGE_EXTENSIONS)]
-	thread_args: list[tuple] = [(image_path, color_spaces, descriptors, distance, img.data) for image_path in images_paths]
+	thread_args: list[tuple] = [(image_path, color_spaces, descriptors, normalization, distance, img.data) for image_path in images_paths]
 	if DO_MULTI_PROCESSING:
 		with Pool(cpu_count()) as pool:
 			debug(f"Using {cpu_count()} processes for the search engine")

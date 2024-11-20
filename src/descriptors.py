@@ -9,43 +9,38 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'					# Suppress TF logging
 logging.getLogger('tensorflow').setLevel(logging.ERROR)		# Suppress TF warnings
 
 # Histogram on a grayscale
-def histogram_single_channel(img: ImageData, do_normalize: bool = False) -> ImageData:
+def histogram_single_channel(img: ImageData) -> ImageData:
 	""" Compute the histogram vector of a single channel image.\n
 	Args:
 		img				(ImageData):	Single channel image, example shape: (100, 100)
-		do_normalize	(bool):			Normalize the histogram vector (sum to 1), default is True
 	Returns:
 		ImageData: 1 dimension array, example shape: (256,)
 	"""
 	value_range: tuple[float,float,float] = img.range
 	nb_classes: int = int((value_range[1] - value_range[0]) // value_range[2])
 	histogram: np.ndarray = np.histogram(img.data.flatten(), bins=nb_classes, range=value_range[:2])[0]
-	if do_normalize:
-		histogram = histogram / np.sum(histogram)
 	return ImageData(histogram, img.color_space, img.channel)
 
 # Histogram on multiple channels
-def histogram_multi_channels(img: ImageData, do_normalize: bool = False) -> ImageData:
+def histogram_multi_channels(img: ImageData) -> ImageData:
 	""" Compute the histogram vector of a multi channel image.\n
 	Args:
 		img				(ImageData):	Multi channel image, example shape: (3, 100, 100)
 		ranges			(list[tuple]):	Range of the histogram for each channel, default is [(0,256,1), (0,256,1), (0,256,1)]
-		do_normalize	(bool):			Normalize the histogram vector (sum to 1), default is True
 	Returns:
 		np.ndarray: 1 dimension array, example shape: (256*3,)
 	"""
 	# Grayscale input
 	if len(img.shape) == 2:
-		return histogram_single_channel(img, do_normalize)
-	histograms: list[np.ndarray] = [histogram_single_channel(img[i], do_normalize).data for i in range(img.shape[0])]
+		return histogram_single_channel(img)
+	histograms: list[np.ndarray] = [histogram_single_channel(img[i]).data for i in range(img.shape[0])]
 	return ImageData(np.concatenate(histograms), img.color_space, img.channel)
 
 # Histogram on HSV or HSL
-def histogram_hue_per_saturation(img: ImageData, do_normalize: bool = False) -> ImageData:
+def histogram_hue_per_saturation(img: ImageData) -> ImageData:
 	""" Compute the histogram vector of a multi channel image.\n
 	Args:
 		img				(ImageData):	HSV or HSL image, example shape: (3, 100, 100)
-		do_normalize	(bool):			Normalize the histogram vector (sum to 1), default is True
 	Returns:
 		np.ndarray: 1 dimension array, example shape: (360)
 	"""
@@ -63,9 +58,6 @@ def histogram_hue_per_saturation(img: ImageData, do_normalize: bool = False) -> 
 		for j in range(img.shape[2]):
 			histogram[int(hue.data[i,j])] += saturation.data[i,j]
 	
-	# Normalize the histogram
-	if do_normalize:
-		histogram = histogram / np.sum(histogram)
 	return ImageData(histogram, img.color_space, img.channel)
 
 # Blob histogram
@@ -373,4 +365,3 @@ DESCRIPTORS_CALLS: dict[str, Callable] = {
 	# Others
 	"CNN (VGG-16)":					{"function":cnn_vgg16, "args":{}},
 }
-
