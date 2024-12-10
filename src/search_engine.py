@@ -44,27 +44,30 @@ def clean_cache_path(image_path: str, **kwargs: dict) -> str:
 		return f"{DATABASE_FOLDER}/cache/" + "".join(c for c in f"{image_name}_{color_spaces}".lower() if c in ALPHANUM) + ".npz"
 
 # Function to resize the image down to the maximum size
-def resize_down(image: Image.Image, max_size: tuple[int, int] = SEARCH_MAX_IMAGE_SIZE, min_or_max: Callable = max) -> Image.Image:
+def resize_down(image: Image.Image, max_size: tuple[int, int] = SEARCH_MAX_IMAGE_SIZE, min_or_max: Callable = max, keep_ratio: bool = False) -> Image.Image:
 	""" Resize the image down to the maximum size while preserving aspect ratio\n
 	Args:
 		image			(Image.Image):		Image to resize
 		max_size		(tuple[int, int]):	Maximum size to resize to
 		min_or_max		(Callable):			Function to use to get the minimum or maximum of the two ratios
+		keep_ratio		(bool):				Keep the aspect ratio, default is False
 	Returns:
 		Image.Image: Resized image
 	"""
-	width, height = image.size
-	if width > max_size[0] or height > max_size[1]:
-		# Calculate scaling factor to fit within max dimensions while preserving ratio
-		scale_w = max_size[0] / width
-		scale_h = max_size[1] / height
-		scale = min_or_max(scale_w, scale_h)
-		
-		# Calculate new dimensions
-		new_width = int(width * scale)
-		new_height = int(height * scale)
-		image = image.resize((new_width, new_height), Image.Resampling.LANCZOS)
-	return image
+	if keep_ratio:
+		width, height = image.size
+		if width > max_size[0] or height > max_size[1]:
+			# Calculate scaling factor to fit within max dimensions while preserving ratio
+			scale_w = max_size[0] / width
+			scale_h = max_size[1] / height
+			scale = min_or_max(scale_w, scale_h)
+			
+			# Calculate new dimensions
+			new_width = int(width * scale)
+			new_height = int(height * scale)
+			return image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+	else:
+		return image.resize(max_size, Image.Resampling.LANCZOS)
 
 # Function to apply the color spaces, descriptor, and compute the distance (optional)
 def thread_function(image_path: str, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, float]:
@@ -223,8 +226,10 @@ def offline_cache_compute() -> None:
 	thread_args: list[tuple] = []
 	for image_path in images_paths:
 		for color_space in COLOR_SPACES_CALLS:
+			# thread_args.append((image_path, [color_space], [], None, None))
 			for descriptor in DESCRIPTORS_CALLS:
-				thread_args.append((image_path, [color_space], [descriptor], None))
+				# img, color_spaces, descriptors, normalization, distance
+				thread_args.append((image_path, [color_space], [descriptor], None, None))
 	
 	# Compute the cache (using multiprocessing if available)
 	if DO_MULTI_PROCESSING:
