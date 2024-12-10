@@ -20,5 +20,5 @@ OUTPUT_EXTENSION: str = ".jpg"												# Output image extension
 JPG_QUALITY: int = 95
 
 #TODO: Reduce image size for the search engine
-SEARCH_MAX_IMAGE_SIZE: tuple[int, int] = (256, 256)
+SEARCH_MAX_IMAGE_SIZE: tuple[int, int] = (448, 448)
 

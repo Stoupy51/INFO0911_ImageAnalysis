@@ -173,7 +173,7 @@ def search(image_request: np.ndarray, color_spaces: list[str], descriptors: list
 	assert distance in DISTANCES_CALLS, f"Distance '{distance}' not found in {list(DISTANCES_CALLS.keys())}"
 
 	# Start with color space conversion
-	image_request = img_to_sliced_rgb(image_request)
+	image_request = img_to_sliced_rgb(resize_down(image_request))
 	img: ImageData = ImageData(image_request, "RGB")
 	
 	# Apply each color space in sequence
