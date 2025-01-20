@@ -39,9 +39,9 @@ def clean_cache_path(image_path: str, **kwargs: dict) -> str:
 	# Clean the image path and return the cache filepath
 	image_name = image_path.replace("\\","/").split("/")[-1].split(".")[0]
 	if descriptors:
-		return f"{DATABASE_FOLDER}/cache/" + "".join(c for c in f"{image_name}_{color_spaces}_{descriptors}".lower() if c in ALPHANUM) + ".npz"
+		return f"{CACHE_FOLDER}/" + "".join(c for c in f"{image_name}_{color_spaces}_{descriptors}".lower() if c in ALPHANUM) + ".npz"
 	else:
-		return f"{DATABASE_FOLDER}/cache/" + "".join(c for c in f"{image_name}_{color_spaces}".lower() if c in ALPHANUM) + ".npz"
+		return f"{CACHE_FOLDER}/" + "".join(c for c in f"{image_name}_{color_spaces}".lower() if c in ALPHANUM) + ".npz"
 
 # Function to resize the image down to the maximum size
 def resize_down(image: Image.Image, max_size: tuple[int, int] = SEARCH_MAX_IMAGE_SIZE, min_or_max: Callable = max, keep_ratio: bool = False) -> Image.Image:

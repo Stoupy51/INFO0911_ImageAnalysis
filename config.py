@@ -13,6 +13,7 @@ ROOT: str = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")	# Root
 IMAGE_FOLDER: str = f"{ROOT}/images"										# Folder where the images are stored
 OUTPUT_FOLDER: str = f"{ROOT}/output"										# Folder where the output images will be stored
 DATABASE_FOLDER: str = f"{ROOT}/database"									# Folder where the database images are stored
+CACHE_FOLDER: str = f"{ROOT}/cache"											# Folder where the cache files are stored
 
 # Other constants
 IMAGE_EXTENSIONS: tuple[str] = (".jpg", ".jpeg", ".png")					# Image extensions to consider
