@@ -45,8 +45,8 @@ def histogram_hue_per_saturation(img: ImageData) -> ImageData:
 		np.ndarray: 1 dimension array, example shape: (360)
 	"""
 	# Assertions
-	assert img.color_space in ["HSV", "HSL"], "Image must be in HSV or HSL format"
-	assert len(img.shape) == 3, "Image must be 3D"
+	assert img.color_space in ["HSV", "HSL"], f"Image must be in HSV or HSL format, got {img.color_space}"
+	assert len(img.shape) == 3, f"Image must be 3D, got {img.shape}"
 	
 	# Get the hue and saturation channels
 	hue: ImageData = img[0]

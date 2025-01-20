@@ -155,7 +155,7 @@ def thread_function(image_path: str, color_spaces: list[str], descriptors: list[
 	return intern()
 
 # Search engine
-@handle_error(message="Error during the search engine")
+@handle_error(message="Error during the search engine", error_log=2)
 @measure_time(progress, message="Searching for similar images")
 def search(image_request: Image.Image, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, max_results: int = 10) -> list[tuple[str, np.ndarray, float]]:
 	""" Search for similar images in the database\n
