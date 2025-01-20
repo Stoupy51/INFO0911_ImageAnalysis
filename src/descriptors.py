@@ -311,9 +311,96 @@ def local_binary_pattern(img: ImageData, filter_size: int = 3, optimized: bool =
 	# Return the LBP image if histogram not requested
 	return ImageData(output.astype(np.uint8), "LBP")
 
+def _create_cooc_matrix(image: np.ndarray, d: int, theta: float, n_gray_levels: int = 256) -> np.ndarray:
+	"""Create co-occurrence matrix for given distance and angle.
+	Args:
+		image			(np.ndarray):	Input image
+		d				(int):			Distance to consider
+		theta			(float):		Angle in degrees
+		n_gray_levels	(int):			Number of gray levels (default: 256)
+	Returns:
+		np.ndarray: Co-occurrence matrix
+	"""
+	height, width = image.shape
+	
+	# Convert angle to radians and calculate offsets
+	theta_rad: float = np.radians(theta)
+	dx: int = int(d * np.cos(theta_rad))
+	dy: int = int(d * np.sin(theta_rad))
+	
+	# Initialize co-occurrence matrix
+	cooc_matrix: np.ndarray = np.zeros((n_gray_levels, n_gray_levels))
+	
+	# Build co-occurrence matrix using vectorized operations
+	i_indices, j_indices = np.meshgrid(np.arange(height), np.arange(width), indexing='ij')
+	ni: np.ndarray = i_indices + dy
+	nj: np.ndarray = j_indices + dx
+	
+	# Create mask for valid indices
+	valid_mask: np.ndarray = (ni >= 0) & (ni < height) & (nj >= 0) & (nj < width)
+	
+	# Get values for valid pairs
+	i_vals: np.ndarray = image[i_indices[valid_mask], j_indices[valid_mask]]
+	j_vals: np.ndarray = image[ni[valid_mask], nj[valid_mask]]
+	
+	# Update co-occurrence matrix using np.add.at for atomic operations
+	np.add.at(cooc_matrix, (i_vals, j_vals), 1)
+	
+	# Normalize matrix
+	return cooc_matrix / cooc_matrix.sum()
+
 # Haralick
-def haralick(img: ImageData) -> ImageData:
-	pass
+def haralick(img: ImageData, distances: list[int] = [1, 2, 3, 4], angles: list[int] = [0, 45, 90, 135, 180, 225, 270, 315]) -> ImageData:
+	""" Compute Haralick texture features for an image using co-occurrence matrices.\n
+	Args:
+		img			(ImageData):	Input image (2D grayscale)
+		distances	(list[int]):	List of distances to consider (default: [1,2,3,4])
+		angles		(list[int]):	List of angles in degrees (default: [0,45,90,135,180,225,270,315])
+	Returns:
+		ImageData: Array of Haralick features (n_distances * n_angles * 4 metrics)
+	"""
+	# Ensure input is 2D
+	if len(img.shape) != 2:
+		images: list[np.ndarray] = [haralick(img[i], distances, angles).data for i in range(img.shape[0])]
+		return ImageData(np.concatenate(images), "Haralick Features")
+		
+	image: np.ndarray = img.data
+	
+	# Parameters validation
+	assert distances, "Distances list cannot be empty"
+	assert angles, "Angles list cannot be empty"
+	assert min(distances) >= 1, "Distances must be positive integers"
+		
+	n_gray_levels: int = 256
+	features: list[float] = []
+	
+	# For each distance and angle
+	for d in distances:
+		for theta in angles:
+			# Get co-occurrence matrix
+			cooc_matrix: np.ndarray = _create_cooc_matrix(image, d, theta, n_gray_levels)
+			
+			# Calculate Haralick features
+			# 1. Energy (Angular Second Moment)
+			angular_second_moment: float = np.sum(cooc_matrix ** 2)
+			
+			# 2. Contrast
+			indices: np.ndarray = np.indices((n_gray_levels, n_gray_levels))
+			contrast: float = np.sum(((indices[0] - indices[1]) ** 2) * cooc_matrix)
+			
+			# 3. Correlation
+			mu_i: float = np.sum(indices[0] * cooc_matrix)
+			mu_j: float = np.sum(indices[1] * cooc_matrix)
+			sigma_i: float = np.sqrt(np.sum(((indices[0] - mu_i) ** 2) * cooc_matrix))
+			sigma_j: float = np.sqrt(np.sum(((indices[1] - mu_j) ** 2) * cooc_matrix))
+			correlation: float = np.sum((indices[0] - mu_i) * (indices[1] - mu_j) * cooc_matrix) / (sigma_i * sigma_j)
+			
+			# 4. Homogeneity (Inverse Difference Moment)
+			homogeneity: float = np.sum(cooc_matrix / (1 + (indices[0] - indices[1]) ** 2))
+			
+			features.extend([angular_second_moment, contrast, correlation, homogeneity])
+	
+	return ImageData(np.array(features), "Haralick Features")
 
 
 ## Others
@@ -360,7 +447,7 @@ DESCRIPTORS_CALLS: dict[str, Callable] = {
 	# Textures
 	"Statistics":					{"function":statistics, "args":{}},
 	"Local Binary Pattern":			{"function":local_binary_pattern, "args":{}},
-	# "Haralick":						{"function":haralick, "args":{}},
+	"Haralick":						{"function":haralick, "args":{}},
 
 	# Others
 	"CNN (VGG-16)":					{"function":cnn_vgg16, "args":{}},

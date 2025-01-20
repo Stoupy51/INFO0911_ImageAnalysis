@@ -118,7 +118,6 @@ def server_routine(input: Session, output: Session, app_session: Session) -> Non
 		if not images:
 			return None
 		image: Image.Image = Image.open(images[0]['datapath']).convert("RGB")
-		image_request: np.ndarray = np.array(image)
 		color_spaces: list[str] = input.color_spaces()
 		descriptors: list[str] = input.descriptors()
 		distance: str = input.distance()
@@ -130,8 +129,8 @@ def server_routine(input: Session, output: Session, app_session: Session) -> Non
 			return None
 
 		# Search for similar images
-		results: list[tuple[str, np.ndarray, float]] = search(
-			image_request,
+		results: list[tuple[str, Image.Image, float]] = search(
+			image,
 			color_spaces,
 			descriptors,
 			normalization,

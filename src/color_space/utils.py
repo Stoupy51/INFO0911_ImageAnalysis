@@ -25,6 +25,7 @@ def img_to_sliced_rgb(image: np.ndarray) -> np.ndarray:
 	Returns:
 		(np.ndarray): Sliced RGB image (3D array)
 	"""
+	assert isinstance(image, np.ndarray), "Image must be a numpy array"
 	return np.moveaxis(image, -1, 0)
 
 # Convert a sliced RGB image to an image

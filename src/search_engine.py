@@ -67,7 +67,8 @@ def resize_down(image: Image.Image, max_size: tuple[int, int] = SEARCH_MAX_IMAGE
 			new_height = int(height * scale)
 			return image.resize((new_width, new_height), Image.Resampling.LANCZOS)
 	else:
-		return image.resize(max_size, Image.Resampling.LANCZOS)
+		width, height = image.size
+		return image.resize((max_size[0], max_size[1]), Image.Resampling.LANCZOS)
 
 # Function to apply the color spaces, descriptor, and compute the distance (optional)
 def thread_function(image_path: str, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, float]:
@@ -152,10 +153,10 @@ def thread_function(image_path: str, color_spaces: list[str], descriptors: list[
 # Search engine
 @handle_error(message="Error during the search engine")
 @measure_time(progress, message="Searching for similar images")
-def search(image_request: np.ndarray, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, max_results: int = 10) -> list[tuple[str, np.ndarray, float]]:
+def search(image_request: Image.Image, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, max_results: int = 10) -> list[tuple[str, np.ndarray, float]]:
 	""" Search for similar images in the database\n
 	Args:
-		image_request	(np.ndarray):	Image to search for, example shape: (100, 100, 3)
+		image_request	(Image.Image):	Image to search for
 		color_spaces	(list[str]):	List of color spaces to use in order
 		descriptors		(list[str]):	List of descriptors to use in order
 		normalization	(str):			Normalization method to use
@@ -164,7 +165,7 @@ def search(image_request: np.ndarray, color_spaces: list[str], descriptors: list
 	Returns:
 		list[tuple]: List of tuples with the following format:
 			str:			Path of the image
-			np.ndarray:		Image in the database (original)
+			Image.Image:	Image in the database (original)
 			float:			Distance between the image and the request
 	"""
 	# Check if the color spaces, descriptors and distance are valid
@@ -176,7 +177,7 @@ def search(image_request: np.ndarray, color_spaces: list[str], descriptors: list
 	assert distance in DISTANCES_CALLS, f"Distance '{distance}' not found in {list(DISTANCES_CALLS.keys())}"
 
 	# Start with color space conversion
-	image_request = img_to_sliced_rgb(resize_down(image_request))
+	image_request = img_to_sliced_rgb(np.array(resize_down(image_request)))
 	img: ImageData = ImageData(image_request, "RGB")
 	
 	# Apply each color space in sequence
@@ -211,7 +212,7 @@ def search(image_request: np.ndarray, color_spaces: list[str], descriptors: list
 
 	# Sort the images by distance and return the most similar ones
 	sorted_images: list[tuple[str, float]] = sorted(results, key=lambda x: x[-1])[:max_results]
-	return [(image_path, np.array(Image.open(image_path).convert("RGB")), distance) for image_path, distance in sorted_images]
+	return [(image_path, Image.open(image_path).convert("RGB"), distance) for image_path, distance in sorted_images]
 
 def lqdm_call(args: tuple) -> tuple:
 	return thread_function(*args)
