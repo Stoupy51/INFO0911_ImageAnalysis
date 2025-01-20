@@ -183,7 +183,7 @@ FILTERS: dict[str, np.ndarray] = {
 def compute_dx_dy(image: np.ndarray, filter_name: str = "sobel", crop: bool = True) -> tuple[np.ndarray, np.ndarray]:
 	""" Compute the dx and dy images using a filter.\n
 	Args:
-		image		(np.ndarray):	Image
+		image		(np.ndarray):	Image (2D or 3D)
 		filter_name	(str):			Name of the filter
 		crop		(bool):			Crop the resulting image of convolve function, default is True
 	Returns:
@@ -194,11 +194,10 @@ def compute_dx_dy(image: np.ndarray, filter_name: str = "sobel", crop: bool = Tr
 	
 	# Get the filter
 	f: np.ndarray = FILTERS[filter_name]
-	f_shape: int = np.prod(f.shape)
+	f_shape: int = np.prod(f[0].shape)  # Use shape of single filter, not whole array
 
 	# Apply the filter
 	if crop:
-		np.convolve()
 		dx: np.ndarray = convolve(image, f[0])[1:-1, 1:-1] / f_shape
 		dy: np.ndarray = convolve(image, f[1])[1:-1, 1:-1] / f_shape
 	else:
@@ -208,12 +207,12 @@ def compute_dx_dy(image: np.ndarray, filter_name: str = "sobel", crop: bool = Tr
 
 # Gradient magnitude (norm)
 def gradient_magnitude(img: ImageData, filter_name: str = "sobel") -> ImageData:
-	dx, dy = compute_dx_dy(img, filter_name)
+	dx, dy = compute_dx_dy(img.data, filter_name)
 	return ImageData(np.sqrt(dx**2 + dy**2), img.color_space, img.channel)
 
 # Gradient orientation
 def gradient_orientation(img: ImageData, filter_name: str = "sobel") -> ImageData:
-	dx, dy = compute_dx_dy(img, filter_name)
+	dx, dy = compute_dx_dy(img.data, filter_name)
 	orientation: np.ndarray = (np.arctan2(dy, dx) * 180 / np.pi) % 360
 	orientation = np.where(dx == 0, 0, orientation)
 	orientation = np.where(dy == 0, 0, orientation)
@@ -221,6 +220,9 @@ def gradient_orientation(img: ImageData, filter_name: str = "sobel") -> ImageDat
 
 # Weighted gradient orientation by magnitude
 def weighted_gradient_histogram(img: ImageData, filter_name: str = "sobel") -> ImageData:
+	if len(img.shape) > 2:
+		images: list[np.ndarray] = [weighted_gradient_histogram(img[i], filter_name).data for i in range(img.shape[0])]
+		return ImageData(np.concatenate(images), img.color_space, img.channel)
 	magnitude: ImageData = gradient_magnitude(img, filter_name)
 	orientation: ImageData = gradient_orientation(img, filter_name)
 	return ImageData(magnitude.data * orientation.data, img.color_space, img.channel)
@@ -329,7 +331,7 @@ def _create_cooc_matrix(image: np.ndarray, d: int, theta: float, n_gray_levels: 
 	dy: int = int(d * np.sin(theta_rad))
 	
 	# Initialize co-occurrence matrix
-	cooc_matrix: np.ndarray = np.zeros((n_gray_levels, n_gray_levels))
+	cooc_matrix: np.ndarray = np.zeros((n_gray_levels, n_gray_levels), dtype=np.int32)
 	
 	# Build co-occurrence matrix using vectorized operations
 	i_indices, j_indices = np.meshgrid(np.arange(height), np.arange(width), indexing='ij')
@@ -339,9 +341,13 @@ def _create_cooc_matrix(image: np.ndarray, d: int, theta: float, n_gray_levels: 
 	# Create mask for valid indices
 	valid_mask: np.ndarray = (ni >= 0) & (ni < height) & (nj >= 0) & (nj < width)
 	
-	# Get values for valid pairs
+	# Get values for valid pairs and ensure integer type
 	i_vals: np.ndarray = image[i_indices[valid_mask], j_indices[valid_mask]]
 	j_vals: np.ndarray = image[ni[valid_mask], nj[valid_mask]]
+	
+	# Ensure values are within valid range before indexing
+	i_vals = np.clip(i_vals.astype(np.int32), 0, n_gray_levels-1)
+	j_vals = np.clip(j_vals.astype(np.int32), 0, n_gray_levels-1)
 	
 	# Update co-occurrence matrix using np.add.at for atomic operations
 	np.add.at(cooc_matrix, (i_vals, j_vals), 1)
@@ -393,7 +399,10 @@ def haralick(img: ImageData, distances: list[int] = [1, 2, 3, 4], angles: list[i
 			mu_j: float = np.sum(indices[1] * cooc_matrix)
 			sigma_i: float = np.sqrt(np.sum(((indices[0] - mu_i) ** 2) * cooc_matrix))
 			sigma_j: float = np.sqrt(np.sum(((indices[1] - mu_j) ** 2) * cooc_matrix))
-			correlation: float = np.sum((indices[0] - mu_i) * (indices[1] - mu_j) * cooc_matrix) / (sigma_i * sigma_j)
+			
+			# Add small epsilon to avoid division by zero
+			epsilon = 1e-10
+			correlation: float = np.sum((indices[0] - mu_i) * (indices[1] - mu_j) * cooc_matrix) / (sigma_i * sigma_j + epsilon)
 			
 			# 4. Homogeneity (Inverse Difference Moment)
 			homogeneity: float = np.sum(cooc_matrix / (1 + (indices[0] - indices[1]) ** 2))
@@ -442,7 +451,7 @@ DESCRIPTORS_CALLS: dict[str, Callable] = {
 	# Formes
 	# "Gradient Magnitude":			{"function":gradient_magnitude, "args":{}},
 	# "Gradient Orientation":			{"function":gradient_orientation, "args":{}},
-	# "Weighted Gradient Histogram":	{"function":weighted_gradient_histogram, "args":{}},
+	"Weighted Gradient Histogram":	{"function":weighted_gradient_histogram, "args":{}},
 
 	# Textures
 	"Statistics":					{"function":statistics, "args":{}},

@@ -93,7 +93,11 @@ def thread_function(image_path: str, color_spaces: list[str], descriptors: list[
 		cache_descriptor: str = clean_cache_path(cleaned_path, color_spaces=color_spaces, descriptors=descriptors)
 
 		# Apply the color spaces and descriptors to the image
+		compute_distance: bool = distance is not None and to_compare is not None
 		if os.path.exists(cache_descriptor):
+			# Stop the thread if the descriptor is already computed and we don't need to compute the distance
+			if not compute_distance:
+				return cleaned_path, 0.0
 
 			# Load the descriptor from the cache
 			data: np.ndarray = np.load(cache_descriptor, allow_pickle=False)["arr_0"]
@@ -135,13 +139,13 @@ def thread_function(image_path: str, color_spaces: list[str], descriptors: list[
 				np.savez_compressed(cache_descriptor, img.data)
 
 		# Apply normalization
-		if normalization and distance is not None:
+		if normalization and compute_distance:
 			norm: dict = NORMALIZATION_CALLS[normalization]
 			img.data = norm["function"](img.data, **norm.get("args", {}))
 
 		# Compute the distance between the images
 		distance_value: float = 0.0
-		if distance is not None and to_compare is not None:
+		if compute_distance:
 			distance_value = DISTANCES_CALLS[distance](img.data, to_compare)
 
 		# Return the path, image and distance
