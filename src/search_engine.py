@@ -16,11 +16,16 @@ from src.normalization import NORMALIZATION_CALLS
 from src.image import ImageData
 from PIL import Image
 from multiprocessing import Pool, cpu_count
-from typing import Callable
+from concurrent.futures import ThreadPoolExecutor
+from typing import Callable, Literal
 
 # Constants
 DO_MULTI_PROCESSING: bool = cpu_count() > 4	# Use multiprocessing if more than 4 cores
+PARALLEL_TYPE = Literal["none", "thread", "process"]
 #DO_MULTI_PROCESSING = False
+
+# Global cache for processed images
+PROCESSED_IMAGES_CACHE: dict[str, ImageData] = {}
 
 # Utility function to get clean cache filepath
 ALPHANUM = "abcdefghijklmnopqrstuvwxyz0123456789_/"
@@ -84,9 +89,15 @@ def load_and_process_image(image_path: str, color_spaces: list[str], descriptors
 	cache_color_space: str = clean_cache_path(cleaned_path, color_spaces=color_spaces)
 	cache_descriptor: str = clean_cache_path(cleaned_path, color_spaces=color_spaces, descriptors=descriptors)
 
+	# Check in-memory cache first
+	if cache_descriptor in PROCESSED_IMAGES_CACHE:
+		return ImageData(PROCESSED_IMAGES_CACHE[cache_descriptor], "Descriptor")
+
 	if os.path.exists(cache_descriptor):
 		# Load the descriptor from the cache
 		data: np.ndarray = np.load(cache_descriptor, allow_pickle=False)["arr_0"]
+		# Store in memory cache
+		PROCESSED_IMAGES_CACHE[cache_descriptor] = data
 		return ImageData(data, "Descriptor")
 	
 	# Try to load the color spaces applied from the cache
@@ -123,6 +134,9 @@ def load_and_process_image(image_path: str, color_spaces: list[str], descriptors
 	os.makedirs(os.path.dirname(cache_descriptor), exist_ok=True)
 	if not os.path.exists(cache_descriptor):
 		np.savez_compressed(cache_descriptor, img.data)
+	
+	# Store in memory cache
+	PROCESSED_IMAGES_CACHE[cache_descriptor] = img.data
 
 	return img
 
@@ -169,20 +183,23 @@ def thread_function(image_path: str, color_spaces: list[str], descriptors: list[
 # Search engine
 @handle_error(message="Error during the search engine", error_log=2)
 @measure_time(progress, message="Searching for similar images")
-def search(image_request: Image.Image|str, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, max_results: int = 10) -> list[tuple[str, np.ndarray, float]]:
+def search(image_request: Image.Image|str, color_spaces: list[str], descriptors: list[str], 
+          normalization: str, distance: str, max_results: int = 10,
+          parallel: PARALLEL_TYPE = "none") -> list[tuple[str, np.ndarray, float]]:
 	""" Search for similar images in the database\n
 	Args:
-		image_request	(Image.Image|str):	Image to search for (str means cache path)
-		color_spaces	(list[str]):		List of color spaces to use in order
-		descriptors		(list[str]):		List of descriptors to use in order
-		normalization	(str):				Normalization method to use
-		distance		(str):				Distance to use for the search
-		max_results		(int):				Maximum number of results to return, default is 5
+		image_request    (Image.Image|str):    Image to search for (str means cache path)
+		color_spaces    (list[str]):        List of color spaces to use in order
+		descriptors     (list[str]):        List of descriptors to use in order
+		normalization   (str):              Normalization method to use
+		distance        (str):              Distance to use for the search
+		max_results     (int):              Maximum number of results to return, default is 10
+		parallel        (str):              Parallelization type: "none", "thread", or "process"
 	Returns:
 		list[tuple]: List of tuples with the following format:
-			str:			Path of the image
-			Image.Image:	Image in the database (original)
-			float:			Distance between the image and the request
+			str:            Path of the image
+			Image.Image:    Image in the database (original)
+			float:          Distance between the image and the request
 	"""
 	# Check if the color spaces, descriptors and distance are valid
 	for color_space in color_spaces:
@@ -216,12 +233,21 @@ def search(image_request: Image.Image|str, color_spaces: list[str], descriptors:
 	img.data = norm["function"](img.data, **norm.get("args", {}))
 
 	# Apply the color spaces and descriptors to the images, then compute the distance
-	images_paths: list[str] = [f"{root}/{file}" for root, _, files in os.walk(DATABASE_FOLDER) for file in files if file.endswith(IMAGE_EXTENSIONS)]
-	thread_args: list[tuple] = [(image_path, color_spaces, descriptors, normalization, distance, img.data) for image_path in images_paths]
-	if DO_MULTI_PROCESSING:
+	images_paths: list[str] = [f"{root}/{file}" for root, _, files in os.walk(DATABASE_FOLDER) 
+							  for file in files if file.endswith(IMAGE_EXTENSIONS)]
+	thread_args: list[tuple] = [(image_path, color_spaces, descriptors, normalization, distance, img.data) 
+							   for image_path in images_paths]
+	
+	# Choose parallelization method
+	if parallel == "process" and cpu_count() > 4:
 		with Pool(cpu_count()) as pool:
 			debug(f"Using {cpu_count()} processes for the search engine")
 			results: list[tuple[str, float]] = pool.starmap(thread_function, thread_args)
+			debug(f"Computed {len(results)} images distances")
+	elif parallel == "thread":
+		with ThreadPoolExecutor(max_workers=cpu_count() * 2) as executor:
+			debug(f"Using {cpu_count() * 2} threads for the search engine")
+			results: list[tuple[str, float]] = list(executor.map(lambda x: thread_function(*x), thread_args))
 			debug(f"Computed {len(results)} images distances")
 	else:
 		results: list[tuple[str, float]] = [thread_function(*args) for args in thread_args]
@@ -231,7 +257,8 @@ def search(image_request: Image.Image|str, color_spaces: list[str], descriptors:
 
 	# Sort the images by distance and return the most similar ones
 	sorted_images: list[tuple[str, float]] = sorted(results, key=lambda x: x[-1])[:max_results]
-	return [(image_path, Image.open(image_path).convert("RGB"), distance) for image_path, distance in sorted_images]
+	return [(image_path, Image.open(image_path).convert("RGB"), distance) 
+			for image_path, distance in sorted_images]
 
 def lqdm_call(args: tuple) -> tuple:
 	return thread_function(*args)

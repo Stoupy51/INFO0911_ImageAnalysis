@@ -12,9 +12,11 @@ from PIL import Image
 import matplotlib.pyplot as plt
 from collections import defaultdict
 from src.search_engine import search, NORMALIZATION_CALLS
-from tqdm import tqdm
+from tqdm.auto import tqdm
 import json
 from datetime import datetime
+from multiprocessing import Pool, cpu_count
+from functools import partial
 
 # Functions
 def get_class_from_path(image_path: str) -> str:
@@ -89,6 +91,45 @@ def compute_average_precision(relevant_ranks: list[int], k: int|None = None) -> 
 		
 	return sum(precisions) / len(precisions)
 
+def process_query(args):
+	query_path, class_name, class_images, color_spaces, descriptors, distances, k, normalization, total_images = args
+	results = defaultdict(lambda: defaultdict(float))
+	curves_data = defaultdict(lambda: defaultdict(list))
+	
+	# Get remaining images as candidates (leave-one-out)
+	other_relevant: list[str] = [p for p in class_images if p != query_path]
+	total_relevant: int = len(other_relevant)
+	
+	# For each descriptor+distance combination
+	for cs in color_spaces:
+		for desc in descriptors:
+			key: str = f"{cs}_{desc}"
+			try:
+				for dist in distances:
+					# Search similar images
+					results_list = search(query_path, [cs], [desc], normalization, dist, 
+									max_results=total_images-1)
+					
+					# Get ranks of relevant images (same class)
+					relevant_ranks: list[int] = []
+					for rank, (path, _, _) in enumerate(results_list):
+						if get_class_from_path(path) == class_name:
+							relevant_ranks.append(rank)
+							
+					# Compute AP and add to results
+					ap: float = compute_average_precision(relevant_ranks, k)
+					results[key][dist] = ap / total_images
+					
+					# Store precision-recall curve data
+					precisions, recalls = compute_precision_recall(
+						relevant_ranks, total_relevant, len(results_list))
+					curves_data[key][dist].append((precisions, recalls))
+			except Exception as e:
+				warning(f"Error evaluating {cs}_{desc}: {str(e)}")
+				continue
+	
+	return dict(results), dict(curves_data)
+
 @handle_error(message="Error during evaluation", error_log=2)
 def evaluate_descriptors(color_spaces: list[str], descriptors: list[str], 
 						distances: list[str], k: int|None = None,
@@ -107,58 +148,39 @@ def evaluate_descriptors(color_spaces: list[str], descriptors: list[str],
 	images_by_class: dict = get_all_images()
 	total_images: int = sum(len(imgs) for imgs in images_by_class.values())
 	
-	# Store results and curves data
-	results = defaultdict(lambda: defaultdict(float))
-	curves_data = defaultdict(lambda: defaultdict(list)) if plot_curves else None
-	
 	# Get normalization
 	normalization: str = list(NORMALIZATION_CALLS.keys())[0]
 	
-	# For each image as query
-	total_queries: int = sum(len(class_images) for class_images in images_by_class.values())
-	with tqdm(total=total_queries, desc="Evaluating queries") as pbar:
-		for class_name, class_images in images_by_class.items():
-			for query_path in class_images:
-				
-				# Get remaining images as candidates (leave-one-out)
-				other_relevant: list[str] = [p for p in class_images if p != query_path]
-				total_relevant: int = len(other_relevant)
-				
-				# For each descriptor+distance combination
-				for cs in color_spaces:
-					for desc in descriptors:
-						key: str = f"{cs}_{desc}"
-						try:
-							for dist in distances:
-								# Search similar images
-								results_list = search(query_path, [cs], [desc], normalization, dist, 
-												max_results=total_images-1)
-								
-								# Get ranks of relevant images (same class)
-								relevant_ranks: list[int] = []
-								for rank, (path, _, _) in enumerate(results_list):
-									if get_class_from_path(path) == class_name:
-										relevant_ranks.append(rank)
-										
-								# Compute AP and add to results
-								ap: float = compute_average_precision(relevant_ranks, k)
-								results[key][dist] += ap / total_images
-								
-								# Store precision-recall curve data if requested
-								if plot_curves:
-									precisions, recalls = compute_precision_recall(
-										relevant_ranks, total_relevant, len(results_list))
-									curves_data[key][dist].append((precisions, recalls))
-						except Exception as e:
-							warning(f"Error evaluating {cs}_{desc}: {str(e)}")
-							continue
-				pbar.update(1)
+	# Prepare arguments for multiprocessing
+	args_list = []
+	for class_name, class_images in images_by_class.items():
+		for query_path in class_images:
+			args_list.append((query_path, class_name, class_images, color_spaces, descriptors, 
+							distances, k, normalization, total_images))
+	
+	# Process queries in parallel
+	final_results = defaultdict(lambda: defaultdict(float))
+	all_curves_data = defaultdict(lambda: defaultdict(list))
+	
+	with Pool(cpu_count()) as pool:
+		for results, curves_data in tqdm(pool.imap_unordered(process_query, args_list), 
+									   total=len(args_list), desc="Evaluating queries"):
+			# Aggregate results
+			for desc_key, distances_dict in results.items():
+				for dist_key, score in distances_dict.items():
+					final_results[desc_key][dist_key] += score
+			
+			# Aggregate curves data if plotting
+			if plot_curves:
+				for desc_key, distances_dict in curves_data.items():
+					for dist_key, curves in distances_dict.items():
+						all_curves_data[desc_key][dist_key].extend(curves)
 	
 	# Plot precision-recall curves if requested
 	if plot_curves:
-		plot_precision_recall_curves(curves_data)
+		plot_precision_recall_curves(dict(all_curves_data))
 		
-	return dict(results)
+	return dict(final_results)
 
 def plot_precision_recall_curves(curves_data: dict[str, dict[str, list[tuple[list[float], list[float]]]]]) -> None:
 	""" Plot precision-recall curves for each descriptor+distance combination\n
