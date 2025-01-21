@@ -75,6 +75,7 @@ def normalize_rank(vector: np.ndarray) -> np.ndarray:
 
 # Normalization calls
 NORMALIZATION_CALLS: dict[str, dict] = {
+	"Aucune":			{"function": lambda x: x, "args": {}},
 	"Probability":		{"function": normalize_proba, "args": {}},
 	"Magnitude":		{"function": normalize_magnitude, "args": {}},
 	"Min-Max":			{"function": normalize_min_max, "args": {}},
