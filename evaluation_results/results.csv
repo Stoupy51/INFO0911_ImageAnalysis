@@ -1,0 +1,13 @@
+color_space,descriptor,distance,normalization,k,map_score
+RGB,Histogram,Manhattan (L1),Aucune,-1,0.3717225086612284
+RGB,Histogram,Manhattan (L1),Probability,-1,0.3717225086612284
+RGB,Histogram,Manhattan (L1),Magnitude,-1,0.3893563637899008
+RGB,Histogram,Manhattan (L1),Min-Max,-1,0.3714382474631541
+RGB,Histogram,Manhattan (L1),Standardization,-1,0.3908365420334221
+RGB,Histogram,Manhattan (L1),Rank,-1,0.4362366720371541
+RGB,CNN (VGG-16),Euclidean (L2),Aucune,-1,0.359292820841051
+RGB,CNN (VGG-16),Euclidean (L2),Probability,-1,0.4949607000824998
+RGB,CNN (VGG-16),Euclidean (L2),Magnitude,-1,0.720941339694402
+RGB,CNN (VGG-16),Euclidean (L2),Min-Max,-1,0.38322771986299725
+RGB,CNN (VGG-16),Euclidean (L2),Standardization,-1,0.7154095369525942
+RGB,CNN (VGG-16),Euclidean (L2),Rank,-1,0.10666636216595769
