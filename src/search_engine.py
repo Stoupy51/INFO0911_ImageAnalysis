@@ -188,7 +188,7 @@ def search(image_request: Image.Image|str, color_spaces: list[str], descriptors:
           parallel: PARALLEL_TYPE = "none") -> list[tuple[str, np.ndarray, float]]:
 	""" Search for similar images in the database\n
 	Args:
-		image_request    (Image.Image|str):    Image to search for (str means cache path)
+		image_request   (Image.Image|str):  Image to search for (str means cache path)
 		color_spaces    (list[str]):        List of color spaces to use in order
 		descriptors     (list[str]):        List of descriptors to use in order
 		normalization   (str):              Normalization method to use
@@ -241,14 +241,10 @@ def search(image_request: Image.Image|str, color_spaces: list[str], descriptors:
 	# Choose parallelization method
 	if parallel == "process" and cpu_count() > 4:
 		with Pool(cpu_count()) as pool:
-			debug(f"Using {cpu_count()} processes for the search engine")
 			results: list[tuple[str, float]] = pool.starmap(thread_function, thread_args)
-			debug(f"Computed {len(results)} images distances")
 	elif parallel == "thread":
 		with ThreadPoolExecutor(max_workers=cpu_count() * 2) as executor:
-			debug(f"Using {cpu_count() * 2} threads for the search engine")
 			results: list[tuple[str, float]] = list(executor.map(lambda x: thread_function(*x), thread_args))
-			debug(f"Computed {len(results)} images distances")
 	else:
 		results: list[tuple[str, float]] = [thread_function(*args) for args in thread_args]
 	

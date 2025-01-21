@@ -1,13 +1,15 @@
+
 # Import config from the parent folder
 import os
 import sys
 sys.path.append(os.path.dirname(__file__))
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from config import *
+import pandas as pd
 
 # Imports
 from src.print import *
-from src.mean_average_precision import evaluate_descriptors, print_evaluation_results, save_evaluation_results
+from src.mean_average_precision import evaluate_descriptors, print_evaluation_results
 from src.color_space.all import COLOR_SPACES_CALLS
 from src.descriptors import DESCRIPTORS_CALLS
 from src.distances import DISTANCES_CALLS
@@ -28,6 +30,13 @@ def main() -> None:
 	info(f"Distances: {distances}")
 	print()
 
+	# Load existing results
+	results_dir: str = "evaluation_results"
+	results_file: str = f"{results_dir}/results.csv"
+	if os.path.exists(results_file):
+		results_df = pd.read_csv(results_file)
+		info(f"Loaded {len(results_df)} existing results from {results_file}")
+	
 	# Ask for evaluation parameters
 	plot_curves: bool = input("Generate precision-recall curves? (y/N): ").lower() == 'y'
 	use_k: bool = input("Use MAP@K? (y/N): ").lower() == 'y'
@@ -51,14 +60,20 @@ def main() -> None:
 		print("\nSelect color spaces (comma-separated):")
 		selected_cs: list[str] = input(f"Options {color_spaces}: ").strip().split(',')
 		selected_cs = [cs.strip() for cs in selected_cs if cs.strip() in color_spaces]
+		if not selected_cs:
+			selected_cs = [list(COLOR_SPACES_CALLS.keys())[0]]
 
 		print("\nSelect descriptors (comma-separated):")
 		selected_desc: list[str] = input(f"Options {descriptors}: ").strip().split(',')
 		selected_desc = [d.strip() for d in selected_desc if d.strip() in descriptors]
+		if not selected_desc:
+			selected_desc = [list(DESCRIPTORS_CALLS.keys())[0]]
 
 		print("\nSelect distances (comma-separated):")
 		selected_dist: list[str] = input(f"Options {distances}: ").strip().split(',')
 		selected_dist = [d.strip() for d in selected_dist if d.strip() in distances]
+		if not selected_dist:
+			selected_dist = [list(DISTANCES_CALLS.keys())[0]]
 
 		# Validate selections
 		if not (selected_cs and selected_desc and selected_dist):
@@ -77,9 +92,6 @@ def main() -> None:
 
 	# Print results
 	print_evaluation_results(results)
-
-	# Save results
-	save_evaluation_results(results, k)
 
 	if plot_curves:
 		info("Precision-recall curves saved to precision_recall_curves.png")
