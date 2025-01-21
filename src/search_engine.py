@@ -70,6 +70,62 @@ def resize_down(image: Image.Image, max_size: tuple[int, int] = SEARCH_MAX_IMAGE
 		width, height = image.size
 		return image.resize((max_size[0], max_size[1]), Image.Resampling.LANCZOS)
 
+def load_and_process_image(image_path: str, color_spaces: list[str], descriptors: list[str]) -> ImageData:
+	""" Load and process an image with color spaces and descriptors\n
+	Args:
+		image_path		(str):			Image to process
+		color_spaces	(list[str]):	List of color spaces to use in order
+		descriptors		(list[str]):	List of descriptors to use in order
+	Returns:
+		ImageData: Processed image data
+	"""
+	# Get cache paths
+	cleaned_path = image_path.replace("\\","/")
+	cache_color_space: str = clean_cache_path(cleaned_path, color_spaces=color_spaces)
+	cache_descriptor: str = clean_cache_path(cleaned_path, color_spaces=color_spaces, descriptors=descriptors)
+
+	if os.path.exists(cache_descriptor):
+		# Load the descriptor from the cache
+		data: np.ndarray = np.load(cache_descriptor, allow_pickle=False)["arr_0"]
+		return ImageData(data, "Descriptor")
+	
+	# Try to load the color spaces applied from the cache
+	if os.path.exists(cache_color_space):
+		data: np.ndarray = np.load(cache_color_space, allow_pickle=False)["arr_0"]
+		img: ImageData = ImageData(data, color_spaces[-1])  # Use last color space as final space
+	else:
+		original_image: Image.Image = Image.open(cleaned_path).convert("RGB")
+		original_image = resize_down(original_image)
+		data: np.ndarray = img_to_sliced_rgb(np.array(original_image))
+		img: ImageData = ImageData(data, "RGB")
+		
+		# Apply each color space in sequence
+		for color_space in color_spaces:
+			cs: dict = COLOR_SPACES_CALLS[color_space]
+			cs_args: dict = cs.get("args", {})
+			img = cs["function"](img, **cs_args)
+		
+		# Save the color space applied to the cache
+		if color_spaces != ["RGB"]:
+			os.makedirs(os.path.dirname(cache_color_space), exist_ok=True)
+			if not os.path.exists(cache_color_space):
+				np.savez_compressed(cache_color_space, img.data)
+
+	# Apply each descriptor in sequence (if the descriptor is not compatible with the color space, return None)
+	for descriptor in descriptors:
+		if "HSV/HSL" in descriptor and img.color_space not in ["HSV", "HSL"]:
+			return None
+		ds: dict = DESCRIPTORS_CALLS[descriptor]
+		ds_args: dict = ds.get("args", {})
+		img = ds["function"](img, **ds_args)
+
+	# Save the descriptor applied to the cache
+	os.makedirs(os.path.dirname(cache_descriptor), exist_ok=True)
+	if not os.path.exists(cache_descriptor):
+		np.savez_compressed(cache_descriptor, img.data)
+
+	return img
+
 # Function to apply the color spaces, descriptor, and compute the distance (optional)
 def thread_function(image_path: str, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, float]:
 	""" Thread function to apply the color spaces, descriptor, and compute the distance (optional)\n
@@ -87,56 +143,12 @@ def thread_function(image_path: str, color_spaces: list[str], descriptors: list[
 	"""
 	@handle_error(message=f"Error while processing '{image_path}' with {color_spaces} and {descriptors}", error_log=2)
 	def intern():
-		# Get cache paths
 		cleaned_path = image_path.replace("\\","/")
-		cache_color_space: str = clean_cache_path(cleaned_path, color_spaces=color_spaces)
-		cache_descriptor: str = clean_cache_path(cleaned_path, color_spaces=color_spaces, descriptors=descriptors)
-
-		# Apply the color spaces and descriptors to the image
 		compute_distance: bool = distance is not None and to_compare is not None
-		if os.path.exists(cache_descriptor):
-			# Stop the thread if the descriptor is already computed and we don't need to compute the distance
-			if not compute_distance:
-				return cleaned_path, 0.0
-
-			# Load the descriptor from the cache
-			data: np.ndarray = np.load(cache_descriptor, allow_pickle=False)["arr_0"]
-			img: ImageData = ImageData(data, "Descriptor")
-		else:
-			# Try to load the color spaces applied from the cache
-			if os.path.exists(cache_color_space):
-				data: np.ndarray = np.load(cache_color_space, allow_pickle=False)["arr_0"]
-				img: ImageData = ImageData(data, color_spaces[-1])  # Use last color space as final space
-			else:
-				original_image: Image.Image = Image.open(cleaned_path).convert("RGB")
-				original_image = resize_down(original_image)
-				data: np.ndarray = img_to_sliced_rgb(np.array(original_image))
-				img: ImageData = ImageData(data, "RGB")
-				
-				# Apply each color space in sequence
-				for color_space in color_spaces:
-					cs: dict = COLOR_SPACES_CALLS[color_space]
-					cs_args: dict = cs.get("args", {})
-					img = cs["function"](img, **cs_args)
-				
-				# Save the color space applied to the cache
-				if color_spaces != ["RGB"]:
-					os.makedirs(os.path.dirname(cache_color_space), exist_ok=True)
-					if not os.path.exists(cache_color_space):
-						np.savez_compressed(cache_color_space, img.data)
-
-			# Apply each descriptor in sequence (if the descriptor is not compatible with the color space, return None)
-			for descriptor in descriptors:
-				if "HSV/HSL" in descriptor and img.color_space not in ["HSV", "HSL"]:
-					return None
-				ds: dict = DESCRIPTORS_CALLS[descriptor]
-				ds_args: dict = ds.get("args", {})
-				img = ds["function"](img, **ds_args)
-
-			# Save the descriptor applied to the cache
-			os.makedirs(os.path.dirname(cache_descriptor), exist_ok=True)
-			if not os.path.exists(cache_descriptor):
-				np.savez_compressed(cache_descriptor, img.data)
+		
+		img = load_and_process_image(image_path, color_spaces, descriptors)
+		if img is None:
+			return None
 
 		# Apply normalization
 		if normalization and compute_distance:
@@ -157,15 +169,15 @@ def thread_function(image_path: str, color_spaces: list[str], descriptors: list[
 # Search engine
 @handle_error(message="Error during the search engine", error_log=2)
 @measure_time(progress, message="Searching for similar images")
-def search(image_request: Image.Image, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, max_results: int = 10) -> list[tuple[str, np.ndarray, float]]:
+def search(image_request: Image.Image|str, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, max_results: int = 10) -> list[tuple[str, np.ndarray, float]]:
 	""" Search for similar images in the database\n
 	Args:
-		image_request	(Image.Image):	Image to search for
-		color_spaces	(list[str]):	List of color spaces to use in order
-		descriptors		(list[str]):	List of descriptors to use in order
-		normalization	(str):			Normalization method to use
-		distance		(str):			Distance to use for the search
-		max_results		(int):			Maximum number of results to return, default is 5
+		image_request	(Image.Image|str):	Image to search for (str means cache path)
+		color_spaces	(list[str]):		List of color spaces to use in order
+		descriptors		(list[str]):		List of descriptors to use in order
+		normalization	(str):				Normalization method to use
+		distance		(str):				Distance to use for the search
+		max_results		(int):				Maximum number of results to return, default is 5
 	Returns:
 		list[tuple]: List of tuples with the following format:
 			str:			Path of the image
@@ -180,21 +192,24 @@ def search(image_request: Image.Image, color_spaces: list[str], descriptors: lis
 	assert normalization in NORMALIZATION_CALLS, f"Normalization '{normalization}' not found in {list(NORMALIZATION_CALLS.keys())}"
 	assert distance in DISTANCES_CALLS, f"Distance '{distance}' not found in {list(DISTANCES_CALLS.keys())}"
 
-	# Start with color space conversion
-	image_request = img_to_sliced_rgb(np.array(resize_down(image_request)))
-	img: ImageData = ImageData(image_request, "RGB")
+	# If the image is a path, load it
+	if isinstance(image_request, str):
+		img: ImageData = load_and_process_image(image_request, color_spaces, descriptors)
+	elif isinstance(image_request, Image.Image):
+		image_request = resize_down(image_request)
+		img: ImageData = ImageData(img_to_sliced_rgb(np.array(image_request)), "RGB")
 	
-	# Apply each color space in sequence
-	for color_space in color_spaces:
-		cs: dict = COLOR_SPACES_CALLS[color_space]
-		cs_args: dict = cs.get("args", {})
-		img = cs["function"](img, **cs_args)
+		# Apply each color space in sequence
+		for color_space in color_spaces:
+			cs: dict = COLOR_SPACES_CALLS[color_space]
+			cs_args: dict = cs.get("args", {})
+			img = cs["function"](img, **cs_args)
 
-	# Apply each descriptor in sequence
-	for descriptor in descriptors:
-		ds: dict = DESCRIPTORS_CALLS[descriptor]
-		ds_args: dict = ds.get("args", {})
-		img = ds["function"](img, **ds_args)
+		# Apply each descriptor in sequence
+		for descriptor in descriptors:
+			ds: dict = DESCRIPTORS_CALLS[descriptor]
+			ds_args: dict = ds.get("args", {})
+			img = ds["function"](img, **ds_args)
 	
 	# Apply normalization
 	norm: dict = NORMALIZATION_CALLS[normalization]

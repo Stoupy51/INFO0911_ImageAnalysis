@@ -1,4 +1,3 @@
-
 # Import config from the parent folder
 import os
 import sys
@@ -14,6 +13,8 @@ import matplotlib.pyplot as plt
 from collections import defaultdict
 from src.search_engine import search, NORMALIZATION_CALLS
 from tqdm import tqdm
+import json
+from datetime import datetime
 
 # Functions
 def get_class_from_path(image_path: str) -> str:
@@ -118,8 +119,6 @@ def evaluate_descriptors(color_spaces: list[str], descriptors: list[str],
 	with tqdm(total=total_queries, desc="Evaluating queries") as pbar:
 		for class_name, class_images in images_by_class.items():
 			for query_path in class_images:
-				# Get query image
-				query_image: Image.Image = Image.open(query_path).convert("RGB")
 				
 				# Get remaining images as candidates (leave-one-out)
 				other_relevant: list[str] = [p for p in class_images if p != query_path]
@@ -132,7 +131,7 @@ def evaluate_descriptors(color_spaces: list[str], descriptors: list[str],
 						try:
 							for dist in distances:
 								# Search similar images
-								results_list = search(query_image, [cs], [desc], normalization, dist, 
+								results_list = search(query_path, [cs], [desc], normalization, dist, 
 												max_results=total_images-1)
 								
 								# Get ranks of relevant images (same class)
@@ -209,3 +208,50 @@ def print_evaluation_results(results: dict[str, dict[str, float]]) -> None:
 		row += " | ".join(f"{desc_results.get(d, 0):.4f}".ljust(10) for d in distances)
 		print(row)
 	print("-" * len(header))
+
+def save_evaluation_results(results: dict[str, dict[str, float]], k: int|None = None) -> None:
+	""" Save evaluation results to a JSON file\n
+	Args:
+		results	(dict):		Results with format {descriptor: {distance: map_score}}
+		k		(int|None):	Optional k value for MAP@K
+	"""
+	# Create results directory if it doesn't exist
+	results_dir: str = "evaluation_results"
+	os.makedirs(results_dir, exist_ok=True)
+	
+	# Load previous results if they exist
+	results_file: str = f"{results_dir}/results.json"
+	all_results: dict = {}
+	if os.path.exists(results_file):
+		try:
+			with open(results_file, "r") as f:
+				all_results = json.load(f)
+		except Exception as e:
+			warning(f"Could not load previous results: {str(e)}")
+	
+	# Add new results with timestamp
+	timestamp: str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+	all_results[timestamp] = {
+		"parameters": {
+			"MAP": "MAP@" + str(k) if k else "MAP",
+			"timestamp": timestamp
+		},
+		"results": results
+	}
+	
+	# Save to file
+	try:
+		with open(results_file, "w") as f:
+			json.dump(all_results, f, indent=4)
+		info(f"Results saved to {results_file}")
+	except Exception as e:
+		error(f"Could not save results: {str(e)}")
+	
+	# Also save current results separately for easy access
+	current_file: str = f"{results_dir}/results_{timestamp}.json"
+	try:
+		with open(current_file, "w") as f:
+			json.dump(all_results[timestamp], f, indent=4)
+		info(f"Current results also saved to {current_file}")
+	except Exception as e:
+		error(f"Could not save current results: {str(e)}")

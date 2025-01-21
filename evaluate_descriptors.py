@@ -1,14 +1,13 @@
-
 # Import config from the parent folder
 import os
 import sys
 sys.path.append(os.path.dirname(__file__))
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from config import *
-from print import *
 
 # Imports
-from src.mean_average_precision import evaluate_descriptors, print_evaluation_results
+from src.print import *
+from src.mean_average_precision import evaluate_descriptors, print_evaluation_results, save_evaluation_results
 from src.color_space.all import COLOR_SPACES_CALLS
 from src.descriptors import DESCRIPTORS_CALLS
 from src.distances import DISTANCES_CALLS
@@ -79,27 +78,9 @@ def main() -> None:
 	# Print results
 	print_evaluation_results(results)
 
-	# Save results to file
-	results_file: str = "evaluation_results.txt"
-	with open(results_file, "w") as f:
-		# Redirect print output to file
-		import sys
-		original_stdout = sys.stdout
-		sys.stdout = f
-		
-		# Write parameters
-		print(f"Evaluation Parameters:")
-		print(f"MAP{'@'+str(k) if k else ''}")
-		print(f"Plot curves: {plot_curves}")
-		print()
-		
-		# Write results
-		print_evaluation_results(results)
-		
-		# Restore stdout
-		sys.stdout = original_stdout
+	# Save results
+	save_evaluation_results(results, k)
 
-	info(f"Results saved to {results_file}")
 	if plot_curves:
 		info("Precision-recall curves saved to precision_recall_curves.png")
 
