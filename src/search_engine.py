@@ -24,9 +24,6 @@ DO_MULTI_PROCESSING: bool = cpu_count() > 4	# Use multiprocessing if more than 4
 PARALLEL_TYPE = Literal["none", "thread", "process"]
 #DO_MULTI_PROCESSING = False
 
-# Global cache for processed images
-PROCESSED_IMAGES_CACHE: dict[str, ImageData] = {}
-
 # Utility function to get clean cache filepath
 ALPHANUM = "abcdefghijklmnopqrstuvwxyz0123456789_/"
 def clean_cache_path(image_path: str, **kwargs: dict) -> str:
@@ -89,15 +86,9 @@ def load_and_process_image(image_path: str, color_spaces: list[str], descriptors
 	cache_color_space: str = clean_cache_path(cleaned_path, color_spaces=color_spaces)
 	cache_descriptor: str = clean_cache_path(cleaned_path, color_spaces=color_spaces, descriptors=descriptors)
 
-	# Check in-memory cache first
-	if cache_descriptor in PROCESSED_IMAGES_CACHE:
-		return ImageData(PROCESSED_IMAGES_CACHE[cache_descriptor], "Descriptor")
-
 	if os.path.exists(cache_descriptor):
 		# Load the descriptor from the cache
 		data: np.ndarray = np.load(cache_descriptor, allow_pickle=False)["arr_0"]
-		# Store in memory cache
-		PROCESSED_IMAGES_CACHE[cache_descriptor] = data
 		return ImageData(data, "Descriptor")
 	
 	# Try to load the color spaces applied from the cache
@@ -134,9 +125,6 @@ def load_and_process_image(image_path: str, color_spaces: list[str], descriptors
 	os.makedirs(os.path.dirname(cache_descriptor), exist_ok=True)
 	if not os.path.exists(cache_descriptor):
 		np.savez_compressed(cache_descriptor, img.data)
-	
-	# Store in memory cache
-	PROCESSED_IMAGES_CACHE[cache_descriptor] = img.data
 
 	return img
 
@@ -182,7 +170,6 @@ def thread_function(image_path: str, color_spaces: list[str], descriptors: list[
 
 # Search engine
 @handle_error(message="Error during the search engine", error_log=2)
-@measure_time(progress, message="Searching for similar images")
 def search(image_request: Image.Image|str, color_spaces: list[str], descriptors: list[str], 
           normalization: str, distance: str, max_results: int = 10,
           parallel: PARALLEL_TYPE = "none") -> list[tuple[str, np.ndarray, float]]:
