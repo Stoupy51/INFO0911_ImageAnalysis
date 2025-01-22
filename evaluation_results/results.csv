@@ -23,5 +23,109 @@ RGB,CNN (VGG-16),Euclidean (L2),Magnitude,10,0.0059523809523809
 RGB,CNN (VGG-16),Euclidean (L2),Min-Max,10,0.0042857142857142
 RGB,CNN (VGG-16),Euclidean (L2),Standardization,10,0.0059523809523809
 RGB,CNN (VGG-16),Euclidean (L2),Rank,10,0.0071428571428571
-RGB,Histogram,Euclidean (L2),Aucune,-1,0.0017378676487347473
-RGB,Histogram,Euclidean (L2),Probability,-1,0.0026936159079016227
+RGB,Histogram,Euclidean (L2),Aucune,-1,0.0017378676487347
+RGB,Histogram,Euclidean (L2),Probability,-1,0.0026936159079016
+RGB,Histogram,Euclidean (L2),Magnitude,-1,0.0027736479207067
+RGB,Histogram,Euclidean (L2),Min-Max,-1,0.0045079365079365
+RGB,Histogram,Euclidean (L2),Standardization,-1,0.0027736479207067
+RGB,Histogram,Euclidean (L2),Rank,-1,0.0037446374946374
+RGB,Histogram,Chebyshev,Aucune,-1,0.0025953620314522
+RGB,Histogram,Chebyshev,Probability,-1,0.0025953620314522
+RGB,Histogram,Chebyshev,Magnitude,-1,0.0027560303473616
+RGB,Histogram,Chebyshev,Min-Max,-1,0.0027324824666708
+RGB,Histogram,Chebyshev,Standardization,-1,0.0052813852813852
+RGB,Histogram,Chebyshev,Rank,-1,0.0030419501133786
+RGB,Histogram,Minkowski,Aucune,-1,0.0027597402597402
+RGB,Histogram,Minkowski,Probability,-1,0.0027597402597402
+RGB,Histogram,Minkowski,Magnitude,-1,0.0027294197031039
+RGB,Histogram,Minkowski,Min-Max,-1,0.0027294197031039
+RGB,Histogram,Minkowski,Standardization,-1,0.0027113768584356
+RGB,Histogram,Minkowski,Rank,-1,0.0043993993993994
+RGB,Histogram,Khi2,Aucune,-1,0.0071428571428571
+RGB,Histogram,Khi2,Probability,-1,0.0071428571428571
+RGB,Histogram,Khi2,Magnitude,-1,0.0071428571428571
+RGB,Histogram,Khi2,Min-Max,-1,0.0071428571428571
+RGB,Histogram,Khi2,Standardization,-1,0.0016157315272835
+RGB,Histogram,Khi2,Rank,-1,0.002095682095682
+RGB,Histogram,Histogram Intersection,Aucune,-1,0.0001328642394281
+RGB,Histogram,Histogram Intersection,Probability,-1,0.00013968952781
+RGB,Histogram,Histogram Intersection,Magnitude,-1,0.0001335188219593
+RGB,Histogram,Histogram Intersection,Min-Max,-1,0.0001419684073448
+RGB,Histogram,Histogram Intersection,Standardization,-1,0.0058874458874458
+RGB,Histogram,Histogram Intersection,Rank,-1,0.0001655612892595
+RGB,Histogram Blob,Manhattan (L1),Aucune,-1,0.0049111414900888
+RGB,Histogram Blob,Manhattan (L1),Probability,-1,0.0027438203351516
+RGB,Histogram Blob,Manhattan (L1),Magnitude,-1,0.0049404761904761
+RGB,Histogram Blob,Manhattan (L1),Min-Max,-1,0.0049111414900888
+RGB,Histogram Blob,Manhattan (L1),Standardization,-1,0.0026068743286788
+RGB,Histogram Blob,Manhattan (L1),Rank,-1,0.0028916414045724
+RGB,Histogram Blob,Euclidean (L2),Aucune,-1,0.0027344322344322
+RGB,Histogram Blob,Euclidean (L2),Probability,-1,0.0027344322344322
+RGB,Histogram Blob,Euclidean (L2),Magnitude,-1,0.0027344322344322
+RGB,Histogram Blob,Euclidean (L2),Min-Max,-1,0.0027344322344322
+RGB,Histogram Blob,Euclidean (L2),Standardization,-1,0.0027344322344322
+RGB,Histogram Blob,Euclidean (L2),Rank,-1,0.0020753138653835
+RGB,Histogram Blob,Chebyshev,Aucune,-1,0.0053265306122448
+RGB,Histogram (HSV/HSL),Manhattan (L1),Aucune,-1,0.0
+RGB,Histogram (HSV/HSL),Manhattan (L1),Probability,-1,0.0
+RGB,Histogram (HSV/HSL),Manhattan (L1),Magnitude,-1,0.0
+RGB,Histogram (HSV/HSL),Manhattan (L1),Min-Max,-1,0.0
+RGB,Histogram (HSV/HSL),Manhattan (L1),Standardization,-1,0.0
+RGB,Histogram (HSV/HSL),Manhattan (L1),Rank,-1,0.0
+RGB,Histogram (HSV/HSL),Euclidean (L2),Aucune,-1,0.0
+RGB,Histogram (HSV/HSL),Euclidean (L2),Probability,-1,0.0
+RGB,Histogram (HSV/HSL),Euclidean (L2),Magnitude,-1,0.0
+RGB,Histogram (HSV/HSL),Euclidean (L2),Min-Max,-1,0.0
+RGB,Histogram (HSV/HSL),Euclidean (L2),Standardization,-1,0.0
+RGB,Histogram (HSV/HSL),Euclidean (L2),Rank,-1,0.0
+RGB,Histogram (HSV/HSL),Chebyshev,Aucune,-1,0.0
+RGB,Histogram (HSV/HSL),Chebyshev,Probability,-1,0.0
+RGB,Histogram (HSV/HSL),Chebyshev,Magnitude,-1,0.0
+RGB,Histogram (HSV/HSL),Chebyshev,Min-Max,-1,0.0
+RGB,Histogram (HSV/HSL),Chebyshev,Standardization,-1,0.0
+RGB,Histogram (HSV/HSL),Chebyshev,Rank,-1,0.0
+RGB,Histogram (HSV/HSL),Minkowski,Aucune,-1,0.0
+RGB,Histogram (HSV/HSL),Minkowski,Probability,-1,0.0
+RGB,Histogram (HSV/HSL),Minkowski,Magnitude,-1,0.0
+RGB,Histogram (HSV/HSL),Minkowski,Min-Max,-1,0.0
+RGB,Histogram (HSV/HSL),Minkowski,Standardization,-1,0.0
+RGB,Histogram (HSV/HSL),Minkowski,Rank,-1,0.0
+RGB,Histogram (HSV/HSL),Khi2,Aucune,-1,0.0
+RGB,Histogram (HSV/HSL),Khi2,Probability,-1,0.0
+RGB,Histogram (HSV/HSL),Khi2,Magnitude,-1,0.0
+RGB,Histogram (HSV/HSL),Khi2,Min-Max,-1,0.0
+RGB,Histogram (HSV/HSL),Khi2,Standardization,-1,0.0
+RGB,Histogram (HSV/HSL),Khi2,Rank,-1,0.0
+RGB,Histogram (HSV/HSL),Histogram Intersection,Aucune,-1,0.0
+RGB,Histogram (HSV/HSL),Histogram Intersection,Probability,-1,0.0
+RGB,Histogram (HSV/HSL),Histogram Intersection,Magnitude,-1,0.0
+RGB,Histogram (HSV/HSL),Histogram Intersection,Min-Max,-1,0.0
+RGB,Histogram (HSV/HSL),Histogram Intersection,Standardization,-1,0.0
+RGB,Histogram (HSV/HSL),Histogram Intersection,Rank,-1,0.0
+RGB,Histogram Blob,Chebyshev,Probability,-1,0.0053265306122448975
+RGB,Histogram Blob,Chebyshev,Magnitude,-1,0.0025945165945165946
+RGB,Histogram Blob,Chebyshev,Min-Max,-1,0.0029361135758651288
+RGB,Histogram Blob,Chebyshev,Standardization,-1,0.0049404761904761904
+RGB,Histogram Blob,Chebyshev,Rank,-1,0.0021531048316762603
+RGB,Histogram Blob,Minkowski,Aucune,-1,0.0027065084406968525
+RGB,Histogram Blob,Minkowski,Probability,-1,0.0027065084406968525
+RGB,Histogram Blob,Minkowski,Magnitude,-1,0.0042181962181962185
+RGB,Histogram Blob,Minkowski,Min-Max,-1,0.0040765198104647645
+RGB,Histogram Blob,Minkowski,Standardization,-1,0.0027065084406968525
+RGB,Histogram Blob,Minkowski,Rank,-1,0.0028951978821085086
+RGB,Histogram Blob,Khi2,Aucune,-1,0.007142857142857143
+RGB,Histogram Blob,Khi2,Probability,-1,0.007142857142857143
+RGB,Histogram Blob,Khi2,Magnitude,-1,0.007142857142857143
+RGB,Histogram Blob,Khi2,Min-Max,-1,0.007142857142857143
+RGB,Histogram Blob,Khi2,Standardization,-1,0.0026998001998002
+RGB,Histogram Blob,Khi2,Rank,-1,0.0040327767470624614
+RGB,Histogram Blob,Histogram Intersection,Aucune,-1,0.00013448734432060255
+RGB,Histogram Blob,Histogram Intersection,Probability,-1,0.0001400684065751679
+RGB,Histogram Blob,Histogram Intersection,Magnitude,-1,0.0001329909018591395
+RGB,Histogram Blob,Histogram Intersection,Min-Max,-1,0.0001400684065751679
+RGB,Histogram Blob,Histogram Intersection,Standardization,-1,0.00013519085904005663
+RGB,Histogram Blob,Histogram Intersection,Rank,-1,0.00014006773238209124
+RGB,Weighted Gradient Histogram,Manhattan (L1),Aucune,-1,0.0033740110464248398
+RGB,Weighted Gradient Histogram,Manhattan (L1),Probability,-1,0.002576167219024362
+RGB,Weighted Gradient Histogram,Manhattan (L1),Magnitude,-1,0.0024534539622300534
+RGB,Weighted Gradient Histogram,Manhattan (L1),Min-Max,-1,0.0023239521615097654
