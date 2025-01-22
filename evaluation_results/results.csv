@@ -129,3 +129,30 @@ RGB,Weighted Gradient Histogram,Manhattan (L1),Aucune,-1,0.0033740110464248398
 RGB,Weighted Gradient Histogram,Manhattan (L1),Probability,-1,0.002576167219024362
 RGB,Weighted Gradient Histogram,Manhattan (L1),Magnitude,-1,0.0024534539622300534
 RGB,Weighted Gradient Histogram,Manhattan (L1),Min-Max,-1,0.0023239521615097654
+RGB,Weighted Gradient Histogram,Manhattan (L1),Standardization,-1,0.002357142857142857
+RGB,Weighted Gradient Histogram,Manhattan (L1),Rank,-1,0.0004669446709183811
+RGB,Weighted Gradient Histogram,Euclidean (L2),Aucune,-1,0.0024150976179945663
+RGB,Weighted Gradient Histogram,Euclidean (L2),Probability,-1,0.0016801413965753388
+RGB,Weighted Gradient Histogram,Euclidean (L2),Magnitude,-1,0.0020848472435273492
+RGB,Weighted Gradient Histogram,Euclidean (L2),Min-Max,-1,0.0024150976179945663
+RGB,Weighted Gradient Histogram,Euclidean (L2),Standardization,-1,0.00342948717948718
+RGB,Weighted Gradient Histogram,Euclidean (L2),Rank,-1,0.006363636363636363
+RGB,Weighted Gradient Histogram,Chebyshev,Aucune,-1,0.007142857142857143
+RGB,Weighted Gradient Histogram,Chebyshev,Probability,-1,0.002990410052910053
+RGB,Weighted Gradient Histogram,Chebyshev,Magnitude,-1,0.007142857142857143
+RGB,Weighted Gradient Histogram,Chebyshev,Min-Max,-1,0.007142857142857143
+RGB,Weighted Gradient Histogram,Chebyshev,Standardization,-1,0.00199011283345455
+RGB,Weighted Gradient Histogram,Chebyshev,Rank,-1,0.005782312925170068
+RGB,Weighted Gradient Histogram,Minkowski,Aucune,-1,0.002391263401912489
+RGB,Weighted Gradient Histogram,Minkowski,Probability,-1,0.0025968712667664715
+RGB,Weighted Gradient Histogram,Minkowski,Magnitude,-1,0.0025555555555555557
+RGB,Weighted Gradient Histogram,Minkowski,Min-Max,-1,0.0026077531491065327
+RGB,Weighted Gradient Histogram,Minkowski,Standardization,-1,0.00244625350140056
+RGB,Weighted Gradient Histogram,Minkowski,Rank,-1,0.002175554713485748
+RGB,Weighted Gradient Histogram,Khi2,Aucune,-1,0.007142857142857143
+RGB,Weighted Gradient Histogram,Khi2,Probability,-1,0.007142857142857143
+RGB,Weighted Gradient Histogram,Khi2,Magnitude,-1,0.007142857142857143
+RGB,Weighted Gradient Histogram,Khi2,Min-Max,-1,0.007142857142857143
+RGB,Weighted Gradient Histogram,Khi2,Standardization,-1,0.0019287715086034412
+RGB,Weighted Gradient Histogram,Khi2,Rank,-1,0.0023467760309865576
+RGB,Weighted Gradient Histogram,Histogram Intersection,Aucune,-1,0.0005574771281721584
