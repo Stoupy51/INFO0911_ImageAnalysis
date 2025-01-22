@@ -8,6 +8,20 @@ RGB,Histogram,Manhattan (L1),Rank,-1,0.4362366720371541
 RGB,CNN (VGG-16),Euclidean (L2),Aucune,-1,0.359292820841051
 RGB,CNN (VGG-16),Euclidean (L2),Probability,-1,0.4949607000824998
 RGB,CNN (VGG-16),Euclidean (L2),Magnitude,-1,0.720941339694402
-RGB,CNN (VGG-16),Euclidean (L2),Min-Max,-1,0.38322771986299725
+RGB,CNN (VGG-16),Euclidean (L2),Min-Max,-1,0.3832277198629972
 RGB,CNN (VGG-16),Euclidean (L2),Standardization,-1,0.7154095369525942
-RGB,CNN (VGG-16),Euclidean (L2),Rank,-1,0.10666636216595769
+RGB,CNN (VGG-16),Euclidean (L2),Rank,-1,0.1066663621659576
+RGB,Histogram,Manhattan (L1),Aucune,10,0.0044642857142857
+RGB,Histogram,Manhattan (L1),Probability,10,0.005484693877551
+RGB,Histogram,Manhattan (L1),Magnitude,10,0.0071428571428571
+RGB,Histogram,Manhattan (L1),Min-Max,10,0.0071428571428571
+RGB,Histogram,Manhattan (L1),Standardization,10,0.006547619047619
+RGB,Histogram,Manhattan (L1),Rank,10,0.0053571428571428
+RGB,CNN (VGG-16),Euclidean (L2),Aucune,10,0.0071428571428571
+RGB,CNN (VGG-16),Euclidean (L2),Probability,10,0.0042857142857142
+RGB,CNN (VGG-16),Euclidean (L2),Magnitude,10,0.0059523809523809
+RGB,CNN (VGG-16),Euclidean (L2),Min-Max,10,0.0042857142857142
+RGB,CNN (VGG-16),Euclidean (L2),Standardization,10,0.0059523809523809
+RGB,CNN (VGG-16),Euclidean (L2),Rank,10,0.0071428571428571
+RGB,Histogram,Euclidean (L2),Aucune,-1,0.0017378676487347473
+RGB,Histogram,Euclidean (L2),Probability,-1,0.0026936159079016227
