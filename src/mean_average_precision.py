@@ -234,6 +234,27 @@ def evaluate_descriptors(color_spaces: list[str], descriptors: list[str],
 									if norm_key not in final_results[desc_key][dist_key]:
 										final_results[desc_key][dist_key][norm_key] = 0.0
 									final_results[desc_key][dist_key][norm_key] += score
+									
+									# Save results after each update
+									cs, desc = desc_key.split('_', 1)
+									if len(results_df[
+										(results_df['color_space'] == cs) &
+										(results_df['descriptor'] == desc) &
+										(results_df['distance'] == dist_key) &
+										(results_df['normalization'] == norm_key) &
+										(results_df['k'] == (k if k is not None else -1))
+									]) == 0:
+										new_row = {
+											'color_space': cs,
+											'descriptor': desc,
+											'distance': dist_key,
+											'normalization': norm_key,
+											'k': k if k is not None else -1,
+											'map_score': final_results[desc_key][dist_key][norm_key]
+										}
+										results_df = pd.concat([results_df, pd.DataFrame([new_row])], ignore_index=True)
+										# Save to CSV after each update
+										results_df.to_csv(results_file, index=False)
 					
 					# Aggregate curves data if plotting
 					if plot_curves and curves_data:
@@ -249,38 +270,12 @@ def evaluate_descriptors(color_spaces: list[str], descriptors: list[str],
 									if norm_key not in all_curves_data[desc_key][dist_key]:
 										all_curves_data[desc_key][dist_key][norm_key] = []
 									all_curves_data[desc_key][dist_key][norm_key].extend(curves)
-			
-			# Save aggregated results to CSV
-			for desc_key, distances_dict in final_results.items():
-				cs, desc = desc_key.split('_', 1)
-				for dist_key, norm_dict in distances_dict.items():
-					for norm_key, total_score in norm_dict.items():
-						# Only save if this is a new combination
-						if len(results_df[
-							(results_df['color_space'] == cs) &
-							(results_df['descriptor'] == desc) &
-							(results_df['distance'] == dist_key) &
-							(results_df['normalization'] == norm_key) &
-							(results_df['k'] == (k if k is not None else -1))
-						]) == 0:
-							new_row = {
-								'color_space': cs,
-								'descriptor': desc,
-								'distance': dist_key,
-								'normalization': norm_key,
-								'k': k if k is not None else -1,
-								'map_score': total_score
-							}
-							results_df = pd.concat([results_df, pd.DataFrame([new_row])], ignore_index=True)
 	
 	except KeyboardInterrupt:
-		warning("Evaluation interrupted by user")
-	
-	# Save updated results to CSV
-	results_df.to_csv(results_file, index=False)
+		warning("Evaluation interrupted by user. Partial results have been saved.")
 	
 	# Plot precision-recall curves if requested
-	if plot_curves:
+	if plot_curves and all_curves_data:
 		plot_precision_recall_curves(dict(all_curves_data))
 		
 	return dict(final_results)
