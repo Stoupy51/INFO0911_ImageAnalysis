@@ -199,6 +199,8 @@ def search(image_request: Image.Image|str, color_spaces: list[str], descriptors:
 	# If the image is a path, load it
 	if isinstance(image_request, str):
 		img: ImageData = load_and_process_image(image_request, color_spaces, descriptors)
+		if not img:
+			return []
 	elif isinstance(image_request, Image.Image):
 		image_request = resize_down(image_request)
 		img: ImageData = ImageData(img_to_sliced_rgb(np.array(image_request)), "RGB")
