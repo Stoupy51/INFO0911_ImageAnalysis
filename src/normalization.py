@@ -1,7 +1,6 @@
 
 # Imports
 import numpy as np
-from typing import Callable
 
 # Normalization functions
 def normalize_proba(vector: np.ndarray) -> np.ndarray:
