@@ -104,6 +104,13 @@ app_ui: ui.Tag = ui.page_navbar(
 						max=1.0,
 						step=0.1
 					),
+					ui.input_numeric(
+						id="k_value",
+						label="Valeur de k",
+						value=-1,
+						min=-1,
+						step=1
+					),
 				),
 				ui.output_data_frame("results_table"),
 				always_open=True
@@ -232,6 +239,8 @@ def server_routine(input: Session, output: Session, app_session: Session) -> Non
 			df = df[df['normalization'].isin(input.filter_normalization())]
 		if input.min_map_score() > 0:
 			df = df[df['map_score'] >= input.min_map_score()]
+		if input.k_value() > -1:
+			df = df[df['k'] == input.k_value()]
 		
 		# Sort by MAP score descending
 		df = df.sort_values('map_score', ascending=False)
