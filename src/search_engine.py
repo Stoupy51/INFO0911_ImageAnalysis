@@ -18,6 +18,7 @@ from PIL import Image
 from multiprocessing import Pool, cpu_count
 from concurrent.futures import ThreadPoolExecutor
 from typing import Callable, Literal
+import pickle
 
 # Constants
 DO_MULTI_PROCESSING: bool = cpu_count() > 4	# Use multiprocessing if more than 4 cores
@@ -203,10 +204,24 @@ def thread_function(image_path: str, color_spaces: list[str], descriptors: list[
 	return intern()
 
 # Search engine
+def get_search_cache_path(image_path: str, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, max_results: int) -> str:
+	"""Get the cache path for search results"""
+	image_name: str = os.path.splitext(os.path.basename(image_path))[0]
+	params: str = f"{image_name}_{'-'.join(color_spaces)}_{'-'.join(descriptors)}_{normalization}_{distance}_{max_results}"
+	clean_params: str = "".join(c for c in params.lower() if c in ALPHANUM)
+	return f"{CACHE_FOLDER}/search_results/{clean_params}.pkl"
+
+
 @handle_error(message="Error during the search engine", error_log=2)
-def search(image_request: Image.Image|str, color_spaces: list[str], descriptors: list[str], 
-          normalization: str, distance: str, max_results: int = 10,
-          parallel: PARALLEL_TYPE = "none") -> list[tuple[str, np.ndarray, float]]:
+def search(
+	image_request: Image.Image|str,
+	color_spaces: list[str],
+	descriptors: list[str], 
+	normalization: str,
+	distance: str,
+	max_results: int = 10,
+	parallel: PARALLEL_TYPE = "none"
+) -> list[tuple[str, np.ndarray, float]]:
 	""" Search for similar images in the database\n
 	Args:
 		image_request   (Image.Image|str):  Image to search for (str means cache path)
@@ -222,6 +237,13 @@ def search(image_request: Image.Image|str, color_spaces: list[str], descriptors:
 			Image.Image:    Image in the database (original)
 			float:          Distance between the image and the request
 	"""
+	# Check if we have cached results for this exact search (only paths and distances)
+	if isinstance(image_request, str):
+		cache_path: str = get_search_cache_path(image_request, color_spaces, descriptors, normalization, distance, max_results)
+		if os.path.exists(cache_path):
+			with open(cache_path, 'rb') as f:
+				return [(path, None, dist) for path, dist in pickle.load(f)]
+
 	# Check if the color spaces, descriptors and distance are valid
 	for color_space in color_spaces:
 		assert color_space in COLOR_SPACES_CALLS, f"Color space '{color_space}' not found in {list(COLOR_SPACES_CALLS.keys())}"
@@ -263,9 +285,9 @@ def search(image_request: Image.Image|str, color_spaces: list[str], descriptors:
 
 	# Apply the color spaces and descriptors to the images, then compute the distance
 	images_paths: list[str] = [f"{root}/{file}" for root, _, files in os.walk(DATABASE_FOLDER) 
-							  for file in files if file.endswith(IMAGE_EXTENSIONS)]
+							for file in files if file.endswith(IMAGE_EXTENSIONS)]
 	thread_args: list[tuple] = [(image_path, color_spaces, descriptors, normalization, distance, img.data) 
-							   for image_path in images_paths]
+							for image_path in images_paths]
 	
 	# Choose parallelization method
 	if parallel == "process" and cpu_count() > 4:
@@ -282,8 +304,18 @@ def search(image_request: Image.Image|str, color_spaces: list[str], descriptors:
 
 	# Sort the images by distance and return the most similar ones
 	sorted_images: list[tuple[str, float]] = sorted(results, key=lambda x: x[-1])[:max_results]
-	return [(image_path, Image.open(image_path).convert("RGB"), distance) 
+	final_results = [(image_path, Image.open(image_path).convert("RGB"), distance) 
 			for image_path, distance in sorted_images]
+
+	# Cache the results if the input was a path (only paths and distances)
+	if isinstance(image_request, str):
+		os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+		if not os.path.exists(cache_path):
+			# Store only paths and distances, not images
+			with open(cache_path, 'wb') as f:
+				pickle.dump(sorted_images, f)
+
+	return final_results
 
 def lqdm_call(args: tuple) -> tuple:
 	return thread_function(*args)
