@@ -34,15 +34,20 @@ def clean_cache_path(image_path: str, **kwargs: dict) -> str:
 	Returns:
 		str: Clean cache filepath
 	"""
-	# Get the color spaces and descriptor names
+	# Get the color spaces, descriptor and normalization names
 	color_spaces: str = ("_".join(kwargs.get("color_spaces", ["RGB"]))).replace('/', '_')
 	descriptors: str = ("_".join(kwargs.get("descriptors", []))).replace('/', '_')
+	normalization: str = kwargs.get("normalization", "")
 
 	# Clean the image path and return the cache filepath
 	image_name = image_path.replace("\\","/").split("/")[-1].split(".")[0]
 	if descriptors:
+		if normalization:
+			return f"{CACHE_FOLDER}/" + "".join(c for c in f"{image_name}_{color_spaces}_{descriptors}_{normalization}".lower() if c in ALPHANUM) + ".npz"
 		return f"{CACHE_FOLDER}/" + "".join(c for c in f"{image_name}_{color_spaces}_{descriptors}".lower() if c in ALPHANUM) + ".npz"
 	else:
+		if normalization:
+			return f"{CACHE_FOLDER}/" + "".join(c for c in f"{image_name}_{color_spaces}_{normalization}".lower() if c in ALPHANUM) + ".npz"
 		return f"{CACHE_FOLDER}/" + "".join(c for c in f"{image_name}_{color_spaces}".lower() if c in ALPHANUM) + ".npz"
 
 # Function to resize the image down to the maximum size
@@ -72,63 +77,97 @@ def resize_down(image: Image.Image, max_size: tuple[int, int] = SEARCH_MAX_IMAGE
 		width, height = image.size
 		return image.resize((max_size[0], max_size[1]), Image.Resampling.LANCZOS)
 
-def load_and_process_image(image_path: str, color_spaces: list[str], descriptors: list[str]) -> ImageData:
+def load_and_process_image(image_path: str, color_spaces: list[str], descriptors: list[str], normalization: str = "") -> ImageData:
 	""" Load and process an image with color spaces and descriptors\n
 	Args:
 		image_path		(str):			Image to process
 		color_spaces	(list[str]):	List of color spaces to use in order
 		descriptors		(list[str]):	List of descriptors to use in order
+		normalization	(str):			Normalization method to use
 	Returns:
 		ImageData: Processed image data
 	"""
 	# Get cache paths
 	cleaned_path = image_path.replace("\\","/")
-	cache_color_space: str = clean_cache_path(cleaned_path, color_spaces=color_spaces)
-	cache_descriptor: str = clean_cache_path(cleaned_path, color_spaces=color_spaces, descriptors=descriptors)
+	cache_paths = {
+		"color_space": clean_cache_path(cleaned_path, color_spaces=color_spaces),
+		"descriptor": clean_cache_path(cleaned_path, color_spaces=color_spaces, descriptors=descriptors),
+		"normalized": clean_cache_path(cleaned_path, color_spaces=color_spaces, descriptors=descriptors, normalization=normalization) if normalization else None
+	}
 
-	if os.path.exists(cache_descriptor):
-		# Load the descriptor from the cache
-		data: np.ndarray = np.load(cache_descriptor, allow_pickle=False)["arr_0"]
-		return ImageData(data, "Descriptor")
+	# Try loading from normalized cache first
+	if cache_paths["normalized"] and os.path.exists(cache_paths["normalized"]):
+		data = np.load(cache_paths["normalized"], allow_pickle=False)["arr_0"]
+		return ImageData(data, "Normalized")
+
+	# Try loading from descriptor cache
+	if os.path.exists(cache_paths["descriptor"]):
+		data = np.load(cache_paths["descriptor"], allow_pickle=False)["arr_0"]
+		img = ImageData(data, "Descriptor")
+		return apply_normalization(img, normalization, cache_paths["normalized"])
+
+	# Load and process from color space cache or original image
+	img: ImageData = load_color_space_data(cleaned_path, cache_paths["color_space"], color_spaces)
 	
-	# Try to load the color spaces applied from the cache
-	if os.path.exists(cache_color_space):
-		data: np.ndarray = np.load(cache_color_space, allow_pickle=False)["arr_0"]
-		img: ImageData = ImageData(data, color_spaces[-1])  # Use last color space as final space
-	else:
-		original_image: Image.Image = Image.open(cleaned_path).convert("RGB")
-		original_image = resize_down(original_image)
-		data: np.ndarray = img_to_sliced_rgb(np.array(original_image))
-		img: ImageData = ImageData(data, "RGB")
-		
-		# Apply each color space in sequence
-		for color_space in color_spaces:
-			cs: dict = COLOR_SPACES_CALLS[color_space]
-			cs_args: dict = cs.get("args", {})
-			img = cs["function"](img, **cs_args)
-		
-		# Save the color space applied to the cache
-		if color_spaces != ["RGB"]:
-			os.makedirs(os.path.dirname(cache_color_space), exist_ok=True)
-			if not os.path.exists(cache_color_space):
-				np.savez_compressed(cache_color_space, img.data)
-
-	# Apply each descriptor in sequence (if the descriptor is not compatible with the color space, return None)
+	# Apply descriptors in parallel and concatenate results
+	descriptor_results = []
 	for descriptor in descriptors:
 		if "HSV/HSL" in descriptor and img.color_space not in ["HSV", "HSL"]:
 			return None
-		ds: dict = DESCRIPTORS_CALLS[descriptor]
-		ds_args: dict = ds.get("args", {})
-		img = ds["function"](img, **ds_args)
+		ds = DESCRIPTORS_CALLS[descriptor]
+		result: ImageData = ds["function"](img, **ds.get("args", {}))
+		descriptor_results.append(result.data)
+	
+	# Concatenate all descriptor results
+	if descriptor_results:
+		img = ImageData(np.concatenate(descriptor_results), "Descriptor")
 
-	# Save the descriptor applied to the cache
-	os.makedirs(os.path.dirname(cache_descriptor), exist_ok=True)
-	if not os.path.exists(cache_descriptor):
-		np.savez_compressed(cache_descriptor, img.data)
+	# Cache descriptor result
+	os.makedirs(os.path.dirname(cache_paths["descriptor"]), exist_ok=True)
+	if not os.path.exists(cache_paths["descriptor"]):
+		np.savez_compressed(cache_paths["descriptor"], img.data)
+
+	return apply_normalization(img, normalization, cache_paths["normalized"])
+
+def load_color_space_data(image_path: str, cache_path: str, color_spaces: list[str]) -> ImageData:
+	"""Helper function to load and process color space data"""
+	if os.path.exists(cache_path):
+		data = np.load(cache_path, allow_pickle=False)["arr_0"]
+		return ImageData(data, color_spaces[-1])
+	
+	original_image = Image.open(image_path).convert("RGB")
+	original_image = resize_down(original_image)
+	data = img_to_sliced_rgb(np.array(original_image))
+	img = ImageData(data, "RGB")
+
+	# Apply color spaces
+	for color_space in color_spaces:
+		cs = COLOR_SPACES_CALLS[color_space]
+		img = cs["function"](img, **cs.get("args", {}))
+
+	# Cache color space result if not RGB
+	if color_spaces != ["RGB"]:
+		os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+		if not os.path.exists(cache_path):
+			np.savez_compressed(cache_path, img.data)
 
 	return img
 
-# Function to apply the color spaces, descriptor, and compute the distance (optional)
+def apply_normalization(img: ImageData, normalization: str, cache_path: str|None) -> ImageData:
+	"""Helper function to apply normalization"""
+	if not normalization:
+		return img
+		
+	norm = NORMALIZATION_CALLS[normalization]
+	img.data = norm["function"](img.data, **norm.get("args", {}))
+
+	if cache_path:
+		os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+		if not os.path.exists(cache_path):
+			np.savez_compressed(cache_path, img.data)
+
+	return img
+
 def thread_function(image_path: str, color_spaces: list[str], descriptors: list[str], normalization: str, distance: str, to_compare: np.ndarray|None = None, verbose: bool = False) -> tuple[str, float]:
 	""" Thread function to apply the color spaces, descriptor, and compute the distance (optional)\n
 	Args:
@@ -145,17 +184,12 @@ def thread_function(image_path: str, color_spaces: list[str], descriptors: list[
 	"""
 	@handle_error(message=f"Error while processing '{image_path}' with {color_spaces} and {descriptors}", error_log=2)
 	def intern():
-		cleaned_path = image_path.replace("\\","/")
+		cleaned_path: str = image_path.replace("\\","/")
 		compute_distance: bool = distance is not None and to_compare is not None
 		
-		img = load_and_process_image(image_path, color_spaces, descriptors)
+		img: ImageData|None = load_and_process_image(image_path, color_spaces, descriptors, normalization)
 		if img is None:
 			return None
-
-		# Apply normalization
-		if normalization and compute_distance:
-			norm: dict = NORMALIZATION_CALLS[normalization]
-			img.data = norm["function"](img.data, **norm.get("args", {}))
 
 		# Compute the distance between the images
 		distance_value: float = 0.0
@@ -198,7 +232,7 @@ def search(image_request: Image.Image|str, color_spaces: list[str], descriptors:
 
 	# If the image is a path, load it
 	if isinstance(image_request, str):
-		img: ImageData = load_and_process_image(image_request, color_spaces, descriptors)
+		img: ImageData = load_and_process_image(image_request, color_spaces, descriptors, normalization)
 		if not img:
 			return []
 	elif isinstance(image_request, Image.Image):
@@ -211,15 +245,21 @@ def search(image_request: Image.Image|str, color_spaces: list[str], descriptors:
 			cs_args: dict = cs.get("args", {})
 			img = cs["function"](img, **cs_args)
 
-		# Apply each descriptor in sequence
+		# Apply descriptors in parallel and concatenate results
+		descriptor_results = []
 		for descriptor in descriptors:
 			ds: dict = DESCRIPTORS_CALLS[descriptor]
 			ds_args: dict = ds.get("args", {})
-			img = ds["function"](img, **ds_args)
+			result = ds["function"](img, **ds_args)
+			descriptor_results.append(result.data)
+		
+		# Concatenate all descriptor results
+		if descriptor_results:
+			img = ImageData(np.concatenate(descriptor_results), "Descriptor")
 	
-	# Apply normalization
-	norm: dict = NORMALIZATION_CALLS[normalization]
-	img.data = norm["function"](img.data, **norm.get("args", {}))
+		# Apply normalization
+		norm: dict = NORMALIZATION_CALLS[normalization]
+		img.data = norm["function"](img.data, **norm.get("args", {}))
 
 	# Apply the color spaces and descriptors to the images, then compute the distance
 	images_paths: list[str] = [f"{root}/{file}" for root, _, files in os.walk(DATABASE_FOLDER) 
@@ -260,8 +300,9 @@ def offline_cache_compute() -> None:
 		for color_space in COLOR_SPACES_CALLS:
 			# thread_args.append((image_path, [color_space], [], None, None))
 			for descriptor in DESCRIPTORS_CALLS:
-				# img, color_spaces, descriptors, normalization, distance
-				thread_args.append((image_path, [color_space], [descriptor], None, None))
+				for normalization in NORMALIZATION_CALLS:
+					# img, color_spaces, descriptors, normalization, distance
+					thread_args.append((image_path, [color_space], [descriptor], normalization, None))
 	
 	# Compute the cache (using multiprocessing if available)
 	if DO_MULTI_PROCESSING:
