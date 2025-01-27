@@ -3296,3 +3296,14 @@ L*a*b,Weighted Gradient Histogram,Manhattan (L1),Rank,-1,0.0003262830189865696
 L*a*b,Weighted Gradient Histogram,Euclidean (L2),Aucune,-1,0.0017316139598748295
 L*a*b,Weighted Gradient Histogram,Euclidean (L2),Probability,-1,0.0016264959842514617
 L*a*b,Weighted Gradient Histogram,Euclidean (L2),Magnitude,-1,0.0027934043182490384
+L*a*b,Weighted Gradient Histogram,Euclidean (L2),Min-Max,-1,0.001725543984516539
+L*a*b,Weighted Gradient Histogram,Euclidean (L2),Standardization,-1,0.0028406598488451983
+L*a*b,Weighted Gradient Histogram,Euclidean (L2),Rank,-1,0.0033996265172735757
+L*a*b,Weighted Gradient Histogram,Chebyshev,Aucune,-1,0.0017415545587086997
+L*a*b,Weighted Gradient Histogram,Chebyshev,Probability,-1,0.0038071428571428575
+L*a*b,Weighted Gradient Histogram,Chebyshev,Magnitude,-1,0.0018116010973153827
+L*a*b,Weighted Gradient Histogram,Chebyshev,Min-Max,-1,0.0020300623617481284
+L*a*b,Weighted Gradient Histogram,Chebyshev,Standardization,-1,0.0031466248037676616
+L*a*b,Weighted Gradient Histogram,Chebyshev,Rank,-1,0.0022190876350540213
+L*a*b,Weighted Gradient Histogram,Minkowski,Aucune,-1,0.0018749036905995043
+L*a*b,Weighted Gradient Histogram,Minkowski,Probability,-1,0.0018224595770362359
