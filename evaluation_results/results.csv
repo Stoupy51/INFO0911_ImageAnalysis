@@ -2669,264 +2669,264 @@ HSV,Histogram (HSV/HSL),Khi2,Magnitude,-1,0.0071428571428571
 HSV,Histogram (HSV/HSL),Khi2,Min-Max,-1,0.0071428571428571
 HSV,Histogram (HSV/HSL),Khi2,Standardization,-1,0.0017989413645282
 HSV,Histogram (HSV/HSL),Khi2,Rank,-1,0.0032191087897609
-HSV,Histogram (HSV/HSL),Histogram Intersection,Aucune,-1,0.000327803465671695
-HSV,Histogram (HSV/HSL),Histogram Intersection,Probability,-1,0.0002620334441980784
-HSV,Histogram (HSV/HSL),Histogram Intersection,Magnitude,-1,0.0002834467120181406
-HSV,Histogram (HSV/HSL),Histogram Intersection,Min-Max,-1,0.00028871257442686013
-HSV,Histogram (HSV/HSL),Histogram Intersection,Standardization,-1,0.007142857142857143
-HSV,Histogram (HSV/HSL),Histogram Intersection,Rank,-1,0.0001596094378537936
-HSV,Histogram Blob,Manhattan (L1),Aucune,-1,0.002876504447933019
-HSV,Histogram Blob,Manhattan (L1),Probability,-1,0.005865079365079365
-HSV,Histogram Blob,Manhattan (L1),Magnitude,-1,0.002524290524290524
-HSV,Histogram Blob,Manhattan (L1),Min-Max,-1,0.0052020202020202026
-HSV,Histogram Blob,Manhattan (L1),Standardization,-1,0.0025379967776584314
-HSV,Histogram Blob,Manhattan (L1),Rank,-1,0.003202670004171882
-HSV,Histogram Blob,Euclidean (L2),Aucune,-1,0.0025031328320802007
-HSV,Histogram Blob,Euclidean (L2),Probability,-1,0.0025031328320802007
-HSV,Histogram Blob,Euclidean (L2),Magnitude,-1,0.0025031328320802007
-HSV,Histogram Blob,Euclidean (L2),Min-Max,-1,0.004821946169772257
-HSV,Histogram Blob,Euclidean (L2),Standardization,-1,0.0025031328320802007
-HSV,Histogram Blob,Euclidean (L2),Rank,-1,0.0034821154268158874
-HSV,Histogram Blob,Chebyshev,Aucune,-1,0.0025219421101774046
-HSV,Histogram Blob,Chebyshev,Probability,-1,0.0025219421101774046
-HSV,Histogram Blob,Chebyshev,Magnitude,-1,0.0025219421101774046
-HSV,Histogram Blob,Chebyshev,Min-Max,-1,0.004354636591478696
-HSV,Histogram Blob,Chebyshev,Standardization,-1,0.0025219421101774046
-HSV,Histogram Blob,Chebyshev,Rank,-1,0.004307026307026307
-HSV,Histogram Blob,Minkowski,Aucune,-1,0.004904761904761905
-HSV,Histogram Blob,Minkowski,Probability,-1,0.0025118411000763946
-HSV,Histogram Blob,Minkowski,Magnitude,-1,0.0050793650793650785
-HSV,Histogram Blob,Minkowski,Min-Max,-1,0.0025118411000763946
-HSV,Histogram Blob,Minkowski,Standardization,-1,0.004889880952380952
-HSV,Histogram Blob,Minkowski,Rank,-1,0.0034437022672316794
-HSV,Histogram Blob,Khi2,Aucune,-1,0.007142857142857143
-HSV,Histogram Blob,Khi2,Probability,-1,0.007142857142857143
-HSV,Histogram Blob,Khi2,Magnitude,-1,0.007142857142857143
-HSV,Histogram Blob,Khi2,Min-Max,-1,0.007142857142857143
-HSV,Histogram Blob,Khi2,Standardization,-1,0.004554421768707483
-HSV,Histogram Blob,Khi2,Rank,-1,0.004766009852216749
-HSV,Histogram Blob,Histogram Intersection,Aucune,-1,0.0001396635420472537
-HSV,Histogram Blob,Histogram Intersection,Probability,-1,0.0001396635420472537
-HSV,Histogram Blob,Histogram Intersection,Magnitude,-1,0.00013814931290518362
-HSV,Histogram Blob,Histogram Intersection,Min-Max,-1,0.0001396635420472537
-HSV,Histogram Blob,Histogram Intersection,Standardization,-1,0.0025379967776584314
-HSV,Histogram Blob,Histogram Intersection,Rank,-1,0.00027487811314080526
-HSV,Weighted Gradient Histogram,Manhattan (L1),Aucune,-1,0.0018959343141645372
-HSV,Weighted Gradient Histogram,Manhattan (L1),Probability,-1,0.002319908967821853
-HSV,Weighted Gradient Histogram,Manhattan (L1),Magnitude,-1,0.0017237674333947628
-HSV,Weighted Gradient Histogram,Manhattan (L1),Min-Max,-1,0.0021575924075924076
-HSV,Weighted Gradient Histogram,Manhattan (L1),Standardization,-1,0.0021215092202251113
-HSV,Weighted Gradient Histogram,Manhattan (L1),Rank,-1,0.00038276599969381
-HSV,Weighted Gradient Histogram,Euclidean (L2),Aucune,-1,0.0018571712428604717
-HSV,Weighted Gradient Histogram,Euclidean (L2),Probability,-1,0.0015986776705155616
-HSV,Weighted Gradient Histogram,Euclidean (L2),Magnitude,-1,0.0016023995497141275
-HSV,Weighted Gradient Histogram,Euclidean (L2),Min-Max,-1,0.0017820632459490241
-HSV,Weighted Gradient Histogram,Euclidean (L2),Standardization,-1,0.0016063121954048433
-HSV,Weighted Gradient Histogram,Euclidean (L2),Rank,-1,0.006904761904761904
-HSV,Weighted Gradient Histogram,Chebyshev,Aucune,-1,0.002361230436230436
-HSV,Weighted Gradient Histogram,Chebyshev,Probability,-1,0.002018357218818048
-HSV,Weighted Gradient Histogram,Chebyshev,Magnitude,-1,0.0018294521071678504
-HSV,Weighted Gradient Histogram,Chebyshev,Min-Max,-1,0.0016398539506682374
-HSV,Weighted Gradient Histogram,Chebyshev,Standardization,-1,0.0016360528140839325
-HSV,Weighted Gradient Histogram,Chebyshev,Rank,-1,0.0020826689650219063
-HSV,Weighted Gradient Histogram,Minkowski,Aucune,-1,0.0019155077480658873
-HSV,Weighted Gradient Histogram,Minkowski,Probability,-1,0.0015983617896026658
-HSV,Weighted Gradient Histogram,Minkowski,Magnitude,-1,0.0020095005420714654
-HSV,Weighted Gradient Histogram,Minkowski,Min-Max,-1,0.0018150381364667074
-HSV,Weighted Gradient Histogram,Minkowski,Standardization,-1,0.00200591726052123
-HSV,Weighted Gradient Histogram,Minkowski,Rank,-1,0.0021567776046588845
-HSV,Weighted Gradient Histogram,Khi2,Aucune,-1,0.007142857142857143
-HSV,Weighted Gradient Histogram,Khi2,Probability,-1,0.007142857142857143
-HSV,Weighted Gradient Histogram,Khi2,Magnitude,-1,0.007142857142857143
-HSV,Weighted Gradient Histogram,Khi2,Min-Max,-1,0.007142857142857143
-HSV,Weighted Gradient Histogram,Khi2,Standardization,-1,0.0020981606331174282
-HSV,Weighted Gradient Histogram,Khi2,Rank,-1,0.007142857142857143
-HSV,Weighted Gradient Histogram,Histogram Intersection,Aucune,-1,0.001148822405216267
-HSV,Weighted Gradient Histogram,Histogram Intersection,Probability,-1,0.0006776347757147972
-HSV,Weighted Gradient Histogram,Histogram Intersection,Magnitude,-1,0.0009256179655695394
-HSV,Weighted Gradient Histogram,Histogram Intersection,Min-Max,-1,0.0005931753057188597
-HSV,Weighted Gradient Histogram,Histogram Intersection,Standardization,-1,0.00017097595959897802
-HSV,Weighted Gradient Histogram,Histogram Intersection,Rank,-1,0.00039859879095503216
-HSV,Statistics,Manhattan (L1),Aucune,-1,0.003050420168067227
-HSV,Statistics,Manhattan (L1),Probability,-1,0.0030702947845804985
-HSV,Statistics,Manhattan (L1),Magnitude,-1,0.003090236094437775
-HSV,Statistics,Manhattan (L1),Min-Max,-1,0.003022208883553421
-HSV,Statistics,Manhattan (L1),Standardization,-1,0.003211734693877551
-HSV,Statistics,Manhattan (L1),Rank,-1,0.004882498453927025
-HSV,Statistics,Euclidean (L2),Aucune,-1,0.0033053613053613054
-HSV,Statistics,Euclidean (L2),Probability,-1,0.003161664665866346
-HSV,Statistics,Euclidean (L2),Magnitude,-1,0.0032414965986394557
-HSV,Statistics,Euclidean (L2),Min-Max,-1,0.0032414965986394557
-HSV,Statistics,Euclidean (L2),Standardization,-1,0.003146258503401361
-HSV,Statistics,Euclidean (L2),Rank,-1,0.004882498453927025
-HSV,Statistics,Chebyshev,Aucune,-1,0.0032441368155653864
-HSV,Statistics,Chebyshev,Probability,-1,0.0025929705215419502
-HSV,Statistics,Chebyshev,Magnitude,-1,0.003146258503401361
-HSV,Statistics,Chebyshev,Min-Max,-1,0.003146258503401361
-HSV,Statistics,Chebyshev,Standardization,-1,0.003147893772893773
-HSV,Statistics,Chebyshev,Rank,-1,0.0049115646258503405
-HSV,Statistics,Minkowski,Aucune,-1,0.0031930618401206637
-HSV,Statistics,Minkowski,Probability,-1,0.0030702947845804985
-HSV,Statistics,Minkowski,Magnitude,-1,0.003211734693877551
-HSV,Statistics,Minkowski,Min-Max,-1,0.003211734693877551
-HSV,Statistics,Minkowski,Standardization,-1,0.0032414965986394557
-HSV,Statistics,Minkowski,Rank,-1,0.002997472400256741
-HSV,Statistics,Khi2,Aucune,-1,0.007142857142857143
-HSV,Statistics,Khi2,Probability,-1,0.007142857142857143
-HSV,Statistics,Khi2,Magnitude,-1,0.007142857142857143
-HSV,Statistics,Khi2,Min-Max,-1,0.007142857142857143
-HSV,Statistics,Khi2,Standardization,-1,0.0032414965986394557
-HSV,Statistics,Khi2,Rank,-1,0.004882498453927025
-HSV,Statistics,Histogram Intersection,Aucune,-1,0.000617096018735363
-HSV,Statistics,Histogram Intersection,Probability,-1,0.00013683861147198453
-HSV,Statistics,Histogram Intersection,Magnitude,-1,0.00015908358954110953
-HSV,Statistics,Histogram Intersection,Min-Max,-1,0.0009472607776450041
-HSV,Statistics,Histogram Intersection,Standardization,-1,0.0037734487734487733
-HSV,Statistics,Histogram Intersection,Rank,-1,0.005071428571428572
-HSV,Local Binary Pattern,Manhattan (L1),Aucune,-1,0.002232732732732733
-HSV,Local Binary Pattern,Manhattan (L1),Probability,-1,0.002232732732732733
-HSV,Local Binary Pattern,Manhattan (L1),Magnitude,-1,0.002249186692220748
-HSV,Local Binary Pattern,Manhattan (L1),Min-Max,-1,0.0046027874564459935
-HSV,Local Binary Pattern,Manhattan (L1),Standardization,-1,0.002184331797235023
-HSV,Local Binary Pattern,Manhattan (L1),Rank,-1,0.0024068797330252857
-HSV,Local Binary Pattern,Euclidean (L2),Aucune,-1,0.0020106543909553486
-HSV,Local Binary Pattern,Euclidean (L2),Probability,-1,0.0022435774309723885
-HSV,Local Binary Pattern,Euclidean (L2),Magnitude,-1,0.0023425651622656233
-HSV,Local Binary Pattern,Euclidean (L2),Min-Max,-1,0.0023842609003899328
-HSV,Local Binary Pattern,Euclidean (L2),Standardization,-1,0.0023765787677078004
-HSV,Local Binary Pattern,Euclidean (L2),Rank,-1,0.002407402961184474
-HSV,Local Binary Pattern,Chebyshev,Aucune,-1,0.0022835120890461447
-HSV,Local Binary Pattern,Chebyshev,Probability,-1,0.0022835120890461447
-HSV,Local Binary Pattern,Chebyshev,Magnitude,-1,0.002576444719301862
-HSV,Local Binary Pattern,Chebyshev,Min-Max,-1,0.002446886446886447
-HSV,Local Binary Pattern,Chebyshev,Standardization,-1,0.005171703296703296
-HSV,Local Binary Pattern,Chebyshev,Rank,-1,0.0021662868621393967
-HSV,Local Binary Pattern,Minkowski,Aucune,-1,0.002204081632653061
-HSV,Local Binary Pattern,Minkowski,Probability,-1,0.002204081632653061
-HSV,Local Binary Pattern,Minkowski,Magnitude,-1,0.0022809679427326485
-HSV,Local Binary Pattern,Minkowski,Min-Max,-1,0.005285714285714286
-HSV,Local Binary Pattern,Minkowski,Standardization,-1,0.00227891156462585
-HSV,Local Binary Pattern,Minkowski,Rank,-1,0.002407402961184474
-HSV,Local Binary Pattern,Khi2,Aucune,-1,0.007142857142857143
-HSV,Local Binary Pattern,Khi2,Probability,-1,0.007142857142857143
-HSV,Local Binary Pattern,Khi2,Magnitude,-1,0.007142857142857143
-HSV,Local Binary Pattern,Khi2,Min-Max,-1,0.007142857142857143
-HSV,Local Binary Pattern,Khi2,Standardization,-1,0.0016517987375130236
-HSV,Local Binary Pattern,Khi2,Rank,-1,0.002087361811008242
-HSV,Local Binary Pattern,Histogram Intersection,Aucune,-1,0.00015004127739715322
-HSV,Local Binary Pattern,Histogram Intersection,Probability,-1,0.00015004127739715322
-HSV,Local Binary Pattern,Histogram Intersection,Magnitude,-1,0.0001334847476158805
-HSV,Local Binary Pattern,Histogram Intersection,Min-Max,-1,0.00013679710775083438
-HSV,Local Binary Pattern,Histogram Intersection,Standardization,-1,0.00015182025239041395
-HSV,Local Binary Pattern,Histogram Intersection,Rank,-1,0.00039065585350415077
-HSV,Haralick,Manhattan (L1),Aucune,-1,0.0022252058718224134
-HSV,Haralick,Manhattan (L1),Probability,-1,0.0021818136580702106
-HSV,Haralick,Manhattan (L1),Magnitude,-1,0.002072192513368984
-HSV,Haralick,Manhattan (L1),Min-Max,-1,0.0024037459139499956
-HSV,Haralick,Manhattan (L1),Standardization,-1,0.001895811956350507
-HSV,Haralick,Manhattan (L1),Rank,-1,0.003542606516290727
-HSV,Haralick,Euclidean (L2),Aucune,-1,0.002420634920634921
-HSV,Haralick,Euclidean (L2),Probability,-1,0.0019346584787761256
-HSV,Haralick,Euclidean (L2),Magnitude,-1,0.0019418221834188215
-HSV,Haralick,Euclidean (L2),Min-Max,-1,0.0017225020679778264
-HSV,Haralick,Euclidean (L2),Standardization,-1,0.0019430427673461728
-HSV,Haralick,Euclidean (L2),Rank,-1,0.003770508203281312
-HSV,Haralick,Chebyshev,Aucune,-1,0.0027870029999577466
-HSV,Haralick,Chebyshev,Probability,-1,0.0017798990995036047
-HSV,Haralick,Chebyshev,Magnitude,-1,0.0018090156069250146
-HSV,Haralick,Chebyshev,Min-Max,-1,0.0019196042053184913
-HSV,Haralick,Chebyshev,Standardization,-1,0.0018090156069250146
-HSV,Haralick,Chebyshev,Rank,-1,0.003979591836734693
-HSV,Haralick,Minkowski,Aucune,-1,0.0023626775271512112
-HSV,Haralick,Minkowski,Probability,-1,0.0020154275996112736
-HSV,Haralick,Minkowski,Magnitude,-1,0.0019565476190476195
-HSV,Haralick,Minkowski,Min-Max,-1,0.0017040243959850197
-HSV,Haralick,Minkowski,Standardization,-1,0.0019464285714285712
-HSV,Haralick,Minkowski,Rank,-1,0.00367063492063492
-HSV,Haralick,Khi2,Aucune,-1,0.007142857142857143
-HSV,Haralick,Khi2,Probability,-1,0.007142857142857143
-HSV,Haralick,Khi2,Magnitude,-1,0.007142857142857143
-HSV,Haralick,Khi2,Min-Max,-1,0.007142857142857143
-HSV,Haralick,Khi2,Standardization,-1,0.0019632518019614795
-HSV,Haralick,Khi2,Rank,-1,0.0039115646258503405
-HSV,Haralick,Histogram Intersection,Aucune,-1,0.0002928688699889405
-HSV,Haralick,Histogram Intersection,Probability,-1,0.00016686103427648508
-HSV,Haralick,Histogram Intersection,Magnitude,-1,0.00015300162800162802
-HSV,Haralick,Histogram Intersection,Min-Max,-1,0.0001581310711275189
-HSV,Haralick,Histogram Intersection,Standardization,-1,0.00018703378478360762
-HSV,Haralick,Histogram Intersection,Rank,-1,0.00013224893575153514
-HSV,CNN (VGG-16),Manhattan (L1),Aucune,-1,0.001977518707180435
-HSV,CNN (VGG-16),Manhattan (L1),Probability,-1,0.0046995464852607706
-HSV,CNN (VGG-16),Manhattan (L1),Magnitude,-1,0.0017721783446974285
-HSV,CNN (VGG-16),Manhattan (L1),Min-Max,-1,0.0020790640324728354
-HSV,CNN (VGG-16),Manhattan (L1),Standardization,-1,0.00365546218487395
-HSV,CNN (VGG-16),Manhattan (L1),Rank,-1,0.0016078490964384475
-HSV,CNN (VGG-16),Euclidean (L2),Aucune,-1,0.0025682914769917992
-HSV,CNN (VGG-16),Euclidean (L2),Probability,-1,0.0026425559137180374
-HSV,CNN (VGG-16),Euclidean (L2),Magnitude,-1,0.0021218143276966806
-HSV,CNN (VGG-16),Euclidean (L2),Min-Max,-1,0.0022023475501130835
-HSV,CNN (VGG-16),Euclidean (L2),Standardization,-1,0.002063891109386203
-HSV,CNN (VGG-16),Euclidean (L2),Rank,-1,0.006031746031746031
-HSV,CNN (VGG-16),Chebyshev,Aucune,-1,0.0027273134134036385
-HSV,CNN (VGG-16),Chebyshev,Probability,-1,0.002827006327006327
-HSV,CNN (VGG-16),Chebyshev,Magnitude,-1,0.0031514325884397405
-HSV,CNN (VGG-16),Chebyshev,Min-Max,-1,0.003744047619047619
-HSV,CNN (VGG-16),Chebyshev,Standardization,-1,0.002063359345968042
-HSV,CNN (VGG-16),Chebyshev,Rank,-1,0.0025165546988025977
-HSV,CNN (VGG-16),Minkowski,Aucune,-1,0.0021806122448979593
-HSV,CNN (VGG-16),Minkowski,Probability,-1,0.002596295837043884
-HSV,CNN (VGG-16),Minkowski,Magnitude,-1,0.0037527638701806993
-HSV,CNN (VGG-16),Minkowski,Min-Max,-1,0.002188172043010752
-HSV,CNN (VGG-16),Minkowski,Standardization,-1,0.003726911976911977
-HSV,CNN (VGG-16),Minkowski,Rank,-1,0.0016042372577158618
-HSV,CNN (VGG-16),Khi2,Aucune,-1,0.007142857142857143
-HSV,CNN (VGG-16),Khi2,Probability,-1,0.007142857142857143
-HSV,CNN (VGG-16),Khi2,Magnitude,-1,0.007142857142857143
-HSV,CNN (VGG-16),Khi2,Min-Max,-1,0.007142857142857143
-HSV,CNN (VGG-16),Khi2,Standardization,-1,0.0018569255953773318
-HSV,CNN (VGG-16),Khi2,Rank,-1,0.0016849848391368434
-HSV,CNN (VGG-16),Histogram Intersection,Aucune,-1,0.00020516656168091798
-HSV,CNN (VGG-16),Histogram Intersection,Probability,-1,0.0001566256769230632
-HSV,CNN (VGG-16),Histogram Intersection,Magnitude,-1,0.00015471878997329262
-HSV,CNN (VGG-16),Histogram Intersection,Min-Max,-1,0.00017397362985598278
-HSV,CNN (VGG-16),Histogram Intersection,Standardization,-1,0.0003939399304552537
-HSV,CNN (VGG-16),Histogram Intersection,Rank,-1,0.00014217252324779612
-CMYK,Histogram,Manhattan (L1),Aucune,-1,0.002742904058174994
-CMYK,Histogram,Manhattan (L1),Probability,-1,0.002742904058174994
-CMYK,Histogram,Manhattan (L1),Magnitude,-1,0.002629251700680272
-CMYK,Histogram,Manhattan (L1),Min-Max,-1,0.0027517006802721088
-CMYK,Histogram,Manhattan (L1),Standardization,-1,0.00564935064935065
-CMYK,Histogram,Manhattan (L1),Rank,-1,0.0036630952380952374
-CMYK,Histogram,Euclidean (L2),Aucune,-1,0.0024279343844561237
-CMYK,Histogram,Euclidean (L2),Probability,-1,0.0024279343844561237
-CMYK,Histogram,Euclidean (L2),Magnitude,-1,0.0024312748654853914
-CMYK,Histogram,Euclidean (L2),Min-Max,-1,0.002483603489242587
-CMYK,Histogram,Euclidean (L2),Standardization,-1,0.0024438061938061935
-CMYK,Histogram,Euclidean (L2),Rank,-1,0.003805194805194805
-CMYK,Histogram,Chebyshev,Aucune,-1,0.002377257799671593
-CMYK,Histogram,Chebyshev,Probability,-1,0.0023667535979909208
-CMYK,Histogram,Chebyshev,Magnitude,-1,0.002340060468631897
-CMYK,Histogram,Chebyshev,Min-Max,-1,0.002371315192743764
-CMYK,Histogram,Chebyshev,Standardization,-1,0.005522208883553421
-CMYK,Histogram,Chebyshev,Rank,-1,0.004051500223914017
-CMYK,Histogram,Minkowski,Aucune,-1,0.002490677078912373
-CMYK,Histogram,Minkowski,Probability,-1,0.002490677078912373
-CMYK,Histogram,Minkowski,Magnitude,-1,0.00556998556998557
-CMYK,Histogram,Minkowski,Min-Max,-1,0.002483766233766234
-CMYK,Histogram,Minkowski,Standardization,-1,0.0025361144457783113
-CMYK,Histogram,Minkowski,Rank,-1,0.003781385281385282
-CMYK,Histogram,Khi2,Aucune,-1,0.0044234693877551025
-CMYK,Histogram,Khi2,Probability,-1,0.0044234693877551025
-CMYK,Histogram,Khi2,Magnitude,-1,0.007142857142857143
-CMYK,Histogram,Khi2,Min-Max,-1,0.007142857142857143
-CMYK,Histogram,Khi2,Standardization,-1,0.005637755102040816
-CMYK,Histogram,Khi2,Rank,-1,0.002839563193698532
-CMYK,Histogram,Histogram Intersection,Aucune,-1,0.0001405520962895183
-CMYK,Histogram,Histogram Intersection,Probability,-1,0.0001405520962895183
-CMYK,Histogram,Histogram Intersection,Magnitude,-1,0.00013574778929421644
-CMYK,Histogram,Histogram Intersection,Min-Max,-1,0.00013736431675362974
-CMYK,Histogram,Histogram Intersection,Standardization,-1,0.007142857142857143
-CMYK,Histogram,Histogram Intersection,Rank,-1,0.0002120059829607118
+HSV,Histogram (HSV/HSL),Histogram Intersection,Aucune,-1,0.0003278034656716
+HSV,Histogram (HSV/HSL),Histogram Intersection,Probability,-1,0.000262033444198
+HSV,Histogram (HSV/HSL),Histogram Intersection,Magnitude,-1,0.0002834467120181
+HSV,Histogram (HSV/HSL),Histogram Intersection,Min-Max,-1,0.0002887125744268
+HSV,Histogram (HSV/HSL),Histogram Intersection,Standardization,-1,0.0071428571428571
+HSV,Histogram (HSV/HSL),Histogram Intersection,Rank,-1,0.0001596094378537
+HSV,Histogram Blob,Manhattan (L1),Aucune,-1,0.002876504447933
+HSV,Histogram Blob,Manhattan (L1),Probability,-1,0.0058650793650793
+HSV,Histogram Blob,Manhattan (L1),Magnitude,-1,0.0025242905242905
+HSV,Histogram Blob,Manhattan (L1),Min-Max,-1,0.0052020202020202
+HSV,Histogram Blob,Manhattan (L1),Standardization,-1,0.0025379967776584
+HSV,Histogram Blob,Manhattan (L1),Rank,-1,0.0032026700041718
+HSV,Histogram Blob,Euclidean (L2),Aucune,-1,0.0025031328320802
+HSV,Histogram Blob,Euclidean (L2),Probability,-1,0.0025031328320802
+HSV,Histogram Blob,Euclidean (L2),Magnitude,-1,0.0025031328320802
+HSV,Histogram Blob,Euclidean (L2),Min-Max,-1,0.0048219461697722
+HSV,Histogram Blob,Euclidean (L2),Standardization,-1,0.0025031328320802
+HSV,Histogram Blob,Euclidean (L2),Rank,-1,0.0034821154268158
+HSV,Histogram Blob,Chebyshev,Aucune,-1,0.0025219421101774
+HSV,Histogram Blob,Chebyshev,Probability,-1,0.0025219421101774
+HSV,Histogram Blob,Chebyshev,Magnitude,-1,0.0025219421101774
+HSV,Histogram Blob,Chebyshev,Min-Max,-1,0.0043546365914786
+HSV,Histogram Blob,Chebyshev,Standardization,-1,0.0025219421101774
+HSV,Histogram Blob,Chebyshev,Rank,-1,0.0043070263070263
+HSV,Histogram Blob,Minkowski,Aucune,-1,0.0049047619047619
+HSV,Histogram Blob,Minkowski,Probability,-1,0.0025118411000763
+HSV,Histogram Blob,Minkowski,Magnitude,-1,0.005079365079365
+HSV,Histogram Blob,Minkowski,Min-Max,-1,0.0025118411000763
+HSV,Histogram Blob,Minkowski,Standardization,-1,0.0048898809523809
+HSV,Histogram Blob,Minkowski,Rank,-1,0.0034437022672316
+HSV,Histogram Blob,Khi2,Aucune,-1,0.0071428571428571
+HSV,Histogram Blob,Khi2,Probability,-1,0.0071428571428571
+HSV,Histogram Blob,Khi2,Magnitude,-1,0.0071428571428571
+HSV,Histogram Blob,Khi2,Min-Max,-1,0.0071428571428571
+HSV,Histogram Blob,Khi2,Standardization,-1,0.0045544217687074
+HSV,Histogram Blob,Khi2,Rank,-1,0.0047660098522167
+HSV,Histogram Blob,Histogram Intersection,Aucune,-1,0.0001396635420472
+HSV,Histogram Blob,Histogram Intersection,Probability,-1,0.0001396635420472
+HSV,Histogram Blob,Histogram Intersection,Magnitude,-1,0.0001381493129051
+HSV,Histogram Blob,Histogram Intersection,Min-Max,-1,0.0001396635420472
+HSV,Histogram Blob,Histogram Intersection,Standardization,-1,0.0025379967776584
+HSV,Histogram Blob,Histogram Intersection,Rank,-1,0.0002748781131408
+HSV,Weighted Gradient Histogram,Manhattan (L1),Aucune,-1,0.0018959343141645
+HSV,Weighted Gradient Histogram,Manhattan (L1),Probability,-1,0.0023199089678218
+HSV,Weighted Gradient Histogram,Manhattan (L1),Magnitude,-1,0.0017237674333947
+HSV,Weighted Gradient Histogram,Manhattan (L1),Min-Max,-1,0.0021575924075924
+HSV,Weighted Gradient Histogram,Manhattan (L1),Standardization,-1,0.0021215092202251
+HSV,Weighted Gradient Histogram,Manhattan (L1),Rank,-1,0.0003827659996938
+HSV,Weighted Gradient Histogram,Euclidean (L2),Aucune,-1,0.0018571712428604
+HSV,Weighted Gradient Histogram,Euclidean (L2),Probability,-1,0.0015986776705155
+HSV,Weighted Gradient Histogram,Euclidean (L2),Magnitude,-1,0.0016023995497141
+HSV,Weighted Gradient Histogram,Euclidean (L2),Min-Max,-1,0.001782063245949
+HSV,Weighted Gradient Histogram,Euclidean (L2),Standardization,-1,0.0016063121954048
+HSV,Weighted Gradient Histogram,Euclidean (L2),Rank,-1,0.0069047619047619
+HSV,Weighted Gradient Histogram,Chebyshev,Aucune,-1,0.0023612304362304
+HSV,Weighted Gradient Histogram,Chebyshev,Probability,-1,0.002018357218818
+HSV,Weighted Gradient Histogram,Chebyshev,Magnitude,-1,0.0018294521071678
+HSV,Weighted Gradient Histogram,Chebyshev,Min-Max,-1,0.0016398539506682
+HSV,Weighted Gradient Histogram,Chebyshev,Standardization,-1,0.0016360528140839
+HSV,Weighted Gradient Histogram,Chebyshev,Rank,-1,0.0020826689650219
+HSV,Weighted Gradient Histogram,Minkowski,Aucune,-1,0.0019155077480658
+HSV,Weighted Gradient Histogram,Minkowski,Probability,-1,0.0015983617896026
+HSV,Weighted Gradient Histogram,Minkowski,Magnitude,-1,0.0020095005420714
+HSV,Weighted Gradient Histogram,Minkowski,Min-Max,-1,0.0018150381364667
+HSV,Weighted Gradient Histogram,Minkowski,Standardization,-1,0.0020059172605212
+HSV,Weighted Gradient Histogram,Minkowski,Rank,-1,0.0021567776046588
+HSV,Weighted Gradient Histogram,Khi2,Aucune,-1,0.0071428571428571
+HSV,Weighted Gradient Histogram,Khi2,Probability,-1,0.0071428571428571
+HSV,Weighted Gradient Histogram,Khi2,Magnitude,-1,0.0071428571428571
+HSV,Weighted Gradient Histogram,Khi2,Min-Max,-1,0.0071428571428571
+HSV,Weighted Gradient Histogram,Khi2,Standardization,-1,0.0020981606331174
+HSV,Weighted Gradient Histogram,Khi2,Rank,-1,0.0071428571428571
+HSV,Weighted Gradient Histogram,Histogram Intersection,Aucune,-1,0.0011488224052162
+HSV,Weighted Gradient Histogram,Histogram Intersection,Probability,-1,0.0006776347757147
+HSV,Weighted Gradient Histogram,Histogram Intersection,Magnitude,-1,0.0009256179655695
+HSV,Weighted Gradient Histogram,Histogram Intersection,Min-Max,-1,0.0005931753057188
+HSV,Weighted Gradient Histogram,Histogram Intersection,Standardization,-1,0.0001709759595989
+HSV,Weighted Gradient Histogram,Histogram Intersection,Rank,-1,0.000398598790955
+HSV,Statistics,Manhattan (L1),Aucune,-1,0.0030504201680672
+HSV,Statistics,Manhattan (L1),Probability,-1,0.0030702947845804
+HSV,Statistics,Manhattan (L1),Magnitude,-1,0.0030902360944377
+HSV,Statistics,Manhattan (L1),Min-Max,-1,0.0030222088835534
+HSV,Statistics,Manhattan (L1),Standardization,-1,0.0032117346938775
+HSV,Statistics,Manhattan (L1),Rank,-1,0.004882498453927
+HSV,Statistics,Euclidean (L2),Aucune,-1,0.0033053613053613
+HSV,Statistics,Euclidean (L2),Probability,-1,0.0031616646658663
+HSV,Statistics,Euclidean (L2),Magnitude,-1,0.0032414965986394
+HSV,Statistics,Euclidean (L2),Min-Max,-1,0.0032414965986394
+HSV,Statistics,Euclidean (L2),Standardization,-1,0.0031462585034013
+HSV,Statistics,Euclidean (L2),Rank,-1,0.004882498453927
+HSV,Statistics,Chebyshev,Aucune,-1,0.0032441368155653
+HSV,Statistics,Chebyshev,Probability,-1,0.0025929705215419
+HSV,Statistics,Chebyshev,Magnitude,-1,0.0031462585034013
+HSV,Statistics,Chebyshev,Min-Max,-1,0.0031462585034013
+HSV,Statistics,Chebyshev,Standardization,-1,0.0031478937728937
+HSV,Statistics,Chebyshev,Rank,-1,0.0049115646258503
+HSV,Statistics,Minkowski,Aucune,-1,0.0031930618401206
+HSV,Statistics,Minkowski,Probability,-1,0.0030702947845804
+HSV,Statistics,Minkowski,Magnitude,-1,0.0032117346938775
+HSV,Statistics,Minkowski,Min-Max,-1,0.0032117346938775
+HSV,Statistics,Minkowski,Standardization,-1,0.0032414965986394
+HSV,Statistics,Minkowski,Rank,-1,0.0029974724002567
+HSV,Statistics,Khi2,Aucune,-1,0.0071428571428571
+HSV,Statistics,Khi2,Probability,-1,0.0071428571428571
+HSV,Statistics,Khi2,Magnitude,-1,0.0071428571428571
+HSV,Statistics,Khi2,Min-Max,-1,0.0071428571428571
+HSV,Statistics,Khi2,Standardization,-1,0.0032414965986394
+HSV,Statistics,Khi2,Rank,-1,0.004882498453927
+HSV,Statistics,Histogram Intersection,Aucune,-1,0.0006170960187353
+HSV,Statistics,Histogram Intersection,Probability,-1,0.0001368386114719
+HSV,Statistics,Histogram Intersection,Magnitude,-1,0.0001590835895411
+HSV,Statistics,Histogram Intersection,Min-Max,-1,0.000947260777645
+HSV,Statistics,Histogram Intersection,Standardization,-1,0.0037734487734487
+HSV,Statistics,Histogram Intersection,Rank,-1,0.0050714285714285
+HSV,Local Binary Pattern,Manhattan (L1),Aucune,-1,0.0022327327327327
+HSV,Local Binary Pattern,Manhattan (L1),Probability,-1,0.0022327327327327
+HSV,Local Binary Pattern,Manhattan (L1),Magnitude,-1,0.0022491866922207
+HSV,Local Binary Pattern,Manhattan (L1),Min-Max,-1,0.0046027874564459
+HSV,Local Binary Pattern,Manhattan (L1),Standardization,-1,0.002184331797235
+HSV,Local Binary Pattern,Manhattan (L1),Rank,-1,0.0024068797330252
+HSV,Local Binary Pattern,Euclidean (L2),Aucune,-1,0.0020106543909553
+HSV,Local Binary Pattern,Euclidean (L2),Probability,-1,0.0022435774309723
+HSV,Local Binary Pattern,Euclidean (L2),Magnitude,-1,0.0023425651622656
+HSV,Local Binary Pattern,Euclidean (L2),Min-Max,-1,0.0023842609003899
+HSV,Local Binary Pattern,Euclidean (L2),Standardization,-1,0.0023765787677078
+HSV,Local Binary Pattern,Euclidean (L2),Rank,-1,0.0024074029611844
+HSV,Local Binary Pattern,Chebyshev,Aucune,-1,0.0022835120890461
+HSV,Local Binary Pattern,Chebyshev,Probability,-1,0.0022835120890461
+HSV,Local Binary Pattern,Chebyshev,Magnitude,-1,0.0025764447193018
+HSV,Local Binary Pattern,Chebyshev,Min-Max,-1,0.0024468864468864
+HSV,Local Binary Pattern,Chebyshev,Standardization,-1,0.0051717032967032
+HSV,Local Binary Pattern,Chebyshev,Rank,-1,0.0021662868621393
+HSV,Local Binary Pattern,Minkowski,Aucune,-1,0.002204081632653
+HSV,Local Binary Pattern,Minkowski,Probability,-1,0.002204081632653
+HSV,Local Binary Pattern,Minkowski,Magnitude,-1,0.0022809679427326
+HSV,Local Binary Pattern,Minkowski,Min-Max,-1,0.0052857142857142
+HSV,Local Binary Pattern,Minkowski,Standardization,-1,0.0022789115646258
+HSV,Local Binary Pattern,Minkowski,Rank,-1,0.0024074029611844
+HSV,Local Binary Pattern,Khi2,Aucune,-1,0.0071428571428571
+HSV,Local Binary Pattern,Khi2,Probability,-1,0.0071428571428571
+HSV,Local Binary Pattern,Khi2,Magnitude,-1,0.0071428571428571
+HSV,Local Binary Pattern,Khi2,Min-Max,-1,0.0071428571428571
+HSV,Local Binary Pattern,Khi2,Standardization,-1,0.001651798737513
+HSV,Local Binary Pattern,Khi2,Rank,-1,0.0020873618110082
+HSV,Local Binary Pattern,Histogram Intersection,Aucune,-1,0.0001500412773971
+HSV,Local Binary Pattern,Histogram Intersection,Probability,-1,0.0001500412773971
+HSV,Local Binary Pattern,Histogram Intersection,Magnitude,-1,0.0001334847476158
+HSV,Local Binary Pattern,Histogram Intersection,Min-Max,-1,0.0001367971077508
+HSV,Local Binary Pattern,Histogram Intersection,Standardization,-1,0.0001518202523904
+HSV,Local Binary Pattern,Histogram Intersection,Rank,-1,0.0003906558535041
+HSV,Haralick,Manhattan (L1),Aucune,-1,0.0022252058718224
+HSV,Haralick,Manhattan (L1),Probability,-1,0.0021818136580702
+HSV,Haralick,Manhattan (L1),Magnitude,-1,0.0020721925133689
+HSV,Haralick,Manhattan (L1),Min-Max,-1,0.0024037459139499
+HSV,Haralick,Manhattan (L1),Standardization,-1,0.0018958119563505
+HSV,Haralick,Manhattan (L1),Rank,-1,0.0035426065162907
+HSV,Haralick,Euclidean (L2),Aucune,-1,0.0024206349206349
+HSV,Haralick,Euclidean (L2),Probability,-1,0.0019346584787761
+HSV,Haralick,Euclidean (L2),Magnitude,-1,0.0019418221834188
+HSV,Haralick,Euclidean (L2),Min-Max,-1,0.0017225020679778
+HSV,Haralick,Euclidean (L2),Standardization,-1,0.0019430427673461
+HSV,Haralick,Euclidean (L2),Rank,-1,0.0037705082032813
+HSV,Haralick,Chebyshev,Aucune,-1,0.0027870029999577
+HSV,Haralick,Chebyshev,Probability,-1,0.0017798990995036
+HSV,Haralick,Chebyshev,Magnitude,-1,0.001809015606925
+HSV,Haralick,Chebyshev,Min-Max,-1,0.0019196042053184
+HSV,Haralick,Chebyshev,Standardization,-1,0.001809015606925
+HSV,Haralick,Chebyshev,Rank,-1,0.0039795918367346
+HSV,Haralick,Minkowski,Aucune,-1,0.0023626775271512
+HSV,Haralick,Minkowski,Probability,-1,0.0020154275996112
+HSV,Haralick,Minkowski,Magnitude,-1,0.0019565476190476
+HSV,Haralick,Minkowski,Min-Max,-1,0.001704024395985
+HSV,Haralick,Minkowski,Standardization,-1,0.0019464285714285
+HSV,Haralick,Minkowski,Rank,-1,0.0036706349206349
+HSV,Haralick,Khi2,Aucune,-1,0.0071428571428571
+HSV,Haralick,Khi2,Probability,-1,0.0071428571428571
+HSV,Haralick,Khi2,Magnitude,-1,0.0071428571428571
+HSV,Haralick,Khi2,Min-Max,-1,0.0071428571428571
+HSV,Haralick,Khi2,Standardization,-1,0.0019632518019614
+HSV,Haralick,Khi2,Rank,-1,0.0039115646258503
+HSV,Haralick,Histogram Intersection,Aucune,-1,0.0002928688699889
+HSV,Haralick,Histogram Intersection,Probability,-1,0.0001668610342764
+HSV,Haralick,Histogram Intersection,Magnitude,-1,0.0001530016280016
+HSV,Haralick,Histogram Intersection,Min-Max,-1,0.0001581310711275
+HSV,Haralick,Histogram Intersection,Standardization,-1,0.0001870337847836
+HSV,Haralick,Histogram Intersection,Rank,-1,0.0001322489357515
+HSV,CNN (VGG-16),Manhattan (L1),Aucune,-1,0.0019775187071804
+HSV,CNN (VGG-16),Manhattan (L1),Probability,-1,0.0046995464852607
+HSV,CNN (VGG-16),Manhattan (L1),Magnitude,-1,0.0017721783446974
+HSV,CNN (VGG-16),Manhattan (L1),Min-Max,-1,0.0020790640324728
+HSV,CNN (VGG-16),Manhattan (L1),Standardization,-1,0.0036554621848739
+HSV,CNN (VGG-16),Manhattan (L1),Rank,-1,0.0016078490964384
+HSV,CNN (VGG-16),Euclidean (L2),Aucune,-1,0.0025682914769917
+HSV,CNN (VGG-16),Euclidean (L2),Probability,-1,0.002642555913718
+HSV,CNN (VGG-16),Euclidean (L2),Magnitude,-1,0.0021218143276966
+HSV,CNN (VGG-16),Euclidean (L2),Min-Max,-1,0.002202347550113
+HSV,CNN (VGG-16),Euclidean (L2),Standardization,-1,0.0020638911093862
+HSV,CNN (VGG-16),Euclidean (L2),Rank,-1,0.006031746031746
+HSV,CNN (VGG-16),Chebyshev,Aucune,-1,0.0027273134134036
+HSV,CNN (VGG-16),Chebyshev,Probability,-1,0.0028270063270063
+HSV,CNN (VGG-16),Chebyshev,Magnitude,-1,0.0031514325884397
+HSV,CNN (VGG-16),Chebyshev,Min-Max,-1,0.0037440476190476
+HSV,CNN (VGG-16),Chebyshev,Standardization,-1,0.002063359345968
+HSV,CNN (VGG-16),Chebyshev,Rank,-1,0.0025165546988025
+HSV,CNN (VGG-16),Minkowski,Aucune,-1,0.0021806122448979
+HSV,CNN (VGG-16),Minkowski,Probability,-1,0.0025962958370438
+HSV,CNN (VGG-16),Minkowski,Magnitude,-1,0.0037527638701806
+HSV,CNN (VGG-16),Minkowski,Min-Max,-1,0.0021881720430107
+HSV,CNN (VGG-16),Minkowski,Standardization,-1,0.0037269119769119
+HSV,CNN (VGG-16),Minkowski,Rank,-1,0.0016042372577158
+HSV,CNN (VGG-16),Khi2,Aucune,-1,0.0071428571428571
+HSV,CNN (VGG-16),Khi2,Probability,-1,0.0071428571428571
+HSV,CNN (VGG-16),Khi2,Magnitude,-1,0.0071428571428571
+HSV,CNN (VGG-16),Khi2,Min-Max,-1,0.0071428571428571
+HSV,CNN (VGG-16),Khi2,Standardization,-1,0.0018569255953773
+HSV,CNN (VGG-16),Khi2,Rank,-1,0.0016849848391368
+HSV,CNN (VGG-16),Histogram Intersection,Aucune,-1,0.0002051665616809
+HSV,CNN (VGG-16),Histogram Intersection,Probability,-1,0.000156625676923
+HSV,CNN (VGG-16),Histogram Intersection,Magnitude,-1,0.0001547187899732
+HSV,CNN (VGG-16),Histogram Intersection,Min-Max,-1,0.0001739736298559
+HSV,CNN (VGG-16),Histogram Intersection,Standardization,-1,0.0003939399304552
+HSV,CNN (VGG-16),Histogram Intersection,Rank,-1,0.0001421725232477
+CMYK,Histogram,Manhattan (L1),Aucune,-1,0.0027429040581749
+CMYK,Histogram,Manhattan (L1),Probability,-1,0.0027429040581749
+CMYK,Histogram,Manhattan (L1),Magnitude,-1,0.0026292517006802
+CMYK,Histogram,Manhattan (L1),Min-Max,-1,0.0027517006802721
+CMYK,Histogram,Manhattan (L1),Standardization,-1,0.0056493506493506
+CMYK,Histogram,Manhattan (L1),Rank,-1,0.0036630952380952
+CMYK,Histogram,Euclidean (L2),Aucune,-1,0.0024279343844561
+CMYK,Histogram,Euclidean (L2),Probability,-1,0.0024279343844561
+CMYK,Histogram,Euclidean (L2),Magnitude,-1,0.0024312748654853
+CMYK,Histogram,Euclidean (L2),Min-Max,-1,0.0024836034892425
+CMYK,Histogram,Euclidean (L2),Standardization,-1,0.0024438061938061
+CMYK,Histogram,Euclidean (L2),Rank,-1,0.0038051948051948
+CMYK,Histogram,Chebyshev,Aucune,-1,0.0023772577996715
+CMYK,Histogram,Chebyshev,Probability,-1,0.0023667535979909
+CMYK,Histogram,Chebyshev,Magnitude,-1,0.0023400604686318
+CMYK,Histogram,Chebyshev,Min-Max,-1,0.0023713151927437
+CMYK,Histogram,Chebyshev,Standardization,-1,0.0055222088835534
+CMYK,Histogram,Chebyshev,Rank,-1,0.004051500223914
+CMYK,Histogram,Minkowski,Aucune,-1,0.0024906770789123
+CMYK,Histogram,Minkowski,Probability,-1,0.0024906770789123
+CMYK,Histogram,Minkowski,Magnitude,-1,0.0055699855699855
+CMYK,Histogram,Minkowski,Min-Max,-1,0.0024837662337662
+CMYK,Histogram,Minkowski,Standardization,-1,0.0025361144457783
+CMYK,Histogram,Minkowski,Rank,-1,0.0037813852813852
+CMYK,Histogram,Khi2,Aucune,-1,0.0044234693877551
+CMYK,Histogram,Khi2,Probability,-1,0.0044234693877551
+CMYK,Histogram,Khi2,Magnitude,-1,0.0071428571428571
+CMYK,Histogram,Khi2,Min-Max,-1,0.0071428571428571
+CMYK,Histogram,Khi2,Standardization,-1,0.0056377551020408
+CMYK,Histogram,Khi2,Rank,-1,0.0028395631936985
+CMYK,Histogram,Histogram Intersection,Aucune,-1,0.0001405520962895
+CMYK,Histogram,Histogram Intersection,Probability,-1,0.0001405520962895
+CMYK,Histogram,Histogram Intersection,Magnitude,-1,0.0001357477892942
+CMYK,Histogram,Histogram Intersection,Min-Max,-1,0.0001373643167536
+CMYK,Histogram,Histogram Intersection,Standardization,-1,0.0071428571428571
+CMYK,Histogram,Histogram Intersection,Rank,-1,0.0002120059829607
 CMYK,Histogram (HSV/HSL),Manhattan (L1),Aucune,-1,0.0
 CMYK,Histogram (HSV/HSL),Manhattan (L1),Probability,-1,0.0
 CMYK,Histogram (HSV/HSL),Manhattan (L1),Magnitude,-1,0.0
@@ -2963,233 +2963,336 @@ CMYK,Histogram (HSV/HSL),Histogram Intersection,Magnitude,-1,0.0
 CMYK,Histogram (HSV/HSL),Histogram Intersection,Min-Max,-1,0.0
 CMYK,Histogram (HSV/HSL),Histogram Intersection,Standardization,-1,0.0
 CMYK,Histogram (HSV/HSL),Histogram Intersection,Rank,-1,0.0
-CMYK,Histogram Blob,Manhattan (L1),Aucune,-1,0.0032589981447124303
-CMYK,Histogram Blob,Manhattan (L1),Probability,-1,0.004896825396825396
-CMYK,Histogram Blob,Manhattan (L1),Magnitude,-1,0.005114045618247298
-CMYK,Histogram Blob,Manhattan (L1),Min-Max,-1,0.0049789915966386555
-CMYK,Histogram Blob,Manhattan (L1),Standardization,-1,0.004523809523809524
-CMYK,Histogram Blob,Manhattan (L1),Rank,-1,0.0037805788982259564
-CMYK,Histogram Blob,Euclidean (L2),Aucune,-1,0.004897959183673469
-CMYK,Histogram Blob,Euclidean (L2),Probability,-1,0.002439404395926135
-CMYK,Histogram Blob,Euclidean (L2),Magnitude,-1,0.002463585008342042
-CMYK,Histogram Blob,Euclidean (L2),Min-Max,-1,0.002439404395926135
-CMYK,Histogram Blob,Euclidean (L2),Standardization,-1,0.002463585008342042
-CMYK,Histogram Blob,Euclidean (L2),Rank,-1,0.003817254174397031
-CMYK,Histogram Blob,Chebyshev,Aucune,-1,0.00242244500139237
-CMYK,Histogram Blob,Chebyshev,Probability,-1,0.00242244500139237
-CMYK,Histogram Blob,Chebyshev,Magnitude,-1,0.002369047619047619
-CMYK,Histogram Blob,Chebyshev,Min-Max,-1,0.00242244500139237
-CMYK,Histogram Blob,Chebyshev,Standardization,-1,0.0024042001555613173
-CMYK,Histogram Blob,Chebyshev,Rank,-1,0.003100355035631273
-CMYK,Histogram Blob,Minkowski,Aucune,-1,0.0026936159079016223
-CMYK,Histogram Blob,Minkowski,Probability,-1,0.0026936159079016223
-CMYK,Histogram Blob,Minkowski,Magnitude,-1,0.0025989883132740274
-CMYK,Histogram Blob,Minkowski,Min-Max,-1,0.0026936159079016223
-CMYK,Histogram Blob,Minkowski,Standardization,-1,0.0025672422815279953
-CMYK,Histogram Blob,Minkowski,Rank,-1,0.0037847866419294988
-CMYK,Histogram Blob,Khi2,Aucune,-1,0.007142857142857143
-CMYK,Histogram Blob,Khi2,Probability,-1,0.007142857142857143
-CMYK,Histogram Blob,Khi2,Magnitude,-1,0.007142857142857143
-CMYK,Histogram Blob,Khi2,Min-Max,-1,0.007142857142857143
-CMYK,Histogram Blob,Khi2,Standardization,-1,0.0021994278108680558
-CMYK,Histogram Blob,Khi2,Rank,-1,0.004407982261640799
-CMYK,Histogram Blob,Histogram Intersection,Aucune,-1,0.00013760550654756096
-CMYK,Histogram Blob,Histogram Intersection,Probability,-1,0.00013760550654756096
-CMYK,Histogram Blob,Histogram Intersection,Magnitude,-1,0.00015101905897431958
-CMYK,Histogram Blob,Histogram Intersection,Min-Max,-1,0.00013760550654756096
-CMYK,Histogram Blob,Histogram Intersection,Standardization,-1,0.0026581419482028007
-CMYK,Histogram Blob,Histogram Intersection,Rank,-1,0.00021189590524319752
-CMYK,Weighted Gradient Histogram,Manhattan (L1),Aucune,-1,0.002531179138321995
-CMYK,Weighted Gradient Histogram,Manhattan (L1),Probability,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Manhattan (L1),Magnitude,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Manhattan (L1),Min-Max,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Manhattan (L1),Standardization,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Manhattan (L1),Rank,-1,0.00041398970935892086
-CMYK,Weighted Gradient Histogram,Euclidean (L2),Aucune,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Euclidean (L2),Probability,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Euclidean (L2),Magnitude,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Euclidean (L2),Min-Max,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Euclidean (L2),Standardization,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Euclidean (L2),Rank,-1,0.0057857142857142855
-CMYK,Weighted Gradient Histogram,Chebyshev,Aucune,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Chebyshev,Probability,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Chebyshev,Magnitude,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Chebyshev,Min-Max,-1,0.0057857142857142855
-CMYK,Weighted Gradient Histogram,Chebyshev,Standardization,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Chebyshev,Rank,-1,0.002185948256998098
-CMYK,Weighted Gradient Histogram,Minkowski,Aucune,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Minkowski,Probability,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Minkowski,Magnitude,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Minkowski,Min-Max,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Minkowski,Standardization,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Minkowski,Rank,-1,0.0022799598100109605
-CMYK,Weighted Gradient Histogram,Khi2,Aucune,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Khi2,Probability,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Khi2,Magnitude,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Khi2,Min-Max,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Khi2,Standardization,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Khi2,Rank,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Histogram Intersection,Aucune,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Histogram Intersection,Probability,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Histogram Intersection,Magnitude,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Histogram Intersection,Min-Max,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Histogram Intersection,Standardization,-1,0.007142857142857143
-CMYK,Weighted Gradient Histogram,Histogram Intersection,Rank,-1,0.0004938953213385131
-CMYK,Statistics,Manhattan (L1),Aucune,-1,0.007142857142857143
-CMYK,Statistics,Manhattan (L1),Probability,-1,0.007142857142857143
-CMYK,Statistics,Manhattan (L1),Magnitude,-1,0.007142857142857143
-CMYK,Statistics,Manhattan (L1),Min-Max,-1,0.007142857142857143
-CMYK,Statistics,Manhattan (L1),Standardization,-1,0.007142857142857143
-CMYK,Statistics,Manhattan (L1),Rank,-1,0.005782967032967033
-CMYK,Statistics,Euclidean (L2),Aucune,-1,0.007142857142857143
-CMYK,Statistics,Euclidean (L2),Probability,-1,0.007142857142857143
-CMYK,Statistics,Euclidean (L2),Magnitude,-1,0.007142857142857143
-CMYK,Statistics,Euclidean (L2),Min-Max,-1,0.007142857142857143
-CMYK,Statistics,Euclidean (L2),Standardization,-1,0.007142857142857143
-CMYK,Statistics,Euclidean (L2),Rank,-1,0.004987390594867231
-CMYK,Statistics,Chebyshev,Aucune,-1,0.007142857142857143
-CMYK,Statistics,Chebyshev,Probability,-1,0.007142857142857143
-CMYK,Statistics,Chebyshev,Magnitude,-1,0.007142857142857143
-CMYK,Statistics,Chebyshev,Min-Max,-1,0.007142857142857143
-CMYK,Statistics,Chebyshev,Standardization,-1,0.007142857142857143
-CMYK,Statistics,Chebyshev,Rank,-1,0.004987390594867231
-CMYK,Statistics,Minkowski,Aucune,-1,0.007142857142857143
-CMYK,Statistics,Minkowski,Probability,-1,0.007142857142857143
-CMYK,Statistics,Minkowski,Magnitude,-1,0.007142857142857143
-CMYK,Statistics,Minkowski,Min-Max,-1,0.007142857142857143
-CMYK,Statistics,Minkowski,Standardization,-1,0.007142857142857143
-CMYK,Statistics,Minkowski,Rank,-1,0.004987390594867231
-CMYK,Statistics,Khi2,Aucune,-1,0.007142857142857143
-CMYK,Statistics,Khi2,Probability,-1,0.007142857142857143
-CMYK,Statistics,Khi2,Magnitude,-1,0.007142857142857143
-CMYK,Statistics,Khi2,Min-Max,-1,0.007142857142857143
-CMYK,Statistics,Khi2,Standardization,-1,0.007142857142857143
-CMYK,Statistics,Khi2,Rank,-1,0.005296574770258981
-CMYK,Statistics,Histogram Intersection,Aucune,-1,0.005071428571428572
-CMYK,Statistics,Histogram Intersection,Probability,-1,0.007142857142857143
-CMYK,Statistics,Histogram Intersection,Magnitude,-1,0.007142857142857143
-CMYK,Statistics,Histogram Intersection,Min-Max,-1,0.005071428571428572
-CMYK,Statistics,Histogram Intersection,Standardization,-1,0.007142857142857143
-CMYK,Statistics,Histogram Intersection,Rank,-1,0.00021289952867692874
-CMYK,Local Binary Pattern,Manhattan (L1),Aucune,-1,0.003045763760049474
-CMYK,Local Binary Pattern,Manhattan (L1),Probability,-1,0.0024318060557556357
-CMYK,Local Binary Pattern,Manhattan (L1),Magnitude,-1,0.0060248447204968945
-CMYK,Local Binary Pattern,Manhattan (L1),Min-Max,-1,0.005944700460829493
-CMYK,Local Binary Pattern,Manhattan (L1),Standardization,-1,0.005726190476190475
-CMYK,Local Binary Pattern,Manhattan (L1),Rank,-1,0.0032824271079590233
-CMYK,Local Binary Pattern,Euclidean (L2),Aucune,-1,0.0024277210884353743
-CMYK,Local Binary Pattern,Euclidean (L2),Probability,-1,0.0024277210884353743
-CMYK,Local Binary Pattern,Euclidean (L2),Magnitude,-1,0.0024279448621553883
-CMYK,Local Binary Pattern,Euclidean (L2),Min-Max,-1,0.004812925170068027
-CMYK,Local Binary Pattern,Euclidean (L2),Standardization,-1,0.004785714285714286
-CMYK,Local Binary Pattern,Euclidean (L2),Rank,-1,0.002806916099773242
-CMYK,Local Binary Pattern,Chebyshev,Aucune,-1,0.0024047619047619043
-CMYK,Local Binary Pattern,Chebyshev,Probability,-1,0.0024047619047619043
-CMYK,Local Binary Pattern,Chebyshev,Magnitude,-1,0.0025149240855762596
-CMYK,Local Binary Pattern,Chebyshev,Min-Max,-1,0.0023145502645502644
-CMYK,Local Binary Pattern,Chebyshev,Standardization,-1,0.002529040404040404
-CMYK,Local Binary Pattern,Chebyshev,Rank,-1,0.00257202881152461
-CMYK,Local Binary Pattern,Minkowski,Aucune,-1,0.0024017470624613482
-CMYK,Local Binary Pattern,Minkowski,Probability,-1,0.00341156462585034
-CMYK,Local Binary Pattern,Minkowski,Magnitude,-1,0.0024175824175824176
-CMYK,Local Binary Pattern,Minkowski,Min-Max,-1,0.002371019554066686
-CMYK,Local Binary Pattern,Minkowski,Standardization,-1,0.0023939207790139466
-CMYK,Local Binary Pattern,Minkowski,Rank,-1,0.0032784767567376263
-CMYK,Local Binary Pattern,Khi2,Aucune,-1,0.007142857142857143
-CMYK,Local Binary Pattern,Khi2,Probability,-1,0.007142857142857143
-CMYK,Local Binary Pattern,Khi2,Magnitude,-1,0.007142857142857143
-CMYK,Local Binary Pattern,Khi2,Min-Max,-1,0.007142857142857143
-CMYK,Local Binary Pattern,Khi2,Standardization,-1,0.002007809769003799
-CMYK,Local Binary Pattern,Khi2,Rank,-1,0.003305064500716675
-CMYK,Local Binary Pattern,Histogram Intersection,Aucune,-1,0.00014518440805508337
-CMYK,Local Binary Pattern,Histogram Intersection,Probability,-1,0.00014518440805508337
-CMYK,Local Binary Pattern,Histogram Intersection,Magnitude,-1,0.00014070150728961932
-CMYK,Local Binary Pattern,Histogram Intersection,Min-Max,-1,0.0001548093884537127
-CMYK,Local Binary Pattern,Histogram Intersection,Standardization,-1,0.002368427370948379
-CMYK,Local Binary Pattern,Histogram Intersection,Rank,-1,0.0002838123600368433
-CMYK,Haralick,Manhattan (L1),Aucune,-1,0.0038656462585034018
-CMYK,Haralick,Manhattan (L1),Probability,-1,0.0023031135531135535
-CMYK,Haralick,Manhattan (L1),Magnitude,-1,0.002815809082253591
-CMYK,Haralick,Manhattan (L1),Min-Max,-1,0.0024961755036943005
-CMYK,Haralick,Manhattan (L1),Standardization,-1,0.002787853602979653
-CMYK,Haralick,Manhattan (L1),Rank,-1,0.0018047314619627755
-CMYK,Haralick,Euclidean (L2),Aucune,-1,0.002394094001236858
-CMYK,Haralick,Euclidean (L2),Probability,-1,0.0024052138337852624
-CMYK,Haralick,Euclidean (L2),Magnitude,-1,0.0023828009464655422
-CMYK,Haralick,Euclidean (L2),Min-Max,-1,0.002394094001236858
-CMYK,Haralick,Euclidean (L2),Standardization,-1,0.0023804885590599876
-CMYK,Haralick,Euclidean (L2),Rank,-1,0.0018125200693110699
-CMYK,Haralick,Chebyshev,Aucune,-1,0.002252776209297949
-CMYK,Haralick,Chebyshev,Probability,-1,0.001828517247607008
-CMYK,Haralick,Chebyshev,Magnitude,-1,0.001832726566671521
-CMYK,Haralick,Chebyshev,Min-Max,-1,0.001830069501373488
-CMYK,Haralick,Chebyshev,Standardization,-1,0.0018537443481805123
-CMYK,Haralick,Chebyshev,Rank,-1,0.0026430315716030003
-CMYK,Haralick,Minkowski,Aucune,-1,0.002470461868958109
-CMYK,Haralick,Minkowski,Probability,-1,0.0027340132750526148
-CMYK,Haralick,Minkowski,Magnitude,-1,0.0024550011392116657
-CMYK,Haralick,Minkowski,Min-Max,-1,0.0028830711541979145
-CMYK,Haralick,Minkowski,Standardization,-1,0.0024413956970347948
-CMYK,Haralick,Minkowski,Rank,-1,0.0034956709956709955
-CMYK,Haralick,Khi2,Aucune,-1,0.007142857142857143
-CMYK,Haralick,Khi2,Probability,-1,0.007142857142857143
-CMYK,Haralick,Khi2,Magnitude,-1,0.007142857142857143
-CMYK,Haralick,Khi2,Min-Max,-1,0.007142857142857143
-CMYK,Haralick,Khi2,Standardization,-1,0.0018600280608477332
-CMYK,Haralick,Khi2,Rank,-1,0.0017951602107748289
-CMYK,Haralick,Histogram Intersection,Aucune,-1,0.00025365954330948355
-CMYK,Haralick,Histogram Intersection,Probability,-1,0.00014784028082013236
-CMYK,Haralick,Histogram Intersection,Magnitude,-1,0.00015396653942020881
-CMYK,Haralick,Histogram Intersection,Min-Max,-1,0.00025365954330948355
-CMYK,Haralick,Histogram Intersection,Standardization,-1,0.00014796709399270675
-CMYK,Haralick,Histogram Intersection,Rank,-1,0.0005294307637527839
-CMYK,CNN (VGG-16),Manhattan (L1),Aucune,-1,0.002077212261422788
-CMYK,CNN (VGG-16),Manhattan (L1),Probability,-1,0.002671485260770975
-CMYK,CNN (VGG-16),Manhattan (L1),Magnitude,-1,0.0023768837678612115
-CMYK,CNN (VGG-16),Manhattan (L1),Min-Max,-1,0.004521312021312021
-CMYK,CNN (VGG-16),Manhattan (L1),Standardization,-1,0.007142857142857143
-CMYK,CNN (VGG-16),Manhattan (L1),Rank,-1,0.001913550275544422
-CMYK,CNN (VGG-16),Euclidean (L2),Aucune,-1,0.0022795682578291275
-CMYK,CNN (VGG-16),Euclidean (L2),Probability,-1,0.003757810816634346
-CMYK,CNN (VGG-16),Euclidean (L2),Magnitude,-1,0.0023126873126873126
-CMYK,CNN (VGG-16),Euclidean (L2),Min-Max,-1,0.004478021978021978
-CMYK,CNN (VGG-16),Euclidean (L2),Standardization,-1,0.007142857142857143
-CMYK,CNN (VGG-16),Euclidean (L2),Rank,-1,0.007142857142857143
-CMYK,CNN (VGG-16),Chebyshev,Aucune,-1,0.002553309785452643
-CMYK,CNN (VGG-16),Chebyshev,Probability,-1,0.0026956782713085234
-CMYK,CNN (VGG-16),Chebyshev,Magnitude,-1,0.0028806907378335954
-CMYK,CNN (VGG-16),Chebyshev,Min-Max,-1,0.004547619047619047
-CMYK,CNN (VGG-16),Chebyshev,Standardization,-1,0.007142857142857143
-CMYK,CNN (VGG-16),Chebyshev,Rank,-1,0.0019049822109263549
-CMYK,CNN (VGG-16),Minkowski,Aucune,-1,0.0022188208616780044
-CMYK,CNN (VGG-16),Minkowski,Probability,-1,0.0028130995988138847
-CMYK,CNN (VGG-16),Minkowski,Magnitude,-1,0.0038214285714285707
-CMYK,CNN (VGG-16),Minkowski,Min-Max,-1,0.004307026307026307
-CMYK,CNN (VGG-16),Minkowski,Standardization,-1,0.007142857142857143
-CMYK,CNN (VGG-16),Minkowski,Rank,-1,0.0019141097098444577
-CMYK,CNN (VGG-16),Khi2,Aucune,-1,0.007142857142857143
-CMYK,CNN (VGG-16),Khi2,Probability,-1,0.007142857142857143
-CMYK,CNN (VGG-16),Khi2,Magnitude,-1,0.007142857142857143
-CMYK,CNN (VGG-16),Khi2,Min-Max,-1,0.007142857142857143
-CMYK,CNN (VGG-16),Khi2,Standardization,-1,0.007142857142857143
-CMYK,CNN (VGG-16),Khi2,Rank,-1,0.0018813833914488776
-CMYK,CNN (VGG-16),Histogram Intersection,Aucune,-1,0.00013691709298003596
-CMYK,CNN (VGG-16),Histogram Intersection,Probability,-1,0.00015062618928277574
-CMYK,CNN (VGG-16),Histogram Intersection,Magnitude,-1,0.00013902578583108226
-CMYK,CNN (VGG-16),Histogram Intersection,Min-Max,-1,0.00076623459172323
-CMYK,CNN (VGG-16),Histogram Intersection,Standardization,-1,0.007142857142857143
-CMYK,CNN (VGG-16),Histogram Intersection,Rank,-1,0.00013471653678633926
-L*a*b,Histogram,Manhattan (L1),Aucune,-1,0.004253246753246754
-L*a*b,Histogram,Manhattan (L1),Probability,-1,0.0024561824729891954
-L*a*b,Histogram,Manhattan (L1),Magnitude,-1,0.005112942612942613
-L*a*b,Histogram,Manhattan (L1),Min-Max,-1,0.0023814333814333815
-L*a*b,Histogram,Manhattan (L1),Standardization,-1,0.002403061224489796
-L*a*b,Histogram,Manhattan (L1),Rank,-1,0.0026397622111907827
-L*a*b,Histogram,Euclidean (L2),Aucune,-1,0.002403061224489796
-L*a*b,Histogram,Euclidean (L2),Probability,-1,0.002403061224489796
-L*a*b,Histogram,Euclidean (L2),Magnitude,-1,0.002552952999381571
-L*a*b,Histogram,Euclidean (L2),Min-Max,-1,0.0025371966968605626
-L*a*b,Histogram,Euclidean (L2),Standardization,-1,0.00260757006151743
-L*a*b,Histogram,Euclidean (L2),Rank,-1,0.0041088363691103415
-L*a*b,Histogram,Chebyshev,Aucune,-1,0.0024566326530612243
-L*a*b,Histogram,Chebyshev,Probability,-1,0.0024566326530612243
+CMYK,Histogram Blob,Manhattan (L1),Aucune,-1,0.0032589981447124
+CMYK,Histogram Blob,Manhattan (L1),Probability,-1,0.0048968253968253
+CMYK,Histogram Blob,Manhattan (L1),Magnitude,-1,0.0051140456182472
+CMYK,Histogram Blob,Manhattan (L1),Min-Max,-1,0.0049789915966386
+CMYK,Histogram Blob,Manhattan (L1),Standardization,-1,0.0045238095238095
+CMYK,Histogram Blob,Manhattan (L1),Rank,-1,0.0037805788982259
+CMYK,Histogram Blob,Euclidean (L2),Aucune,-1,0.0048979591836734
+CMYK,Histogram Blob,Euclidean (L2),Probability,-1,0.0024394043959261
+CMYK,Histogram Blob,Euclidean (L2),Magnitude,-1,0.002463585008342
+CMYK,Histogram Blob,Euclidean (L2),Min-Max,-1,0.0024394043959261
+CMYK,Histogram Blob,Euclidean (L2),Standardization,-1,0.002463585008342
+CMYK,Histogram Blob,Euclidean (L2),Rank,-1,0.003817254174397
+CMYK,Histogram Blob,Chebyshev,Aucune,-1,0.0024224450013923
+CMYK,Histogram Blob,Chebyshev,Probability,-1,0.0024224450013923
+CMYK,Histogram Blob,Chebyshev,Magnitude,-1,0.0023690476190476
+CMYK,Histogram Blob,Chebyshev,Min-Max,-1,0.0024224450013923
+CMYK,Histogram Blob,Chebyshev,Standardization,-1,0.0024042001555613
+CMYK,Histogram Blob,Chebyshev,Rank,-1,0.0031003550356312
+CMYK,Histogram Blob,Minkowski,Aucune,-1,0.0026936159079016
+CMYK,Histogram Blob,Minkowski,Probability,-1,0.0026936159079016
+CMYK,Histogram Blob,Minkowski,Magnitude,-1,0.002598988313274
+CMYK,Histogram Blob,Minkowski,Min-Max,-1,0.0026936159079016
+CMYK,Histogram Blob,Minkowski,Standardization,-1,0.0025672422815279
+CMYK,Histogram Blob,Minkowski,Rank,-1,0.0037847866419294
+CMYK,Histogram Blob,Khi2,Aucune,-1,0.0071428571428571
+CMYK,Histogram Blob,Khi2,Probability,-1,0.0071428571428571
+CMYK,Histogram Blob,Khi2,Magnitude,-1,0.0071428571428571
+CMYK,Histogram Blob,Khi2,Min-Max,-1,0.0071428571428571
+CMYK,Histogram Blob,Khi2,Standardization,-1,0.002199427810868
+CMYK,Histogram Blob,Khi2,Rank,-1,0.0044079822616407
+CMYK,Histogram Blob,Histogram Intersection,Aucune,-1,0.0001376055065475
+CMYK,Histogram Blob,Histogram Intersection,Probability,-1,0.0001376055065475
+CMYK,Histogram Blob,Histogram Intersection,Magnitude,-1,0.0001510190589743
+CMYK,Histogram Blob,Histogram Intersection,Min-Max,-1,0.0001376055065475
+CMYK,Histogram Blob,Histogram Intersection,Standardization,-1,0.0026581419482028
+CMYK,Histogram Blob,Histogram Intersection,Rank,-1,0.0002118959052431
+CMYK,Weighted Gradient Histogram,Manhattan (L1),Aucune,-1,0.0025311791383219
+CMYK,Weighted Gradient Histogram,Manhattan (L1),Probability,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Manhattan (L1),Magnitude,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Manhattan (L1),Min-Max,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Manhattan (L1),Standardization,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Manhattan (L1),Rank,-1,0.0004139897093589
+CMYK,Weighted Gradient Histogram,Euclidean (L2),Aucune,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Euclidean (L2),Probability,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Euclidean (L2),Magnitude,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Euclidean (L2),Min-Max,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Euclidean (L2),Standardization,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Euclidean (L2),Rank,-1,0.0057857142857142
+CMYK,Weighted Gradient Histogram,Chebyshev,Aucune,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Chebyshev,Probability,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Chebyshev,Magnitude,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Chebyshev,Min-Max,-1,0.0057857142857142
+CMYK,Weighted Gradient Histogram,Chebyshev,Standardization,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Chebyshev,Rank,-1,0.002185948256998
+CMYK,Weighted Gradient Histogram,Minkowski,Aucune,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Minkowski,Probability,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Minkowski,Magnitude,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Minkowski,Min-Max,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Minkowski,Standardization,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Minkowski,Rank,-1,0.0022799598100109
+CMYK,Weighted Gradient Histogram,Khi2,Aucune,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Khi2,Probability,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Khi2,Magnitude,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Khi2,Min-Max,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Khi2,Standardization,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Khi2,Rank,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Histogram Intersection,Aucune,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Histogram Intersection,Probability,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Histogram Intersection,Magnitude,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Histogram Intersection,Min-Max,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Histogram Intersection,Standardization,-1,0.0071428571428571
+CMYK,Weighted Gradient Histogram,Histogram Intersection,Rank,-1,0.0004938953213385
+CMYK,Statistics,Manhattan (L1),Aucune,-1,0.0071428571428571
+CMYK,Statistics,Manhattan (L1),Probability,-1,0.0071428571428571
+CMYK,Statistics,Manhattan (L1),Magnitude,-1,0.0071428571428571
+CMYK,Statistics,Manhattan (L1),Min-Max,-1,0.0071428571428571
+CMYK,Statistics,Manhattan (L1),Standardization,-1,0.0071428571428571
+CMYK,Statistics,Manhattan (L1),Rank,-1,0.005782967032967
+CMYK,Statistics,Euclidean (L2),Aucune,-1,0.0071428571428571
+CMYK,Statistics,Euclidean (L2),Probability,-1,0.0071428571428571
+CMYK,Statistics,Euclidean (L2),Magnitude,-1,0.0071428571428571
+CMYK,Statistics,Euclidean (L2),Min-Max,-1,0.0071428571428571
+CMYK,Statistics,Euclidean (L2),Standardization,-1,0.0071428571428571
+CMYK,Statistics,Euclidean (L2),Rank,-1,0.0049873905948672
+CMYK,Statistics,Chebyshev,Aucune,-1,0.0071428571428571
+CMYK,Statistics,Chebyshev,Probability,-1,0.0071428571428571
+CMYK,Statistics,Chebyshev,Magnitude,-1,0.0071428571428571
+CMYK,Statistics,Chebyshev,Min-Max,-1,0.0071428571428571
+CMYK,Statistics,Chebyshev,Standardization,-1,0.0071428571428571
+CMYK,Statistics,Chebyshev,Rank,-1,0.0049873905948672
+CMYK,Statistics,Minkowski,Aucune,-1,0.0071428571428571
+CMYK,Statistics,Minkowski,Probability,-1,0.0071428571428571
+CMYK,Statistics,Minkowski,Magnitude,-1,0.0071428571428571
+CMYK,Statistics,Minkowski,Min-Max,-1,0.0071428571428571
+CMYK,Statistics,Minkowski,Standardization,-1,0.0071428571428571
+CMYK,Statistics,Minkowski,Rank,-1,0.0049873905948672
+CMYK,Statistics,Khi2,Aucune,-1,0.0071428571428571
+CMYK,Statistics,Khi2,Probability,-1,0.0071428571428571
+CMYK,Statistics,Khi2,Magnitude,-1,0.0071428571428571
+CMYK,Statistics,Khi2,Min-Max,-1,0.0071428571428571
+CMYK,Statistics,Khi2,Standardization,-1,0.0071428571428571
+CMYK,Statistics,Khi2,Rank,-1,0.0052965747702589
+CMYK,Statistics,Histogram Intersection,Aucune,-1,0.0050714285714285
+CMYK,Statistics,Histogram Intersection,Probability,-1,0.0071428571428571
+CMYK,Statistics,Histogram Intersection,Magnitude,-1,0.0071428571428571
+CMYK,Statistics,Histogram Intersection,Min-Max,-1,0.0050714285714285
+CMYK,Statistics,Histogram Intersection,Standardization,-1,0.0071428571428571
+CMYK,Statistics,Histogram Intersection,Rank,-1,0.0002128995286769
+CMYK,Local Binary Pattern,Manhattan (L1),Aucune,-1,0.0030457637600494
+CMYK,Local Binary Pattern,Manhattan (L1),Probability,-1,0.0024318060557556
+CMYK,Local Binary Pattern,Manhattan (L1),Magnitude,-1,0.0060248447204968
+CMYK,Local Binary Pattern,Manhattan (L1),Min-Max,-1,0.0059447004608294
+CMYK,Local Binary Pattern,Manhattan (L1),Standardization,-1,0.0057261904761904
+CMYK,Local Binary Pattern,Manhattan (L1),Rank,-1,0.003282427107959
+CMYK,Local Binary Pattern,Euclidean (L2),Aucune,-1,0.0024277210884353
+CMYK,Local Binary Pattern,Euclidean (L2),Probability,-1,0.0024277210884353
+CMYK,Local Binary Pattern,Euclidean (L2),Magnitude,-1,0.0024279448621553
+CMYK,Local Binary Pattern,Euclidean (L2),Min-Max,-1,0.004812925170068
+CMYK,Local Binary Pattern,Euclidean (L2),Standardization,-1,0.0047857142857142
+CMYK,Local Binary Pattern,Euclidean (L2),Rank,-1,0.0028069160997732
+CMYK,Local Binary Pattern,Chebyshev,Aucune,-1,0.0024047619047619
+CMYK,Local Binary Pattern,Chebyshev,Probability,-1,0.0024047619047619
+CMYK,Local Binary Pattern,Chebyshev,Magnitude,-1,0.0025149240855762
+CMYK,Local Binary Pattern,Chebyshev,Min-Max,-1,0.0023145502645502
+CMYK,Local Binary Pattern,Chebyshev,Standardization,-1,0.0025290404040404
+CMYK,Local Binary Pattern,Chebyshev,Rank,-1,0.0025720288115246
+CMYK,Local Binary Pattern,Minkowski,Aucune,-1,0.0024017470624613
+CMYK,Local Binary Pattern,Minkowski,Probability,-1,0.0034115646258503
+CMYK,Local Binary Pattern,Minkowski,Magnitude,-1,0.0024175824175824
+CMYK,Local Binary Pattern,Minkowski,Min-Max,-1,0.0023710195540666
+CMYK,Local Binary Pattern,Minkowski,Standardization,-1,0.0023939207790139
+CMYK,Local Binary Pattern,Minkowski,Rank,-1,0.0032784767567376
+CMYK,Local Binary Pattern,Khi2,Aucune,-1,0.0071428571428571
+CMYK,Local Binary Pattern,Khi2,Probability,-1,0.0071428571428571
+CMYK,Local Binary Pattern,Khi2,Magnitude,-1,0.0071428571428571
+CMYK,Local Binary Pattern,Khi2,Min-Max,-1,0.0071428571428571
+CMYK,Local Binary Pattern,Khi2,Standardization,-1,0.0020078097690037
+CMYK,Local Binary Pattern,Khi2,Rank,-1,0.0033050645007166
+CMYK,Local Binary Pattern,Histogram Intersection,Aucune,-1,0.000145184408055
+CMYK,Local Binary Pattern,Histogram Intersection,Probability,-1,0.000145184408055
+CMYK,Local Binary Pattern,Histogram Intersection,Magnitude,-1,0.0001407015072896
+CMYK,Local Binary Pattern,Histogram Intersection,Min-Max,-1,0.0001548093884537
+CMYK,Local Binary Pattern,Histogram Intersection,Standardization,-1,0.0023684273709483
+CMYK,Local Binary Pattern,Histogram Intersection,Rank,-1,0.0002838123600368
+CMYK,Haralick,Manhattan (L1),Aucune,-1,0.0038656462585034
+CMYK,Haralick,Manhattan (L1),Probability,-1,0.0023031135531135
+CMYK,Haralick,Manhattan (L1),Magnitude,-1,0.0028158090822535
+CMYK,Haralick,Manhattan (L1),Min-Max,-1,0.0024961755036943
+CMYK,Haralick,Manhattan (L1),Standardization,-1,0.0027878536029796
+CMYK,Haralick,Manhattan (L1),Rank,-1,0.0018047314619627
+CMYK,Haralick,Euclidean (L2),Aucune,-1,0.0023940940012368
+CMYK,Haralick,Euclidean (L2),Probability,-1,0.0024052138337852
+CMYK,Haralick,Euclidean (L2),Magnitude,-1,0.0023828009464655
+CMYK,Haralick,Euclidean (L2),Min-Max,-1,0.0023940940012368
+CMYK,Haralick,Euclidean (L2),Standardization,-1,0.0023804885590599
+CMYK,Haralick,Euclidean (L2),Rank,-1,0.001812520069311
+CMYK,Haralick,Chebyshev,Aucune,-1,0.0022527762092979
+CMYK,Haralick,Chebyshev,Probability,-1,0.001828517247607
+CMYK,Haralick,Chebyshev,Magnitude,-1,0.0018327265666715
+CMYK,Haralick,Chebyshev,Min-Max,-1,0.0018300695013734
+CMYK,Haralick,Chebyshev,Standardization,-1,0.0018537443481805
+CMYK,Haralick,Chebyshev,Rank,-1,0.002643031571603
+CMYK,Haralick,Minkowski,Aucune,-1,0.0024704618689581
+CMYK,Haralick,Minkowski,Probability,-1,0.0027340132750526
+CMYK,Haralick,Minkowski,Magnitude,-1,0.0024550011392116
+CMYK,Haralick,Minkowski,Min-Max,-1,0.0028830711541979
+CMYK,Haralick,Minkowski,Standardization,-1,0.0024413956970347
+CMYK,Haralick,Minkowski,Rank,-1,0.0034956709956709
+CMYK,Haralick,Khi2,Aucune,-1,0.0071428571428571
+CMYK,Haralick,Khi2,Probability,-1,0.0071428571428571
+CMYK,Haralick,Khi2,Magnitude,-1,0.0071428571428571
+CMYK,Haralick,Khi2,Min-Max,-1,0.0071428571428571
+CMYK,Haralick,Khi2,Standardization,-1,0.0018600280608477
+CMYK,Haralick,Khi2,Rank,-1,0.0017951602107748
+CMYK,Haralick,Histogram Intersection,Aucune,-1,0.0002536595433094
+CMYK,Haralick,Histogram Intersection,Probability,-1,0.0001478402808201
+CMYK,Haralick,Histogram Intersection,Magnitude,-1,0.0001539665394202
+CMYK,Haralick,Histogram Intersection,Min-Max,-1,0.0002536595433094
+CMYK,Haralick,Histogram Intersection,Standardization,-1,0.0001479670939927
+CMYK,Haralick,Histogram Intersection,Rank,-1,0.0005294307637527
+CMYK,CNN (VGG-16),Manhattan (L1),Aucune,-1,0.0020772122614227
+CMYK,CNN (VGG-16),Manhattan (L1),Probability,-1,0.0026714852607709
+CMYK,CNN (VGG-16),Manhattan (L1),Magnitude,-1,0.0023768837678612
+CMYK,CNN (VGG-16),Manhattan (L1),Min-Max,-1,0.004521312021312
+CMYK,CNN (VGG-16),Manhattan (L1),Standardization,-1,0.0071428571428571
+CMYK,CNN (VGG-16),Manhattan (L1),Rank,-1,0.0019135502755444
+CMYK,CNN (VGG-16),Euclidean (L2),Aucune,-1,0.0022795682578291
+CMYK,CNN (VGG-16),Euclidean (L2),Probability,-1,0.0037578108166343
+CMYK,CNN (VGG-16),Euclidean (L2),Magnitude,-1,0.0023126873126873
+CMYK,CNN (VGG-16),Euclidean (L2),Min-Max,-1,0.0044780219780219
+CMYK,CNN (VGG-16),Euclidean (L2),Standardization,-1,0.0071428571428571
+CMYK,CNN (VGG-16),Euclidean (L2),Rank,-1,0.0071428571428571
+CMYK,CNN (VGG-16),Chebyshev,Aucune,-1,0.0025533097854526
+CMYK,CNN (VGG-16),Chebyshev,Probability,-1,0.0026956782713085
+CMYK,CNN (VGG-16),Chebyshev,Magnitude,-1,0.0028806907378335
+CMYK,CNN (VGG-16),Chebyshev,Min-Max,-1,0.004547619047619
+CMYK,CNN (VGG-16),Chebyshev,Standardization,-1,0.0071428571428571
+CMYK,CNN (VGG-16),Chebyshev,Rank,-1,0.0019049822109263
+CMYK,CNN (VGG-16),Minkowski,Aucune,-1,0.002218820861678
+CMYK,CNN (VGG-16),Minkowski,Probability,-1,0.0028130995988138
+CMYK,CNN (VGG-16),Minkowski,Magnitude,-1,0.0038214285714285
+CMYK,CNN (VGG-16),Minkowski,Min-Max,-1,0.0043070263070263
+CMYK,CNN (VGG-16),Minkowski,Standardization,-1,0.0071428571428571
+CMYK,CNN (VGG-16),Minkowski,Rank,-1,0.0019141097098444
+CMYK,CNN (VGG-16),Khi2,Aucune,-1,0.0071428571428571
+CMYK,CNN (VGG-16),Khi2,Probability,-1,0.0071428571428571
+CMYK,CNN (VGG-16),Khi2,Magnitude,-1,0.0071428571428571
+CMYK,CNN (VGG-16),Khi2,Min-Max,-1,0.0071428571428571
+CMYK,CNN (VGG-16),Khi2,Standardization,-1,0.0071428571428571
+CMYK,CNN (VGG-16),Khi2,Rank,-1,0.0018813833914488
+CMYK,CNN (VGG-16),Histogram Intersection,Aucune,-1,0.00013691709298
+CMYK,CNN (VGG-16),Histogram Intersection,Probability,-1,0.0001506261892827
+CMYK,CNN (VGG-16),Histogram Intersection,Magnitude,-1,0.000139025785831
+CMYK,CNN (VGG-16),Histogram Intersection,Min-Max,-1,0.0007662345917232
+CMYK,CNN (VGG-16),Histogram Intersection,Standardization,-1,0.0071428571428571
+CMYK,CNN (VGG-16),Histogram Intersection,Rank,-1,0.0001347165367863
+L*a*b,Histogram,Manhattan (L1),Aucune,-1,0.0042532467532467
+L*a*b,Histogram,Manhattan (L1),Probability,-1,0.0024561824729891
+L*a*b,Histogram,Manhattan (L1),Magnitude,-1,0.0051129426129426
+L*a*b,Histogram,Manhattan (L1),Min-Max,-1,0.0023814333814333
+L*a*b,Histogram,Manhattan (L1),Standardization,-1,0.0024030612244897
+L*a*b,Histogram,Manhattan (L1),Rank,-1,0.0026397622111907
+L*a*b,Histogram,Euclidean (L2),Aucune,-1,0.0024030612244897
+L*a*b,Histogram,Euclidean (L2),Probability,-1,0.0024030612244897
+L*a*b,Histogram,Euclidean (L2),Magnitude,-1,0.0025529529993815
+L*a*b,Histogram,Euclidean (L2),Min-Max,-1,0.0025371966968605
+L*a*b,Histogram,Euclidean (L2),Standardization,-1,0.0026075700615174
+L*a*b,Histogram,Euclidean (L2),Rank,-1,0.0041088363691103
+L*a*b,Histogram,Chebyshev,Aucune,-1,0.0024566326530612
+L*a*b,Histogram,Chebyshev,Probability,-1,0.0024566326530612
+L*a*b,Histogram,Chebyshev,Magnitude,-1,0.0056514913657770794
+L*a*b,Histogram,Chebyshev,Min-Max,-1,0.0031215213358070496
+L*a*b,Histogram,Chebyshev,Standardization,-1,0.003138528138528138
+L*a*b,Histogram,Chebyshev,Rank,-1,0.0036014375561545377
+L*a*b,Histogram,Minkowski,Aucune,-1,0.0024404761904761904
+L*a*b,Histogram,Minkowski,Probability,-1,0.004305916305916307
+L*a*b,Histogram,Minkowski,Magnitude,-1,0.002496134817563389
+L*a*b,Histogram,Minkowski,Min-Max,-1,0.004792207792207792
+L*a*b,Histogram,Minkowski,Standardization,-1,0.0024874297545105003
+L*a*b,Histogram,Minkowski,Rank,-1,0.004308986752595775
+L*a*b,Histogram,Khi2,Aucune,-1,0.007142857142857143
+L*a*b,Histogram,Khi2,Probability,-1,0.007142857142857143
+L*a*b,Histogram,Khi2,Magnitude,-1,0.007142857142857143
+L*a*b,Histogram,Khi2,Min-Max,-1,0.007142857142857143
+L*a*b,Histogram,Khi2,Standardization,-1,0.002069215506715507
+L*a*b,Histogram,Khi2,Rank,-1,0.004983660130718954
+L*a*b,Histogram,Histogram Intersection,Aucune,-1,0.00013355456210515176
+L*a*b,Histogram,Histogram Intersection,Probability,-1,0.00014435576188255337
+L*a*b,Histogram,Histogram Intersection,Magnitude,-1,0.0001761669132642255
+L*a*b,Histogram,Histogram Intersection,Min-Max,-1,0.000130118905325947
+L*a*b,Histogram,Histogram Intersection,Standardization,-1,0.002403061224489796
+L*a*b,Histogram,Histogram Intersection,Rank,-1,0.0001642666017666018
+L*a*b,Histogram (HSV/HSL),Manhattan (L1),Aucune,-1,0.0
+L*a*b,Histogram (HSV/HSL),Manhattan (L1),Probability,-1,0.0
+L*a*b,Histogram (HSV/HSL),Manhattan (L1),Magnitude,-1,0.0
+L*a*b,Histogram (HSV/HSL),Manhattan (L1),Min-Max,-1,0.0
+L*a*b,Histogram (HSV/HSL),Manhattan (L1),Standardization,-1,0.0
+L*a*b,Histogram (HSV/HSL),Manhattan (L1),Rank,-1,0.0
+L*a*b,Histogram (HSV/HSL),Euclidean (L2),Aucune,-1,0.0
+L*a*b,Histogram (HSV/HSL),Euclidean (L2),Probability,-1,0.0
+L*a*b,Histogram (HSV/HSL),Euclidean (L2),Magnitude,-1,0.0
+L*a*b,Histogram (HSV/HSL),Euclidean (L2),Min-Max,-1,0.0
+L*a*b,Histogram (HSV/HSL),Euclidean (L2),Standardization,-1,0.0
+L*a*b,Histogram (HSV/HSL),Euclidean (L2),Rank,-1,0.0
+L*a*b,Histogram (HSV/HSL),Chebyshev,Aucune,-1,0.0
+L*a*b,Histogram (HSV/HSL),Chebyshev,Probability,-1,0.0
+L*a*b,Histogram (HSV/HSL),Chebyshev,Magnitude,-1,0.0
+L*a*b,Histogram (HSV/HSL),Chebyshev,Min-Max,-1,0.0
+L*a*b,Histogram (HSV/HSL),Chebyshev,Standardization,-1,0.0
+L*a*b,Histogram (HSV/HSL),Chebyshev,Rank,-1,0.0
+L*a*b,Histogram (HSV/HSL),Minkowski,Aucune,-1,0.0
+L*a*b,Histogram (HSV/HSL),Minkowski,Probability,-1,0.0
+L*a*b,Histogram (HSV/HSL),Minkowski,Magnitude,-1,0.0
+L*a*b,Histogram (HSV/HSL),Minkowski,Min-Max,-1,0.0
+L*a*b,Histogram (HSV/HSL),Minkowski,Standardization,-1,0.0
+L*a*b,Histogram (HSV/HSL),Minkowski,Rank,-1,0.0
+L*a*b,Histogram (HSV/HSL),Khi2,Aucune,-1,0.0
+L*a*b,Histogram (HSV/HSL),Khi2,Probability,-1,0.0
+L*a*b,Histogram (HSV/HSL),Khi2,Magnitude,-1,0.0
+L*a*b,Histogram (HSV/HSL),Khi2,Min-Max,-1,0.0
+L*a*b,Histogram (HSV/HSL),Khi2,Standardization,-1,0.0
+L*a*b,Histogram (HSV/HSL),Khi2,Rank,-1,0.0
+L*a*b,Histogram (HSV/HSL),Histogram Intersection,Aucune,-1,0.0
+L*a*b,Histogram (HSV/HSL),Histogram Intersection,Probability,-1,0.0
+L*a*b,Histogram (HSV/HSL),Histogram Intersection,Magnitude,-1,0.0
+L*a*b,Histogram (HSV/HSL),Histogram Intersection,Min-Max,-1,0.0
+L*a*b,Histogram (HSV/HSL),Histogram Intersection,Standardization,-1,0.0
+L*a*b,Histogram (HSV/HSL),Histogram Intersection,Rank,-1,0.0
+L*a*b,Histogram Blob,Manhattan (L1),Aucune,-1,0.0055385487528344666
+L*a*b,Histogram Blob,Manhattan (L1),Probability,-1,0.00459750566893424
+L*a*b,Histogram Blob,Manhattan (L1),Magnitude,-1,0.004397860593512767
+L*a*b,Histogram Blob,Manhattan (L1),Min-Max,-1,0.00459750566893424
+L*a*b,Histogram Blob,Manhattan (L1),Standardization,-1,0.0023774648039113547
+L*a*b,Histogram Blob,Manhattan (L1),Rank,-1,0.0034446343130553653
+L*a*b,Histogram Blob,Euclidean (L2),Aucune,-1,0.0024285714285714284
+L*a*b,Histogram Blob,Euclidean (L2),Probability,-1,0.0024285714285714284
+L*a*b,Histogram Blob,Euclidean (L2),Magnitude,-1,0.0024285714285714284
+L*a*b,Histogram Blob,Euclidean (L2),Min-Max,-1,0.0024285714285714284
+L*a*b,Histogram Blob,Euclidean (L2),Standardization,-1,0.0024285714285714284
+L*a*b,Histogram Blob,Euclidean (L2),Rank,-1,0.0024966345656000826
+L*a*b,Histogram Blob,Chebyshev,Aucune,-1,0.0024702380952380952
+L*a*b,Histogram Blob,Chebyshev,Probability,-1,0.0024702380952380952
+L*a*b,Histogram Blob,Chebyshev,Magnitude,-1,0.0024702380952380952
+L*a*b,Histogram Blob,Chebyshev,Min-Max,-1,0.0024702380952380952
+L*a*b,Histogram Blob,Chebyshev,Standardization,-1,0.0024702380952380952
+L*a*b,Histogram Blob,Chebyshev,Rank,-1,0.002310479375696767
+L*a*b,Histogram Blob,Minkowski,Aucune,-1,0.0024404761904761904
+L*a*b,Histogram Blob,Minkowski,Probability,-1,0.0024404761904761904
+L*a*b,Histogram Blob,Minkowski,Magnitude,-1,0.0024404761904761904
+L*a*b,Histogram Blob,Minkowski,Min-Max,-1,0.0024404761904761904
+L*a*b,Histogram Blob,Minkowski,Standardization,-1,0.0024279448621553883
+L*a*b,Histogram Blob,Minkowski,Rank,-1,0.003414090782511835
+L*a*b,Histogram Blob,Khi2,Aucune,-1,0.007142857142857143
+L*a*b,Histogram Blob,Khi2,Probability,-1,0.007142857142857143
+L*a*b,Histogram Blob,Khi2,Magnitude,-1,0.007142857142857143
+L*a*b,Histogram Blob,Khi2,Min-Max,-1,0.007142857142857143
+L*a*b,Histogram Blob,Khi2,Standardization,-1,0.0026008084393177567
+L*a*b,Histogram Blob,Khi2,Rank,-1,0.0037247474747474744
+L*a*b,Histogram Blob,Histogram Intersection,Aucune,-1,0.00014400668891689317
+L*a*b,Histogram Blob,Histogram Intersection,Probability,-1,0.00014400668891689317
+L*a*b,Histogram Blob,Histogram Intersection,Magnitude,-1,0.00014330485631380596
+L*a*b,Histogram Blob,Histogram Intersection,Min-Max,-1,0.00014400668891689317
+L*a*b,Histogram Blob,Histogram Intersection,Standardization,-1,0.00014578370356950536
+L*a*b,Histogram Blob,Histogram Intersection,Rank,-1,0.00043708828765219744
+L*a*b,Weighted Gradient Histogram,Manhattan (L1),Aucune,-1,0.0026445284673132776
+L*a*b,Weighted Gradient Histogram,Manhattan (L1),Probability,-1,0.0028594453165881736
+L*a*b,Weighted Gradient Histogram,Manhattan (L1),Magnitude,-1,0.002013605442176871
+L*a*b,Weighted Gradient Histogram,Manhattan (L1),Min-Max,-1,0.0016465405980514523
+L*a*b,Weighted Gradient Histogram,Manhattan (L1),Standardization,-1,0.001868376382811189
+L*a*b,Weighted Gradient Histogram,Manhattan (L1),Rank,-1,0.0003262830189865696
+L*a*b,Weighted Gradient Histogram,Euclidean (L2),Aucune,-1,0.0017316139598748295
+L*a*b,Weighted Gradient Histogram,Euclidean (L2),Probability,-1,0.0016264959842514617
+L*a*b,Weighted Gradient Histogram,Euclidean (L2),Magnitude,-1,0.0027934043182490384
