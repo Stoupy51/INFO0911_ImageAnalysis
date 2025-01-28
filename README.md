@@ -19,8 +19,6 @@ Pouvoir choisir un traitement (un filtre) à appliquer à mon image requête OU/
 
 
 # TODO list
-- [ ] Histogramme pondéré
-- [ ] Distance euclidienne bizarre
 - [ ] Plusieurs descripteurs = concaténation des descripteurs, pas appliquer le descripteur à la sortie de l'autre descripteur
 - [ ] Mettre en cache les normalisations
 - [ ] Mettre en cache les distances

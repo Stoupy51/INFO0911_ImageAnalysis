@@ -3438,3 +3438,44 @@ L*a*b,CNN (VGG-16),Manhattan (L1),Min-Max,-1,0.001800006929766813
 L*a*b,CNN (VGG-16),Manhattan (L1),Standardization,-1,0.004127116127116127
 L*a*b,CNN (VGG-16),Manhattan (L1),Rank,-1,0.0028257006151742995
 L*a*b,CNN (VGG-16),Euclidean (L2),Aucune,-1,0.0016057444452685034
+L*a*b,CNN (VGG-16),Euclidean (L2),Probability,-1,0.003933793990036959
+L*a*b,CNN (VGG-16),Euclidean (L2),Magnitude,-1,0.002740766713417485
+L*a*b,CNN (VGG-16),Euclidean (L2),Min-Max,-1,0.0020513283577799704
+L*a*b,CNN (VGG-16),Euclidean (L2),Standardization,-1,0.0026660714285714282
+L*a*b,CNN (VGG-16),Euclidean (L2),Rank,-1,0.0050416666666666665
+L*a*b,CNN (VGG-16),Chebyshev,Aucune,-1,0.0017239760892915517
+L*a*b,CNN (VGG-16),Chebyshev,Probability,-1,0.0019793148411569464
+L*a*b,CNN (VGG-16),Chebyshev,Magnitude,-1,0.0019793148411569464
+L*a*b,CNN (VGG-16),Chebyshev,Min-Max,-1,0.002305497297733322
+L*a*b,CNN (VGG-16),Chebyshev,Standardization,-1,0.0016903651109227895
+L*a*b,CNN (VGG-16),Chebyshev,Rank,-1,0.0016641108520674183
+L*a*b,CNN (VGG-16),Minkowski,Aucune,-1,0.0018630229419703103
+L*a*b,CNN (VGG-16),Minkowski,Probability,-1,0.00409035409035409
+L*a*b,CNN (VGG-16),Minkowski,Magnitude,-1,0.0023177945189330387
+L*a*b,CNN (VGG-16),Minkowski,Min-Max,-1,0.0018518503077090552
+L*a*b,CNN (VGG-16),Minkowski,Standardization,-1,0.0021518334606569897
+L*a*b,CNN (VGG-16),Minkowski,Rank,-1,0.0017075661167606456
+L*a*b,CNN (VGG-16),Khi2,Aucune,-1,0.007142857142857143
+L*a*b,CNN (VGG-16),Khi2,Probability,-1,0.007142857142857143
+L*a*b,CNN (VGG-16),Khi2,Magnitude,-1,0.007142857142857143
+L*a*b,CNN (VGG-16),Khi2,Min-Max,-1,0.007142857142857143
+L*a*b,CNN (VGG-16),Khi2,Standardization,-1,0.0022444162910544565
+L*a*b,CNN (VGG-16),Khi2,Rank,-1,0.0018549438217910115
+L*a*b,CNN (VGG-16),Histogram Intersection,Aucune,-1,0.00014197804551911475
+L*a*b,CNN (VGG-16),Histogram Intersection,Probability,-1,0.00013956898548893242
+L*a*b,CNN (VGG-16),Histogram Intersection,Magnitude,-1,0.00013560878777141224
+L*a*b,CNN (VGG-16),Histogram Intersection,Min-Max,-1,0.0001390929416515285
+L*a*b,CNN (VGG-16),Histogram Intersection,Standardization,-1,0.004127116127116127
+L*a*b,CNN (VGG-16),Histogram Intersection,Rank,-1,0.0002055578252570969
+L*u*v,Histogram,Manhattan (L1),Aucune,-1,0.005816326530612245
+L*u*v,Histogram,Manhattan (L1),Probability,-1,0.002471220066974158
+L*u*v,Histogram,Manhattan (L1),Magnitude,-1,0.0024285714285714284
+L*u*v,Histogram,Manhattan (L1),Min-Max,-1,0.0024285714285714284
+L*u*v,Histogram,Manhattan (L1),Standardization,-1,0.00542016806722689
+L*u*v,Histogram,Manhattan (L1),Rank,-1,0.0023643880629174744
+L*u*v,Histogram,Euclidean (L2),Aucune,-1,0.002414965986394558
+L*u*v,Histogram,Euclidean (L2),Probability,-1,0.002414965986394558
+L*u*v,Histogram,Euclidean (L2),Magnitude,-1,0.0026137652030509173
+L*u*v,Histogram,Euclidean (L2),Min-Max,-1,0.0026140635680109367
+L*u*v,Histogram,Euclidean (L2),Standardization,-1,0.0026891286817757407
+L*u*v,Histogram,Euclidean (L2),Rank,-1,0.0031374974232117087

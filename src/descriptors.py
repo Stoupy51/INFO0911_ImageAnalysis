@@ -38,7 +38,7 @@ def histogram_multi_channels(img: ImageData) -> ImageData:
 
 # Histogram on HSV or HSL
 def histogram_hue_per_saturation(img: ImageData) -> ImageData:
-	""" Compute the histogram vector of a multi channel image.\n
+	""" Compute the histogram weighted by the saturation.\n
 	Args:
 		img				(ImageData):	HSV or HSL image, example shape: (3, 100, 100)
 	Returns:
