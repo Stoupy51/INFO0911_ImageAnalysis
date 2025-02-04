@@ -3,6 +3,15 @@
 Projet d'Université durant ma 5ème année (2ème année de Master), sur le traitement et l'analyse d'images.
 
 
+## 📦 Dépendances  
+Pour installer toutes les dépendances nécessaires, utilisez la commande suivante :  
+
+```bash
+pip install numpy pandas pillow shiny seaborn faicons pydicom
+```
+
+<br>
+
 ## 🚀 Project File Tree
 ```bash
 📂 INFO0911_ImageAnalysis/
